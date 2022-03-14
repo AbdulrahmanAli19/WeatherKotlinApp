@@ -13,9 +13,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="20dp">
 
-        <com.iammert.library.ui.multisearchviewlib.MultiSearchView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+
     </androidx.cardview.widget.CardView>
 
     <fragment
