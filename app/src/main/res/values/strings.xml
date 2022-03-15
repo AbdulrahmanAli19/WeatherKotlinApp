@@ -13,4 +13,7 @@
     <string name="today">Today</string>
     <string name="full_report">Full report</string>
     <string name="add_location">Add location</string>
+    <string name="week_report_lable">Forecast report</string>
+    <string name="next_forecast">Next forecast</string>
+    <string name="degree_symble">°</string>
 </resources>

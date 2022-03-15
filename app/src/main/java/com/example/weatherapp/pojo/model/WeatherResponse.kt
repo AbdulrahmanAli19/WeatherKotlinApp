@@ -1,13 +1,26 @@
 package com.example.weatherapp.pojo.model
 
+
+import com.google.gson.annotations.SerializedName
+import java.io.Serializable
+
 data class WeatherResponse(
+    @SerializedName("current")
     val current: Current,
+    @SerializedName("daily")
     val daily: List<Daily>,
+    @SerializedName("hourly")
     val hourly: List<Hourly>,
-    val alert: List<Alert>,
+    @SerializedName("alerts")
+    val alerts: List<Alert>,
+    @SerializedName("lat")
     val lat: Double,
+    @SerializedName("lon")
     val lon: Double,
+    @SerializedName("minutely")
     val minutely: List<Minutely>,
+    @SerializedName("timezone")
     val timezone: String,
-    val timezone_offset: Int
-)
+    @SerializedName("timezone_offset")
+    val timezoneOffset: Int
+) : Serializable

@@ -10,16 +10,16 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:background="@color/newClr"
         android:layout_height="match_parent"
+        android:background="@color/newClr"
         tools:context=".ui.home.HomeFragment">
 
         <TextView
             android:id="@+id/txtCity"
-            android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
+            android:textColor="@color/white"
             android:textSize="30sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -28,10 +28,10 @@
 
         <TextView
             android:id="@+id/txtDate"
-            android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="@+id/txtCity"
             app:layout_constraintStart_toStartOf="@+id/txtCity"
             app:layout_constraintTop_toBottomOf="@+id/txtCity"
@@ -42,24 +42,70 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:textColor="@color/white"
             android:text="@string/today"
+            android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/btnViewFullReport"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/btnViewFullReport" />
 
-        <Button
-            android:layout_marginEnd="10dp"
+        <ImageView
+            android:id="@+id/imageState"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginEnd="24dp"
+            android:src="@drawable/snow"
+            app:layout_constraintBottom_toBottomOf="@+id/view"
+            app:layout_constraintEnd_toStartOf="@+id/view"
+            app:layout_constraintTop_toTopOf="@+id/view" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="1dp"
+            android:paddingBottom="10dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/textView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtDate" />
+
+        <TextView
+            android:id="@+id/txtTemp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="32dp"
             android:textColor="@color/white"
+            android:textSize="30sp"
+            app:layout_constraintStart_toEndOf="@+id/view"
+            app:layout_constraintTop_toBottomOf="@+id/txtDate"
+            tools:text="-1 °C" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="@+id/txtTemp"
+            app:layout_constraintStart_toStartOf="@+id/txtTemp"
+            app:layout_constraintTop_toBottomOf="@+id/txtTemp"
+            tools:text="light rain" />
+
+        <Button
             android:id="@+id/btnViewFullReport"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
-            android:text="@string/full_report"
             android:drawableEnd="@drawable/ic_baseline_navigate_next_24"
+            android:text="@string/full_report"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toTopOf="@+id/recyclerView"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -68,9 +114,9 @@
             android:layout_width="match_parent"
             android:layout_height="140dp"
             android:scrollbars="horizontal"
-            tools:listitem="@layout/day_item"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            tools:listitem="@layout/day_item" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

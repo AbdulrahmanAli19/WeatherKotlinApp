@@ -13,6 +13,13 @@
         <action
             android:id="@+id/action_nav_home_to_selectLocationFragment"
             app:destination="@id/selectLocationFragment" />
+        <action
+            android:id="@+id/action_nav_home_to_weekReportFragment"
+            app:destination="@id/weekReportFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_enter_anim"
+            app:popExitAnim="@anim/nav_default_exit_anim" />
     </fragment>
 
     <fragment
@@ -32,4 +39,9 @@
         android:name="com.example.weatherapp.ui.selectlocation.SelectLocationFragment"
         android:label="@string/add_location"
         tools:layout="@layout/fragment_select_location" />
+    <fragment
+        android:id="@+id/weekReportFragment"
+        android:name="com.example.weatherapp.ui.weekreport.WeekReportFragment"
+        android:label="@string/week_report_lable"
+        tools:layout="@layout/week_report_fragment" />
 </navigation>
