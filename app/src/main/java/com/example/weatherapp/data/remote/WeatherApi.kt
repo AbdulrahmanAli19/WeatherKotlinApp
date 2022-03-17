@@ -1,6 +1,6 @@
 package com.example.weatherapp.data.remote
 
-import com.example.weatherapp.pojo.model.WeatherResponse
+import com.example.weatherapp.pojo.model.weather.WeatherResponse
 import retrofit2.http.GET
 
 interface WeatherApi {

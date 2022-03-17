@@ -1,6 +1,6 @@
 package com.example.weatherapp.data.remote
 
-import com.example.weatherapp.pojo.model.WeatherResponse
+import com.example.weatherapp.pojo.model.weather.WeatherResponse
 import com.example.weatherapp.util.BASE_URL
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

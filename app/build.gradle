@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
     id 'androidx.navigation.safeargs.kotlin'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -67,6 +68,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-common:2.4.1'
     implementation 'androidx.lifecycle:lifecycle-runtime:2.4.1'
 
-
+    def lottieVersion = "3.4.0"
+    implementation "com.airbnb.android:lottie:$lottieVersion"
 }
 

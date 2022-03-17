@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@id/splashFragment">
 
     <fragment
         android:id="@+id/nav_home"
@@ -20,6 +20,9 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_enter_anim"
             app:popExitAnim="@anim/nav_default_exit_anim" />
+        <argument
+            android:name="data"
+            app:argType="com.example.weatherapp.pojo.model.weather.WeatherResponse" />
     </fragment>
 
     <fragment
@@ -44,4 +47,13 @@
         android:name="com.example.weatherapp.ui.weekreport.WeekReportFragment"
         android:label="@string/week_report_lable"
         tools:layout="@layout/week_report_fragment" />
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.example.weatherapp.ui.splash.SplashFragment"
+        android:label="splash_fragment"
+        tools:layout="@layout/splash_fragment" >
+        <action
+            android:id="@+id/action_splashFragment_to_nav_home"
+            app:destination="@id/nav_home" />
+    </fragment>
 </navigation>

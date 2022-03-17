@@ -16,4 +16,10 @@
     <string name="week_report_lable">Forecast report</string>
     <string name="next_forecast">Next forecast</string>
     <string name="degree_symble">°</string>
+    <string name="feels_like">Feels like</string>
+    <string name="wind">Wind</string>
+    <string name="humidity">Humidity</string>
+    <string name="pref_name">AppPref</string>
+    <string name="is_kelvin">isKelvin</string>
+    <string name="wind_speed_unit">isM/s</string>
 </resources>
