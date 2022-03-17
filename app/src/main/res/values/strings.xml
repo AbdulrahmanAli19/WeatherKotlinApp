@@ -22,4 +22,5 @@
     <string name="pref_name">AppPref</string>
     <string name="is_kelvin">isKelvin</string>
     <string name="wind_speed_unit">isM/s</string>
+    <string name="home_image_desc">MainImage</string>
 </resources>

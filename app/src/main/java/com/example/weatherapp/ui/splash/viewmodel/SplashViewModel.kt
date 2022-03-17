@@ -10,11 +10,11 @@ import kotlinx.coroutines.Dispatchers
 class SplashViewModel(repository: Repository) : ViewModel() {
     private val TAG = "SplashViewModel"
 
-    fun getData() = liveData(Dispatchers.Main) {
-        val data = ConnectionBuilder.get()
-        emit(Resource.loading(data = data))
+    fun getData() = liveData(Dispatchers.IO) {
+        val data = ConnectionBuilder
+        emit(Resource.loading(data = null))
         try {
-            emit(Resource.success(data = data))
+            emit(Resource.success(data = data.get()))
         } catch (exception: Exception) {
             emit(
                 Resource.error(

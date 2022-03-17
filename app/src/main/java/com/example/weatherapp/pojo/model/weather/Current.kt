@@ -6,31 +6,31 @@ import java.io.Serializable
 
 data class Current(
     @SerializedName("clouds")
-    val clouds: Int,
+    val clouds: Int = 0,
     @SerializedName("dew_point")
-    val dewPoint: Double,
+    val dewPoint: Double = 0.0,
     @SerializedName("dt")
-    val dt: Long,
+    val dt: Long = 0,
     @SerializedName("feels_like")
-    val feelsLike: Double,
+    val feelsLike: Double = 0.0,
     @SerializedName("humidity")
-    val humidity: Int,
+    val humidity: Int = 0,
     @SerializedName("pressure")
-    val pressure: Int,
+    val pressure: Int = 0,
     @SerializedName("sunrise")
-    val sunrise: Int,
+    val sunrise: Long = 0,
     @SerializedName("sunset")
-    val sunset: Int,
+    val sunset: Long = 0,
     @SerializedName("temp")
-    val temp: Double,
+    val temp: Double = 0.0,
     @SerializedName("uvi")
-    val uvi: Double,
+    val uvi: Double = 0.0,
     @SerializedName("visibility")
-    val visibility: Int,
+    val visibility: Int = 0,
     @SerializedName("weather")
-    val weather: List<Weather>,
+    val weather: List<Weather> = arrayListOf(),
     @SerializedName("wind_deg")
-    val windDeg: Int,
+    val windDeg: Int = 0,
     @SerializedName("wind_speed")
-    val windSpeed: Double
+    val windSpeed: Double = 0.0
 ) : Serializable

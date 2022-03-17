@@ -9,20 +9,27 @@
         android:id="@+id/nav_home"
         android:name="com.example.weatherapp.ui.home.HomeFragment"
         android:label="@string/menu_home"
+
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_nav_home_to_selectLocationFragment"
-            app:destination="@id/selectLocationFragment" />
+            app:destination="@id/selectLocationFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_nav_home_to_weekReportFragment"
             app:destination="@id/weekReportFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_enter_anim"
-            app:popExitAnim="@anim/nav_default_exit_anim" />
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
         <argument
             android:name="data"
-            app:argType="com.example.weatherapp.pojo.model.weather.WeatherResponse" />
+            android:defaultValue="@null"
+            app:argType="com.example.weatherapp.pojo.model.weather.WeatherResponse"
+            app:nullable="true" />
     </fragment>
 
     <fragment
@@ -42,18 +49,31 @@
         android:name="com.example.weatherapp.ui.selectlocation.SelectLocationFragment"
         android:label="@string/add_location"
         tools:layout="@layout/fragment_select_location" />
+
     <fragment
         android:id="@+id/weekReportFragment"
         android:name="com.example.weatherapp.ui.weekreport.WeekReportFragment"
         android:label="@string/week_report_lable"
-        tools:layout="@layout/week_report_fragment" />
+        tools:layout="@layout/week_report_fragment">
+        <argument
+            android:name="data"
+            app:argType="com.example.weatherapp.pojo.model.weather.WeatherResponse" />
+    </fragment>
+
     <fragment
         android:id="@+id/nav_splash"
         android:name="com.example.weatherapp.ui.splash.view.SplashFragment"
         android:label="splash_fragment"
-        tools:layout="@layout/splash_fragment" >
+        tools:layout="@layout/splash_fragment">
         <action
             android:id="@+id/action_splashFragment_to_nav_home"
-            app:destination="@id/nav_home" />
+            app:destination="@id/nav_home"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:popUpTo="@id/nav_splash"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

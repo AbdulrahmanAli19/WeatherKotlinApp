@@ -57,10 +57,11 @@
 
         <ImageView
             android:id="@+id/imageState"
-            getWeatherIcon="@{data.icon != null ? data.icon : `01d`}"
+            setWeatherIcon="@{data.icon != null ? data.icon : `01d`}"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginTop="30dp"
+            android:contentDescription="@string/home_image_desc"
             android:src="@drawable/snow"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -218,7 +219,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
-            homeScreenAdapter="@{data.dayList}"
+            setDayAdapter="@{data.dayList}"
             android:layout_width="match_parent"
             android:layout_height="140dp"
             android:scrollbars="horizontal"

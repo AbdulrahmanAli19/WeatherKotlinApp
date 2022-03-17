@@ -11,5 +11,5 @@ data class HomeModel(
     var wind: Double,
     var humidity: Int,
     var feelsLike: Double,
-    var dayList : ArrayList<Hourly> = arrayListOf()
+    var dayList : ArrayList<Hourly>
 )

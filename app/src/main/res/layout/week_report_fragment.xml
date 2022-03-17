@@ -5,6 +5,9 @@
 
     <data>
 
+        <variable
+            name="data"
+            type="com.example.weatherapp.pojo.model.ReportModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -39,6 +42,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/dayRecycler"
+            setDayAdapter="@{data.day}"
             android:layout_width="match_parent"
             android:layout_height="140dp"
             android:layout_marginTop="20dp"
@@ -62,7 +66,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/weekRecycler"
-            tools:listitem="@layout/week_item"
+            setWeekAdapter="@{data.week}"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="20dp"
@@ -70,7 +74,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+            app:layout_constraintTop_toBottomOf="@+id/textView2"
+            tools:listitem="@layout/week_item" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
