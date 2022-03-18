@@ -21,10 +21,8 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setHasOptionsMenu(true)
         navController = findNavController()
         setAppLayout(args.data)
-
         binding.btnViewFullReport.setOnClickListener {
             navController
                 .navigate(
@@ -62,7 +60,7 @@ class HomeFragment : Fragment() {
                     .actionNavHomeToSelectLocationFragment()
             )
         }
-        return true
+        return false
     }
 
     override fun onCreateView(
@@ -71,6 +69,7 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
+        setHasOptionsMenu(true)
         return binding.root
     }
 

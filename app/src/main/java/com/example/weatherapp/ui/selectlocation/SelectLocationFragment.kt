@@ -8,6 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import com.example.weatherapp.R
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -16,6 +18,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 
 private const val TAG = "SelectLocationFragment"
 
@@ -24,15 +27,14 @@ class SelectLocationFragment() : Fragment(), GoogleMap.OnMapClickListener {
     private lateinit var map: GoogleMap
     private lateinit var latLng: LatLng
     private lateinit var fab: ExtendedFloatingActionButton
+    private lateinit var navController: NavController
 
     private val callback = OnMapReadyCallback { googleMap ->
         map = googleMap
         with(map) {
             setOnMapClickListener(this@SelectLocationFragment)
-            uiSettings.isZoomControlsEnabled = true
-            uiSettings.isMapToolbarEnabled = true
             uiSettings.setAllGesturesEnabled(true)
-            uiSettings.isMyLocationButtonEnabled = true
+
             val latLng: LatLng?
             if (pref.getString("myLat", "empty").equals("empty")) {
                 latLng = LatLng(30.02401127333763, 31.564412713050846)
@@ -66,6 +68,7 @@ class SelectLocationFragment() : Fragment(), GoogleMap.OnMapClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        navController = findNavController()
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(callback)
         fab = view.findViewById(R.id.btnSave)
@@ -74,6 +77,8 @@ class SelectLocationFragment() : Fragment(), GoogleMap.OnMapClickListener {
             prefEditor.putString("myLat", latLng.latitude.toString())
             prefEditor.putString("myLon", latLng.longitude.toString())
             prefEditor.apply()
+            navController.popBackStack()
+            Snackbar.make(view, "Saved :)", Snackbar.LENGTH_SHORT).show()
         }
     }
 
