@@ -7,20 +7,33 @@
 
     </data>
 
-    <FrameLayout
+    <RelativeLayout
+        android:id="@+id/parent"
         android:layout_width="match_parent"
-        android:background="@color/newClr"
         android:layout_height="match_parent"
+        android:background="@color/newClr"
         tools:context=".ui.splash.view.SplashFragment">
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/txtHint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/animationView"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="20dp"
+            android:text="@string/click_on_the_image_to_select_your_location"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/animationView"
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:layout_gravity="center"
+            android:layout_centerInParent="true"
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/newspl" />
 
-    </FrameLayout>
+    </RelativeLayout>
 </layout>

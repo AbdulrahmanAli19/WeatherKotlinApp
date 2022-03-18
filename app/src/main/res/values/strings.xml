@@ -7,6 +7,8 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
+
+    <string name="if_location_permission_dined">"Ops! We can't get you current location because you dined GPS permission\nClick OK if you want to select you location automatically, Skip for manually selection"</string>
     <string name="menu_home">Home</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_fav">Favorites</string>
@@ -23,4 +25,7 @@
     <string name="is_kelvin">isKelvin</string>
     <string name="wind_speed_unit">isM/s</string>
     <string name="home_image_desc">MainImage</string>
+    <string name="click_on_the_image_to_select_your_location">"Click on the image to\nselect your location"</string>
+    <string name="save">Save</string>
+    <string name="update">Update</string>
 </resources>

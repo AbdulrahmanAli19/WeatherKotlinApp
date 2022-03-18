@@ -1,42 +1,66 @@
 package com.example.weatherapp.ui.selectlocation
 
-import androidx.fragment.app.Fragment
-
+import android.annotation.SuppressLint
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.example.weatherapp.R
-
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 
-class SelectLocationFragment : Fragment() {
+private const val TAG = "SelectLocationFragment"
 
-    private val TAG = "SelectLocationFragment"
+class SelectLocationFragment() : Fragment(), GoogleMap.OnMapClickListener {
+    private lateinit var pref: SharedPreferences
+    private lateinit var map: GoogleMap
+    private lateinit var latLng: LatLng
+    private lateinit var fab: ExtendedFloatingActionButton
 
     private val callback = OnMapReadyCallback { googleMap ->
-        /**
-         * Manipulates the map once available.
-         * This callback is triggered when the map is ready to be used.
-         * This is where we can add markers or lines, add listeners or move the camera.
-         * In this case, we just add a marker near Sydney, Australia.
-         * If Google Play services is not installed on the device, the user will be prompted to
-         * install it inside the SupportMapFragment. This method will only be triggered once the
-         * user has installed Google Play services and returned to the app.
-         */
-        val sydney = LatLng(-34.0, 151.0)
-        googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        map = googleMap
+        with(map) {
+            setOnMapClickListener(this@SelectLocationFragment)
+            uiSettings.isZoomControlsEnabled = true
+            uiSettings.isMapToolbarEnabled = true
+            uiSettings.setAllGesturesEnabled(true)
+            uiSettings.isMyLocationButtonEnabled = true
+            val latLng: LatLng?
+            if (pref.getString("myLat", "empty").equals("empty")) {
+                latLng = LatLng(30.02401127333763, 31.564412713050846)
+
+            } else {
+                latLng = LatLng(
+                    pref.getString("myLat", "empty")!!.toDouble(),
+                    pref.getString("myLon", "empty")!!.toDouble()
+                )
+            }
+            googleMap.addMarker(MarkerOptions().position(latLng).title("My Home"))
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10f))
+        }
     }
 
-    override fun onCreateView(inflater: LayoutInflater,
-                              container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        pref = requireContext().getSharedPreferences(
+            getString(R.string.pref_name),
+            Context.MODE_PRIVATE
+        )
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_select_location, container, false)
     }
 
@@ -44,5 +68,23 @@ class SelectLocationFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(callback)
+        fab = view.findViewById(R.id.btnSave)
+        fab.setOnClickListener {
+            val prefEditor: SharedPreferences.Editor = pref.edit()
+            prefEditor.putString("myLat", latLng.latitude.toString())
+            prefEditor.putString("myLon", latLng.longitude.toString())
+            prefEditor.apply()
+        }
     }
+
+    @SuppressLint("CommitPrefEdits")
+    override fun onMapClick(latLng: LatLng) {
+        fab.visibility = View.VISIBLE
+        map.clear()
+        map.addMarker(MarkerOptions().position(latLng).title("My location"))
+        this.latLng = latLng
+        if (!pref.getString("myLat", "empty").equals("empty"))
+            fab.text = getString(R.string.update)
+    }
+
 }
