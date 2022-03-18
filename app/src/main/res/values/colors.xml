@@ -12,4 +12,5 @@
     <color name="newClr">#686CD0</color>
     <color name="recyclerNewClr">#6F78DF</color>
     <color name="newDarkClr">#4B4E9D</color>
+    <color name="newYellow">#FFCD49</color>
 </resources>

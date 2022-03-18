@@ -1,13 +1,12 @@
 package com.example.weatherapp.ui.home
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentHomeBinding
 import com.example.weatherapp.pojo.model.HomeModel
 import com.example.weatherapp.pojo.model.weather.Hourly
@@ -16,14 +15,13 @@ import com.example.weatherapp.util.getDate
 
 class HomeFragment : Fragment() {
 
-    private val TAG = "HomeFragment"
-
     private lateinit var navController: NavController
     private val args: HomeFragmentArgs by navArgs()
     private lateinit var binding: FragmentHomeBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setHasOptionsMenu(true)
         navController = findNavController()
         setAppLayout(args.data)
 
@@ -50,6 +48,21 @@ class HomeFragment : Fragment() {
             it?.hourly as ArrayList<Hourly>
         )
         binding.executePendingBindings()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.home, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.add_location -> navController.navigate(
+                HomeFragmentDirections
+                    .actionNavHomeToSelectLocationFragment()
+            )
+        }
+        return true
     }
 
     override fun onCreateView(
