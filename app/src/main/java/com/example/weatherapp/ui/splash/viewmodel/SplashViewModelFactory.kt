@@ -1,16 +1,15 @@
 package com.example.weatherapp.ui.splash.viewmodel
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.weatherapp.pojo.repo.Repository
+import com.example.weatherapp.pojo.repo.RepositoryInterface
 
-class SplashViewModelFactory(private val context: Context) :
+class SplashViewModelFactory(private val repositoryInterface: RepositoryInterface) :
     ViewModelProvider.Factory {
 
-    override fun <T : ViewModel> create(modelClass: Class<T>) : T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(SplashViewModel::class.java)) {
-            return SplashViewModel(Repository()) as T
+            return SplashViewModel(repositoryInterface) as T
         }
         throw IllegalArgumentException("Unknown class name")
     }

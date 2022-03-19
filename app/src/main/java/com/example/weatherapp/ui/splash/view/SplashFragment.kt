@@ -18,12 +18,16 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.airbnb.lottie.LottieDrawable
 import com.example.weatherapp.R
+import com.example.weatherapp.data.local.ConcreteLocalSource
+import com.example.weatherapp.data.remote.ConnectionBuilder
 import com.example.weatherapp.data.remote.Resource
 import com.example.weatherapp.data.remote.Status
 import com.example.weatherapp.databinding.SplashFragmentBinding
 import com.example.weatherapp.pojo.model.weather.WeatherResponse
+import com.example.weatherapp.pojo.repo.Repository
 import com.example.weatherapp.ui.splash.viewmodel.SplashViewModel
 import com.example.weatherapp.ui.splash.viewmodel.SplashViewModelFactory
+import com.example.weatherapp.util.isNetworkConnected
 import com.google.android.material.snackbar.Snackbar
 
 private const val TAG = "SplashFragment.dev"
@@ -36,7 +40,14 @@ class SplashFragment : Fragment() {
     )
     private lateinit var navController: NavController
     private lateinit var binding: SplashFragmentBinding
-    private val viewModel by viewModels<SplashViewModel> { SplashViewModelFactory(requireContext()) }
+    private val viewModel by viewModels<SplashViewModel> {
+        SplashViewModelFactory(
+            Repository.getInstance(
+                remoteSource = ConnectionBuilder,
+                localSource = ConcreteLocalSource.getInstance(requireContext())
+            )
+        )
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -62,7 +73,13 @@ class SplashFragment : Fragment() {
             ActivityResultContracts.RequestMultiplePermissions()
         ) {
             if (it[permissions[0]] == true && it[permissions[1]] == true)
-                viewModel.getData().observe(viewLifecycleOwner) { res -> onResponse(res) }
+                if (isNetworkConnected(requireContext())) {
+                    viewModel.getDataFromRepo().observe(viewLifecycleOwner) { res ->
+                        onResponse(res)
+                    }
+                    Log.d(TAG, "connected: ")
+                } else
+                    Log.d(TAG, ": notConnected!")
             else
                 dinedPermission()
         }
@@ -76,7 +93,13 @@ class SplashFragment : Fragment() {
                         requireContext(), permissions[1]
                     ) == PackageManager.PERMISSION_GRANTED
                 ) {
-                    viewModel.getData().observe(viewLifecycleOwner) { onResponse(it) }
+                    if (isNetworkConnected(requireContext())) {
+                        viewModel.getDataFromRepo().observe(viewLifecycleOwner) { res ->
+                            onResponse(res)
+                        }
+                        Log.d(TAG, "connected: ")
+                    } else
+                        Log.d(TAG, ": notConnected!")
 
                 } else requestPermissionLauncher.launch(permissions.toTypedArray())
             }

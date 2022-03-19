@@ -3,7 +3,10 @@ package com.example.weatherapp.ui.selectlocation
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
+import android.location.Address
+import android.location.Geocoder
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +22,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.snackbar.Snackbar
+import java.util.*
 
 private const val TAG = "SelectLocationFragment"
 
@@ -35,16 +39,16 @@ class SelectLocationFragment() : Fragment(), GoogleMap.OnMapClickListener {
             setOnMapClickListener(this@SelectLocationFragment)
             uiSettings.setAllGesturesEnabled(true)
 
-            val latLng: LatLng?
-            if (pref.getString("myLat", "empty").equals("empty")) {
-                latLng = LatLng(30.02401127333763, 31.564412713050846)
+            val latLng: LatLng = if (pref.getString("myLat", "empty").equals("empty")) {
+                LatLng(30.02401127333763, 31.564412713050846)
 
             } else {
-                latLng = LatLng(
+                LatLng(
                     pref.getString("myLat", "empty")!!.toDouble(),
                     pref.getString("myLon", "empty")!!.toDouble()
                 )
             }
+
             googleMap.addMarker(MarkerOptions().position(latLng).title("My Home"))
             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10f))
         }
@@ -86,7 +90,16 @@ class SelectLocationFragment() : Fragment(), GoogleMap.OnMapClickListener {
     override fun onMapClick(latLng: LatLng) {
         fab.visibility = View.VISIBLE
         map.clear()
-        map.addMarker(MarkerOptions().position(latLng).title("My location"))
+        map.addMarker(MarkerOptions().position(latLng))
+        val geocoder = Geocoder(requireContext().applicationContext, Locale.getDefault())
+        val address: MutableList<Address>? =
+            geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)
+
+        if (address == null) {
+            Log.d(TAG, "onMapClick: watting for location name")
+        } else {
+            Log.d(TAG, "onMapClick: ${address.get(0).countryName}")
+        }
         this.latLng = latLng
         if (!pref.getString("myLat", "empty").equals("empty"))
             fab.text = getString(R.string.update)

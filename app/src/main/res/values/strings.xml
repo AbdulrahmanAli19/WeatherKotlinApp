@@ -28,4 +28,20 @@
     <string name="click_on_the_image_to_select_your_location">"Click on the image to\nselect your location"</string>
     <string name="save">Save</string>
     <string name="update">Update</string>
+    <string name="language">Language</string>
+    <string name="arabic">Arabic</string>
+    <string name="english">English</string>
+    <string name="temperature">Temperature</string>
+    <string name="kelvin">Kelvin</string>
+    <string name="fahrenheit">Fahrenheit</string>
+    <string name="celsius">Celsius</string>
+    <string name="wind_speed">Wind speed</string>
+    <string name="meter_second">Meter / Second</string>
+    <string name="mile_hour">Mile / Hour</string>
+    <string name="location">Location</string>
+    <string name="gps">GPS</string>
+    <string name="map">Map</string>
+    <string name="enabled">Enabled</string>
+    <string name="disabled">Disabled</string>
+    <string name="add_favorite_location">Add favorite location</string>
 </resources>

@@ -3,6 +3,8 @@ package com.example.weatherapp.util
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import com.example.weatherapp.R
 import java.text.SimpleDateFormat
 import java.util.*
@@ -69,3 +71,24 @@ fun getDate(msDate: Long): String {
     val format = SimpleDateFormat("dd MMM,yyyy")
     return format.format(date)
 }
+
+fun isNetworkConnected(context: Context): Boolean {
+    val connection: ConnectivityManager =
+        context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager;
+    val networkInfo: NetworkInfo? = connection.activeNetworkInfo
+    return networkInfo != null && networkInfo.isConnected
+}
+
+fun fromKelvinToCelsius(degree: Double): Double {
+    return degree - 273.15
+}
+
+fun fromKelvinToFahrenheit(degree: Double): Double {
+    return 1.8 * (degree - 273) + 32
+}
+
+
+fun fromMeterBySecToMileByHour(speed: Double): Double {
+    return speed * 2.236936;
+}
+
