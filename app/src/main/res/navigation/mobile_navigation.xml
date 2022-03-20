@@ -34,7 +34,7 @@
 
     <fragment
         android:id="@+id/nav_settings"
-        android:name="com.example.weatherapp.ui.settings.SettingsFragment"
+        android:name="com.example.weatherapp.ui.settings.view.SettingsFragment"
         android:label="@string/menu_settings"
         tools:layout="@layout/fragment_settings" />
 
@@ -53,7 +53,7 @@
 
     <fragment
         android:id="@+id/selectLocationFragment"
-        android:name="com.example.weatherapp.ui.selectlocation.SelectLocationFragment"
+        android:name="com.example.weatherapp.ui.selectlocation.view.SelectLocationFragment"
         android:label="@string/add_location"
         tools:layout="@layout/fragment_select_location" >
         <argument
@@ -90,6 +90,7 @@
             android:id="@+id/action_nav_splash_to_selectLocationFragment"
             app:destination="@id/selectLocationFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/nav_alert"
         android:name="com.example.weatherapp.ui.alert.view.AlertFragment"

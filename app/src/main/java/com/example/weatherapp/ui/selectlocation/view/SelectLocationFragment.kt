@@ -18,23 +18,18 @@ import com.example.weatherapp.data.preferences.NULL_LAT
 import com.example.weatherapp.data.preferences.NULL_LON
 import com.example.weatherapp.data.preferences.PreferenceProvider
 import com.example.weatherapp.data.remote.ConnectionProvider
-import com.example.weatherapp.data.remote.Resource
 import com.example.weatherapp.data.remote.Status
 import com.example.weatherapp.databinding.FragmentSelectLocationBinding
 import com.example.weatherapp.pojo.model.dbentities.FavoriteEntity
-import com.example.weatherapp.pojo.model.weather.WeatherResponse
 import com.example.weatherapp.pojo.repo.Repository
-import com.example.weatherapp.ui.selectlocation.SelectLocationFragmentArgs
 import com.example.weatherapp.ui.selectlocation.viewmodel.SelectLocationViewModel
 import com.example.weatherapp.ui.selectlocation.viewmodel.SelectLocationViewModelFactory
-import com.example.weatherapp.ui.splash.viewmodel.SplashViewModelFactory
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import java.util.*
 

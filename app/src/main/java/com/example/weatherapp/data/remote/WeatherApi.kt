@@ -1,5 +1,6 @@
 package com.example.weatherapp.data.remote
 
+import com.example.weatherapp.data.preferences.AppUnits
 import com.example.weatherapp.pojo.model.weather.WeatherResponse
 import com.example.weatherapp.util.MY_API_KEY
 import retrofit2.http.GET
@@ -12,6 +13,7 @@ interface WeatherApi {
     suspend fun getWeatherData(
         @Query("lat") lat: String,
         @Query("lon") lon: String,
+        @Query("lang") lang: String = AppUnits.EN.string,
         @Query("appid") appid: String = MY_API_KEY
     ): WeatherResponse
 }

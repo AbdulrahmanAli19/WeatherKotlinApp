@@ -6,6 +6,8 @@ enum class AppUnits(val string: String) {
     CELSIUS("Celsius"),
     KELVIN("Kelvin"),
     METER_BY_SECOND("m/s"),
-    MILE_BY_HOUR("m/h")
+    MILE_BY_HOUR("m/h"),
+    EN("en"),
+    AR("ar")
 
 }

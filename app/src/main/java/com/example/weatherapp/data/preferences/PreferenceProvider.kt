@@ -8,6 +8,7 @@ private const val PREF_NAME = "myAppPref"
 private const val TEMP_UNIT_KEY = "tempUnit"
 private const val WIND_SPEED_KEY = "windSpeedUnit"
 private const val LAST_TIMESTAMP = "lastTimeStamp"
+private const val DEF_LANG = "defLang"
 private const val LAT_KEY = "myLat"
 private const val LON_KEY = "myLon"
 const val NULL_LAT = 30.02401127333763
@@ -28,6 +29,14 @@ class PreferenceProvider(
 
     override fun setWindSpeedUnit(windSpeedUnit: String) =
         preference.edit().putString(WIND_SPEED_KEY, windSpeedUnit).apply()
+
+    override fun getLanguage(): String {
+        return preference.getString(DEF_LANG, AppUnits.EN.toString()).toString()
+    }
+
+    override fun setLanguage(string: String) {
+        preference.edit().putString(DEF_LANG, string).apply()
+    }
 
     override fun getTimestamp(): Long? = preference.getString(LAST_TIMESTAMP, null)?.toLong()
 

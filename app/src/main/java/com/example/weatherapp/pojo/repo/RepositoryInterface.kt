@@ -40,4 +40,8 @@ interface RepositoryInterface {
     fun getWindSpeedUnit(): String
 
     fun setWindSpeedUnit(windSpeedUnit: String)
+
+    fun getLanguage(): String
+
+    fun setLanguage(string: String)
 }

@@ -1,7 +1,6 @@
 package com.example.weatherapp.pojo.repo
 
 import android.annotation.SuppressLint
-import androidx.lifecycle.LiveData
 import com.example.weatherapp.data.local.LocalSource
 import com.example.weatherapp.data.preferences.PreferenceInterface
 import com.example.weatherapp.data.remote.RemoteSource
@@ -100,6 +99,14 @@ class Repository private constructor(
 
     override fun setWindSpeedUnit(windSpeedUnit: String) {
         preferences.setWindSpeedUnit(windSpeedUnit)
+    }
+
+    override fun getLanguage(): String {
+        return preferences.getLanguage()
+    }
+
+    override fun setLanguage(string: String) {
+        preferences.setLanguage(string)
     }
 
 
