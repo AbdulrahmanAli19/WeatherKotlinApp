@@ -44,4 +44,5 @@
     <string name="enabled">Enabled</string>
     <string name="disabled">Disabled</string>
     <string name="add_favorite_location">Add favorite location</string>
+    <string name="alarm">Alarm</string>
 </resources>

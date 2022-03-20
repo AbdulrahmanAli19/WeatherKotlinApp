@@ -10,13 +10,13 @@ interface CashedDao {
     @Update
     fun updateCashed(cashedEntity: CashedEntity)
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertCashed(cashedEntity: CashedEntity)
 
     @Delete
     fun deleteCashed(cashedEntity: CashedEntity)
 
-    @Query("SELECT * FROM favorite_table")
-    fun getAllCashed(): LiveData<List<CashedEntity>>
+    @Query("SELECT * FROM cashed_table")
+    fun getAllCashed(): List<CashedEntity>
 
 }

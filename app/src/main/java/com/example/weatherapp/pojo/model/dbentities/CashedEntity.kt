@@ -6,9 +6,7 @@ import com.example.weatherapp.pojo.model.weather.WeatherResponse
 
 @Entity(tableName = "cashed_table")
 data class CashedEntity(
-    @PrimaryKey(autoGenerate = true)
-    var id: Int,
-    var lat: String,
-    var lon: String,
+    @PrimaryKey
+    var id: Int = 0,
     var cashedData: WeatherResponse
 )

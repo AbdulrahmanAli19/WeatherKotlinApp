@@ -1,8 +1,5 @@
 package com.example.weatherapp.ui.selectlocation
 
-import android.annotation.SuppressLint
-import android.content.Context
-import android.content.SharedPreferences
 import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
@@ -11,9 +8,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.weatherapp.R
+import com.example.weatherapp.data.local.ConcreteLocalSource
+import com.example.weatherapp.data.preferences.NULL_LAT
+import com.example.weatherapp.data.preferences.NULL_LON
+import com.example.weatherapp.data.preferences.PreferenceProvider
+import com.example.weatherapp.data.remote.ConnectionProvider
+import com.example.weatherapp.pojo.model.dbentities.FavoriteEntity
+import com.example.weatherapp.pojo.repo.Repository
+import com.example.weatherapp.ui.selectlocation.viewmodel.SelectLocationViewModel
+import com.example.weatherapp.ui.selectlocation.viewmodel.SelectLocationViewModelFactory
+import com.example.weatherapp.ui.splash.viewmodel.SplashViewModelFactory
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -26,40 +35,33 @@ import java.util.*
 
 private const val TAG = "SelectLocationFragment"
 
-class SelectLocationFragment() : Fragment(), GoogleMap.OnMapClickListener {
-    private lateinit var pref: SharedPreferences
+class SelectLocationFragment : Fragment(), GoogleMap.OnMapClickListener {
+
+    private val nullLatLon = LatLng(NULL_LAT, NULL_LON)
     private lateinit var map: GoogleMap
     private lateinit var latLng: LatLng
     private lateinit var fab: ExtendedFloatingActionButton
+    private val args: SelectLocationFragmentArgs by navArgs()
     private lateinit var navController: NavController
+
+    private val viewModel by viewModels<SelectLocationViewModel> {
+        SelectLocationViewModelFactory(
+            Repository.getInstance(
+                remoteSource = ConnectionProvider,
+                localSource = ConcreteLocalSource.getInstance(requireContext()),
+                preferences = PreferenceProvider(requireContext())
+            )
+        )
+    }
 
     private val callback = OnMapReadyCallback { googleMap ->
         map = googleMap
         with(map) {
             setOnMapClickListener(this@SelectLocationFragment)
             uiSettings.setAllGesturesEnabled(true)
-
-            val latLng: LatLng = if (pref.getString("myLat", "empty").equals("empty")) {
-                LatLng(30.02401127333763, 31.564412713050846)
-
-            } else {
-                LatLng(
-                    pref.getString("myLat", "empty")!!.toDouble(),
-                    pref.getString("myLon", "empty")!!.toDouble()
-                )
-            }
-
-            googleMap.addMarker(MarkerOptions().position(latLng).title("My Home"))
-            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10f))
+            googleMap.addMarker(MarkerOptions().position(viewModel.getMyLatLon()).title("My Home"))
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(viewModel.getMyLatLon(), 10f))
         }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        pref = requireContext().getSharedPreferences(
-            getString(R.string.pref_name),
-            Context.MODE_PRIVATE
-        )
     }
 
     override fun onCreateView(
@@ -77,32 +79,32 @@ class SelectLocationFragment() : Fragment(), GoogleMap.OnMapClickListener {
         mapFragment?.getMapAsync(callback)
         fab = view.findViewById(R.id.btnSave)
         fab.setOnClickListener {
-            val prefEditor: SharedPreferences.Editor = pref.edit()
-            prefEditor.putString("myLat", latLng.latitude.toString())
-            prefEditor.putString("myLon", latLng.longitude.toString())
-            prefEditor.apply()
+            viewModel.saveMyLatLon(latLng)
             navController.popBackStack()
             Snackbar.make(view, "Saved :)", Snackbar.LENGTH_SHORT).show()
         }
     }
 
-    @SuppressLint("CommitPrefEdits")
     override fun onMapClick(latLng: LatLng) {
         fab.visibility = View.VISIBLE
         map.clear()
         map.addMarker(MarkerOptions().position(latLng))
-        val geocoder = Geocoder(requireContext().applicationContext, Locale.getDefault())
-        val address: MutableList<Address>? =
-            geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)
 
-        if (address == null) {
-            Log.d(TAG, "onMapClick: watting for location name")
+        if (args.itItMyLocation) {
+            this.latLng = latLng
+            if (viewModel.getMyLatLon() == nullLatLon)
+                fab.text = getString(R.string.update)
         } else {
-            Log.d(TAG, "onMapClick: ${address.get(0).countryName}")
+            val geocoder = Geocoder(requireContext().applicationContext, Locale.getDefault())
+
+            val address: MutableList<Address>? =
+                geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)
+
+            if (address != null)
+                Log.d(TAG, "onMapClick: ${address[0].countryName}")
+
         }
-        this.latLng = latLng
-        if (!pref.getString("myLat", "empty").equals("empty"))
-            fab.text = getString(R.string.update)
+
     }
 
 }

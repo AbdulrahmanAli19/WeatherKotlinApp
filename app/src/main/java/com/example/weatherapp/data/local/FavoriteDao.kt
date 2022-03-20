@@ -17,5 +17,5 @@ interface FavoriteDao {
     fun deleteFav(favoriteEntity: FavoriteEntity)
 
     @Query("SELECT * FROM favorite_table")
-    fun getAllFavorites(): LiveData<List<FavoriteEntity>>
+    fun getAllFavorites(): List<FavoriteEntity>
 }

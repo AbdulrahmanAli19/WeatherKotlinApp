@@ -1,25 +1,32 @@
 package com.example.weatherapp.ui.home.viewmodel
 
+import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
-import com.example.weatherapp.data.remote.ConnectionBuilder
+import com.example.weatherapp.data.remote.ConnectionProvider
 import com.example.weatherapp.data.remote.Resource
+import com.example.weatherapp.pojo.model.dbentities.CashedEntity
 import com.example.weatherapp.pojo.repo.RepositoryInterface
+import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.Dispatchers
 
-class HomeViewModel(private val repositoryInterface: RepositoryInterface) : ViewModel() {
-    private val TAG = "HomeViewModel"
+private const val TAG = "HomeViewModel"
 
-    fun getData() = liveData(Dispatchers.IO) {
-        val data = ConnectionBuilder.get()
-        emit(Resource.loading(data = data))
+class HomeViewModel(private val repositoryInterface: RepositoryInterface) : ViewModel() {
+
+    fun getCashedData() = liveData(Dispatchers.IO) {
+        emit(Resource.Loading(isLoading = true, _data = null))
         try {
-            emit(Resource.success(data = data))
+            emit(Resource.Success(_data = repositoryInterface.getAllCashed()))
+            Log.d(TAG, "getDataFromRepo: scs")
         } catch (exception: Exception) {
+            Log.d(
+                TAG, "getDataFromRepo: Exception ${exception.message}"
+            )
             emit(
-                Resource.error(
-                    message = exception.message ?: "SomethingWong happened",
-                    data = null
+                Resource.Error(
+                    exception.message ?: "SomethingWong happened",
                 )
             )
         }

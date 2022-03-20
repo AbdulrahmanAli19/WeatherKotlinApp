@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
 
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_home, R.id.nav_settings, R.id.nav_fav
+                R.id.nav_home
             ), binding.drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)

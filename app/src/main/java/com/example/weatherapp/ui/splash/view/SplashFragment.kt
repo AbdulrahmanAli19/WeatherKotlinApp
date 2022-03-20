@@ -19,7 +19,8 @@ import androidx.navigation.fragment.findNavController
 import com.airbnb.lottie.LottieDrawable
 import com.example.weatherapp.R
 import com.example.weatherapp.data.local.ConcreteLocalSource
-import com.example.weatherapp.data.remote.ConnectionBuilder
+import com.example.weatherapp.data.preferences.PreferenceProvider
+import com.example.weatherapp.data.remote.ConnectionProvider
 import com.example.weatherapp.data.remote.Resource
 import com.example.weatherapp.data.remote.Status
 import com.example.weatherapp.databinding.SplashFragmentBinding
@@ -34,17 +35,20 @@ private const val TAG = "SplashFragment.dev"
 
 class SplashFragment : Fragment() {
 
-    private var permissions: MutableList<String> = arrayListOf(
+    private val permissions: MutableList<String> = arrayListOf(
         Manifest.permission.ACCESS_FINE_LOCATION,
         Manifest.permission.ACCESS_COARSE_LOCATION
     )
+
     private lateinit var navController: NavController
     private lateinit var binding: SplashFragmentBinding
+
     private val viewModel by viewModels<SplashViewModel> {
         SplashViewModelFactory(
             Repository.getInstance(
-                remoteSource = ConnectionBuilder,
-                localSource = ConcreteLocalSource.getInstance(requireContext())
+                remoteSource = ConnectionProvider,
+                localSource = ConcreteLocalSource.getInstance(requireContext()),
+                preferences = PreferenceProvider(requireContext())
             )
         )
     }
@@ -118,7 +122,7 @@ class SplashFragment : Fragment() {
         binding.animationView.repeatCount = 1
         binding.animationView.setAnimation(R.raw.select_location)
         binding.animationView.setOnClickListener {
-            navController.navigate(SplashFragmentDirections.actionNavSplashToSelectLocationFragment())
+            navController.navigate(SplashFragmentDirections.actionNavSplashToSelectLocationFragment(true))
         }
         Snackbar.make(
             binding.parent,
@@ -134,11 +138,15 @@ class SplashFragment : Fragment() {
 
     private fun onResponse(res: Resource<WeatherResponse>) {
         when (res.status) {
-            Status.SUCCESS -> navController.navigate(
-                SplashFragmentDirections.actionSplashFragmentToNavHome(
-                    res.data ?: WeatherResponse()
+            Status.SUCCESS -> {
+                viewModel.saveResponse(res.data ?: WeatherResponse())
+                viewModel.setTimeStamp(System.currentTimeMillis())
+                navController.navigate(
+                    SplashFragmentDirections.actionSplashFragmentToNavHome(
+                        res.data ?: WeatherResponse()
+                    )
                 )
-            )
+            }
             Status.ERROR -> Log.d(TAG, "onViewCreated: ${res.message}")
             Status.LOADING -> Log.d(TAG, "onViewCreated: loading")
         }

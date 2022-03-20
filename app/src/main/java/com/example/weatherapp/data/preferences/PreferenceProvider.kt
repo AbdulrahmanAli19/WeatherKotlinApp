@@ -10,40 +10,44 @@ private const val WIND_SPEED_KEY = "windSpeedUnit"
 private const val LAST_TIMESTAMP = "lastTimeStamp"
 private const val LAT_KEY = "myLat"
 private const val LON_KEY = "myLon"
-const val NULL_LAT_LON = 0.000001
+const val NULL_LAT = 30.02401127333763
+const val NULL_LON = 31.564412713050846
 
 class PreferenceProvider(
     context: Context
-) {
+) : PreferenceInterface {
 
     private val appContext: Context = context.applicationContext
 
     private val preference: SharedPreferences =
         appContext.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
 
-    fun saveTempUnit(string: String) =
-        preference.edit().putString(TEMP_UNIT_KEY, string).apply()
+    override fun getWindSpeedUnit(): String =
+        preference.getString(WIND_SPEED_KEY, AppUnits.METER_BY_SECOND.string)
+            ?: AppUnits.METER_BY_SECOND.string
 
-    fun saveWindSpeedUnit(string: String) =
-        preference.edit().putString(WIND_SPEED_KEY, string).apply()
+    override fun setWindSpeedUnit(windSpeedUnit: String) =
+        preference.edit().putString(WIND_SPEED_KEY, windSpeedUnit).apply()
 
-    fun saveLastTimeStamp(string: String) =
-        preference.edit().putString(LAST_TIMESTAMP, string).apply()
+    override fun getTimestamp(): Long? = preference.getString(LAST_TIMESTAMP, null)?.toLong()
 
-    fun saveMyLatLon(latLng: LatLng) =
+    override fun setTimestamp(timestamp: Long) =
+        preference.edit().putString(LAST_TIMESTAMP, timestamp.toString()).apply()
+
+    override fun getLatLon(): LatLng =
+        LatLng(
+            preference.getString(LAT_KEY, null)?.toDouble() ?: NULL_LAT,
+            preference.getString(LON_KEY, null)?.toDouble() ?: NULL_LON
+        )
+
+    override fun setLatLon(latLng: LatLng) =
         preference.edit().putString(LAT_KEY, latLng.latitude.toString())
             .putString(LON_KEY, latLng.longitude.toString()).apply()
 
-    fun getMyLatLon(): LatLng =
-        LatLng(
-            preference.getString(LAT_KEY, null)?.toDouble() ?: NULL_LAT_LON,
-            preference.getString(LON_KEY, null)?.toDouble() ?: NULL_LAT_LON
-        )
+    override fun setTempUnit(tempUnit: String) =
+        preference.edit().putString(TEMP_UNIT_KEY, tempUnit).apply()
 
-    fun getLastTimeStamp(): Double? = preference.getString(LAST_TIMESTAMP, null)?.toDouble()
-
-    fun getWindSpeedUnit(): String? = preference.getString(WIND_SPEED_KEY, null)
-
-    fun getTempUnit(): String? = preference.getString(TEMP_UNIT_KEY, null)
+    override fun getTempUnit(): String =
+        preference.getString(TEMP_UNIT_KEY, AppUnits.KELVIN.string) ?: AppUnits.KELVIN.string
 
 }

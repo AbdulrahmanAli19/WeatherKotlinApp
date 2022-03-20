@@ -1,17 +1,23 @@
 package com.example.weatherapp.data.remote
 
 
-data class Resource<out T>(val status: Status, val data: T?, val message: String?) {
+sealed class Resource<out T>(val status: Status, val data: T?, val message: String?) {
 
-    companion object {
-        fun <T> success(data: T): Resource<T> =
-            Resource(status = Status.SUCCESS, data = data, message = null)
+    data class Success<out R>(val _data: R?) : Resource<R>(
+        status = Status.SUCCESS,
+        data = _data,
+        message = null
+    )
 
-        fun <T> error(data: T?, message: String?): Resource<T> =
-            Resource(status = Status.ERROR, data = data, message = message)
+    data class Error(val exception: String) : Resource<Nothing>(
+        status = Status.ERROR,
+        data = null,
+        message = exception
+    )
 
-        fun <T> loading(data: T?): Resource<T> =
-            Resource(status = Status.LOADING, data = data, message = null)
-    }
-
+    data class Loading<out R>(val _data: R?, val isLoading: Boolean) : Resource<R>(
+        status = Status.LOADING,
+        data = _data,
+        message = null
+    )
 }
