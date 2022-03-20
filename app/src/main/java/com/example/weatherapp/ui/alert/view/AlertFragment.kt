@@ -1,4 +1,4 @@
-package com.example.weatherapp.ui.alert
+package com.example.weatherapp.ui.alert.view
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -7,9 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.weatherapp.R
+import com.example.weatherapp.ui.alert.viewmodel.AlertViewModel
 
 class AlertFragment : Fragment() {
-
 
     private lateinit var viewModel: AlertViewModel
 

@@ -9,11 +9,14 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.R
+import com.example.weatherapp.pojo.model.FavModel
+import com.example.weatherapp.pojo.model.dbentities.FavoriteEntity
 import com.example.weatherapp.pojo.model.weather.Daily
 import com.example.weatherapp.pojo.model.weather.Hourly
 import com.example.weatherapp.pojo.model.weather.Temp
-import com.example.weatherapp.ui.home.DayAdapter
-import com.example.weatherapp.ui.weekreport.WeekAdapter
+import com.example.weatherapp.ui.fav.view.FavAdapter
+import com.example.weatherapp.ui.home.view.DayAdapter
+import com.example.weatherapp.ui.weekreport.view.WeekAdapter
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -90,8 +93,15 @@ fun TextView.setMinAndMaxDegree(temp: Temp) {
 }
 
 
-
-
+@BindingAdapter("setFavoriteAdapter")
+fun RecyclerView.setFavoriteAdapter(favModel: FavModel?) {
+    if(favModel != null){
+        this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        val favAdapter = FavAdapter(listener = favModel.favAdapterInterface)
+        favAdapter.setCountries(favModel.countries as ArrayList<FavoriteEntity>)
+        this.adapter = favAdapter
+    }
+}
 
 
 

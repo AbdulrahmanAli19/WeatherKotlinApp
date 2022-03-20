@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.example.weatherapp.ui.home.HomeFragment"
+        android:name="com.example.weatherapp.ui.home.view.HomeFragment"
         android:label="@string/menu_home"
 
         tools:layout="@layout/fragment_home">
@@ -40,12 +40,15 @@
 
     <fragment
         android:id="@+id/nav_fav"
-        android:name="com.example.weatherapp.ui.fav.FavFragment"
+        android:name="com.example.weatherapp.ui.fav.view.FavFragment"
         android:label="@string/menu_fav"
         tools:layout="@layout/fragment_fav" >
         <action
             android:id="@+id/action_nav_fav_to_selectLocationFragment"
             app:destination="@id/selectLocationFragment" />
+        <action
+            android:id="@+id/action_nav_fav_to_nav_home"
+            app:destination="@id/nav_home" />
     </fragment>
 
     <fragment
@@ -60,7 +63,7 @@
 
     <fragment
         android:id="@+id/weekReportFragment"
-        android:name="com.example.weatherapp.ui.weekreport.WeekReportFragment"
+        android:name="com.example.weatherapp.ui.weekreport.view.WeekReportFragment"
         android:label="@string/week_report_lable"
         tools:layout="@layout/week_report_fragment">
         <argument
@@ -89,7 +92,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_alert"
-        android:name="com.example.weatherapp.ui.alert.AlertFragment"
+        android:name="com.example.weatherapp.ui.alert.view.AlertFragment"
         android:label="Add Alert"
         tools:layout="@layout/alert_fragment" />
 </navigation>

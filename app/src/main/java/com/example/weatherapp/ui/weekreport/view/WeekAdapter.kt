@@ -1,4 +1,4 @@
-package com.example.weatherapp.ui.weekreport
+package com.example.weatherapp.ui.weekreport.view
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater

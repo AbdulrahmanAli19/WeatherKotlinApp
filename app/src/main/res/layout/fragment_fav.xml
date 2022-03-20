@@ -3,36 +3,50 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="data"
+            type="com.example.weatherapp.pojo.model.FavModel" />
+    </data>
 
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/newClr"
-        tools:context=".ui.fav.FavFragment">
+        tools:context=".ui.fav.view.FavFragment">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
+            setFavoriteAdapter="@{data}"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/week_item" />
+            tools:listitem="@layout/favorite_layout" />
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/empty_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
             android:layout_gravity="center"
+            android:visibility="gone"
             app:lottie_autoPlay="true"
             app:lottie_loop="false"
             app:lottie_rawRes="@raw/empty_favorite" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btnAdd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
-            android:layout_margin="10dp"
-            android:backgroundTint="@color/newDarkClr"
+            android:layout_margin="16dp"
+            android:backgroundTint="@color/newYellow"
             android:contentDescription="@string/add_favorite_location"
             android:elevation="0dp"
             android:src="@drawable/ic_baseline_add_24"

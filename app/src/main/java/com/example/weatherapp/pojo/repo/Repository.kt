@@ -38,11 +38,11 @@ class Repository private constructor(
         localSource.insertFavorite(favoriteEntity)
     }
 
-    override fun deleteFavorite(favoriteEntity: FavoriteEntity) {
+    override suspend fun deleteFavorite(favoriteEntity: FavoriteEntity) {
         localSource.deleteFavorite(favoriteEntity)
     }
 
-    override fun updateFavorite(favoriteEntity: FavoriteEntity) {
+    override suspend fun updateFavorite(favoriteEntity: FavoriteEntity) {
         localSource.updateFavorite(favoriteEntity)
     }
 
@@ -50,15 +50,15 @@ class Repository private constructor(
         return localSource.getAllFavorites()
     }
 
-    override fun insertCashed(cashedEntity: CashedEntity) {
+    override suspend fun insertCashed(cashedEntity: CashedEntity) {
         localSource.insertCashed(cashedEntity)
     }
 
-    override fun deleteCashed(cashedEntity: CashedEntity) {
+    override suspend fun deleteCashed(cashedEntity: CashedEntity) {
         localSource.deleteCashed(cashedEntity)
     }
 
-    override fun updateCashed(cashedEntity: CashedEntity) {
+    override suspend fun updateCashed(cashedEntity: CashedEntity) {
         localSource.updateCashed(cashedEntity)
     }
 

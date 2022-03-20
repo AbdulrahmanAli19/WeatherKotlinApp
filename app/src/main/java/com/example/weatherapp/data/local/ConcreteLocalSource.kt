@@ -33,11 +33,11 @@ class ConcreteLocalSource private constructor(
         favoriteDao.insertFav(favoriteEntity)
     }
 
-    override fun deleteFavorite(favoriteEntity: FavoriteEntity) {
+    override suspend fun deleteFavorite(favoriteEntity: FavoriteEntity) {
         favoriteDao.deleteFav(favoriteEntity)
     }
 
-    override fun updateFavorite(favoriteEntity: FavoriteEntity) {
+    override suspend fun updateFavorite(favoriteEntity: FavoriteEntity) {
         favoriteDao.updateFav(favoriteEntity)
     }
 
@@ -45,15 +45,15 @@ class ConcreteLocalSource private constructor(
         return favoriteDao.getAllFavorites()
     }
 
-    override fun insertCashed(cashed: CashedEntity) {
+    override suspend fun insertCashed(cashed: CashedEntity) {
         cashedDao.insertCashed(cashed)
     }
 
-    override fun deleteCashed(cashed: CashedEntity) {
+    override suspend fun deleteCashed(cashed: CashedEntity) {
         cashedDao.deleteCashed(cashed)
     }
 
-    override fun updateCashed(cashed: CashedEntity) {
+    override suspend fun updateCashed(cashed: CashedEntity) {
         cashedDao.updateCashed(cashed)
     }
 

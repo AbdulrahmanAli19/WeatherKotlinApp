@@ -9,17 +9,17 @@ interface RepositoryInterface {
 
     suspend fun insertFavorite(favoriteEntity: FavoriteEntity)
 
-    fun deleteFavorite(favoriteEntity: FavoriteEntity)
+    suspend fun deleteFavorite(favoriteEntity: FavoriteEntity)
 
-    fun updateFavorite(favoriteEntity: FavoriteEntity)
+    suspend fun updateFavorite(favoriteEntity: FavoriteEntity)
 
     suspend fun getAllFavorites(): List<FavoriteEntity>
 
-    fun insertCashed(cashedEntity: CashedEntity)
+    suspend fun insertCashed(cashedEntity: CashedEntity)
 
-    fun deleteCashed(cashedEntity: CashedEntity)
+    suspend fun deleteCashed(cashedEntity: CashedEntity)
 
-    fun updateCashed(cashedEntity: CashedEntity)
+    suspend fun updateCashed(cashedEntity: CashedEntity)
 
     suspend fun getAllCashed(): List<CashedEntity>
 

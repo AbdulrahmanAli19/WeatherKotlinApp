@@ -29,15 +29,7 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
 
         navController = findNavController(R.id.nav_host_fragment_content_main)
 
-        appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.nav_home
-            ), binding.drawerLayout
-        )
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        binding.navView.setupWithNavController(navController)
-        navController.addOnDestinationChangedListener(this::onDestinationChanged)
-
+        setUpNavigationWithHamburger()
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -60,5 +52,27 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
             }
             else -> Log.d(TAG, "onDestinationChanged: no id")
         }
+    }
+
+    fun setUpNavigationWithHamburger() {
+        appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.nav_home
+            ), binding.drawerLayout
+        )
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        binding.navView.setupWithNavController(navController)
+        navController.addOnDestinationChangedListener(this::onDestinationChanged)
+    }
+
+    fun setUpNavigationWithNoHamburger() {
+        appBarConfiguration = AppBarConfiguration(
+            setOf(
+
+            ), binding.drawerLayout
+        )
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        binding.navView.setupWithNavController(navController)
+        navController.addOnDestinationChangedListener(this::onDestinationChanged)
     }
 }

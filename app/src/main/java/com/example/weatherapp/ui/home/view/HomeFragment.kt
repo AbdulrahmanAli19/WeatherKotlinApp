@@ -1,4 +1,4 @@
-package com.example.weatherapp.ui.home
+package com.example.weatherapp.ui.home.view
 
 import android.os.Bundle
 import android.util.Log
@@ -32,6 +32,7 @@ class HomeFragment : Fragment() {
     private val args: HomeFragmentArgs by navArgs()
     private lateinit var binding: FragmentHomeBinding
     private lateinit var cashedData: WeatherResponse
+
     private val viewModel by viewModels<HomeViewModel> {
         HomeViewModelFactory(
             Repository.getInstance(
@@ -45,7 +46,14 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = findNavController()
-        viewModel.getCashedData().observe(viewLifecycleOwner) { setAppLayout(it) }
+        val data = args.data
+
+        if (data != null) {
+            setupLayout(data)
+        } else {
+            viewModel.getCashedData().observe(viewLifecycleOwner) { checkStatus(it) }
+        }
+
         binding.btnViewFullReport.setOnClickListener {
             navController
                 .navigate(
@@ -56,30 +64,31 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun setAppLayout(it: Resource<List<CashedEntity>>) {
+    private fun checkStatus(it: Resource<List<CashedEntity>>) {
         when (it.status) {
-            Status.SUCCESS -> {
-                if (!it.data.isNullOrEmpty())
-                    it.data.get(0).cashedData.apply {
-                        cashedData = this
-                        binding.data = HomeModel(
-                            timezone,
-                            getDate(current.dt),
-                            current.weather.get(0).icon,
-                            current.temp,
-                            current.weather.get(0).description,
-                            current.windSpeed,
-                            current.humidity,
-                            current.feelsLike,
-                            hourly as ArrayList<Hourly>
-                        )
-                        binding.executePendingBindings()
-                    }
-            }
+            Status.SUCCESS -> if (!it.data.isNullOrEmpty()) setupLayout(it.data[0].cashedData)
             Status.ERROR -> Log.d(TAG, "onViewCreated: ${it.message}")
-            Status.LOADING -> Log.d(TAG, "onViewCreated: loading")
+            Status.LOADING -> Log.d(TAG, "onViewCreated: LOADING !!")
         }
 
+    }
+
+    private fun setupLayout(weatherResponse: WeatherResponse) {
+        weatherResponse.apply {
+            cashedData = this
+            binding.data = HomeModel(
+                timezone,
+                getDate(current.dt),
+                current.weather.get(0).icon,
+                current.temp,
+                current.weather.get(0).description,
+                current.windSpeed,
+                current.humidity,
+                current.feelsLike,
+                hourly as ArrayList<Hourly>
+            )
+            binding.executePendingBindings()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

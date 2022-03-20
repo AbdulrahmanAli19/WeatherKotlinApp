@@ -7,17 +7,17 @@ interface LocalSource {
 
     suspend fun insertFavorite(favoriteEntity: FavoriteEntity)
 
-    fun deleteFavorite(favoriteEntity: FavoriteEntity)
+    suspend fun deleteFavorite(favoriteEntity: FavoriteEntity)
 
-    fun updateFavorite(favoriteEntity: FavoriteEntity)
+    suspend fun updateFavorite(favoriteEntity: FavoriteEntity)
 
     suspend fun getAllFavorites(): List<FavoriteEntity>
 
-    fun insertCashed(cashed: CashedEntity)
+    suspend fun insertCashed(cashed: CashedEntity)
 
-    fun deleteCashed(cashed: CashedEntity)
+    suspend fun deleteCashed(cashed: CashedEntity)
 
-    fun updateCashed(cashed: CashedEntity)
+    suspend fun updateCashed(cashed: CashedEntity)
 
     suspend fun getAllCashed(): List<CashedEntity>
 

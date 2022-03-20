@@ -11,6 +11,7 @@ import com.example.weatherapp.pojo.model.weather.WeatherResponse
 import com.example.weatherapp.pojo.repo.RepositoryInterface
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 private const val TAG = "SplashViewModel"
@@ -38,11 +39,15 @@ class SplashViewModel(private val repository: RepositoryInterface) : ViewModel()
         }
     }
 
-    fun saveResponse(weatherResponse: WeatherResponse) =
-        repository.insertCashed(CashedEntity(cashedData = weatherResponse))
+    fun saveResponse(weatherResponse: WeatherResponse) {
+        GlobalScope.launch {
+            repository.insertCashed(CashedEntity(cashedData = weatherResponse))
+        }
+    }
 
 
     fun setTimeStamp(msTime: Long) = repository.setTimestamp(msTime)
 
     fun setLatLon(latLng: LatLng) = repository.setLatLon(latLng)
+
 }
