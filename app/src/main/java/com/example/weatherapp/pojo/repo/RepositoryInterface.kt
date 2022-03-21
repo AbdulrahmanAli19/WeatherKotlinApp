@@ -24,7 +24,7 @@ interface RepositoryInterface {
 
     suspend fun getAllCashed(): List<CashedEntity>
 
-    suspend fun getWeatherByLatLon(latLng: LatLng): WeatherResponse
+    suspend fun getWeatherByLatLon(latLng: LatLng, language : String): WeatherResponse
 
     suspend fun insertAlert(alertEntity: AlertEntity)
 

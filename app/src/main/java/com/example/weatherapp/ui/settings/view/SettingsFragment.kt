@@ -1,5 +1,6 @@
 package com.example.weatherapp.ui.settings.view
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.example.weatherapp.MainActivity
 import com.example.weatherapp.data.local.ConcreteLocalSource
 import com.example.weatherapp.data.preferences.AppUnits
 import com.example.weatherapp.data.preferences.PreferenceProvider
@@ -15,6 +17,7 @@ import com.example.weatherapp.databinding.FragmentSettingsBinding
 import com.example.weatherapp.pojo.repo.Repository
 import com.example.weatherapp.ui.settings.viewmodel.SettingsViewModel
 import com.example.weatherapp.ui.settings.viewmodel.SettingsViewModelFactory
+import java.util.*
 
 private const val TAG = "SettingsFragment.dev"
 
@@ -59,11 +62,13 @@ class SettingsFragment : Fragment() {
             when (_id) {
                 binding.langEnd.id -> {
                     viewModel.setLanguage(AppUnits.EN.toString())
+                    changeLang(viewModel.getLanguage())
                     Toast.makeText(requireContext(), binding.langEnd.text, Toast.LENGTH_SHORT)
                         .show()
                 }
                 binding.langArabic.id -> {
                     viewModel.setLanguage(AppUnits.AR.string)
+                    changeLang(viewModel.getLanguage())
                     Toast.makeText(requireContext(), binding.langArabic.text, Toast.LENGTH_SHORT)
                         .show()
                 }
@@ -111,6 +116,20 @@ class SettingsFragment : Fragment() {
         }
 
 
+    }
+
+    fun changeLang(string: String) {
+        val languageToLoad = string
+        val locale = Locale(languageToLoad)
+        Locale.setDefault(locale)
+        val config = Configuration()
+        config.locale = locale
+        requireContext().getResources().updateConfiguration(
+            config,
+            requireContext().getResources().getDisplayMetrics()
+        )
+        val activity = requireActivity() as MainActivity
+        activity.restartActivity()
     }
 
     override fun onCreateView(

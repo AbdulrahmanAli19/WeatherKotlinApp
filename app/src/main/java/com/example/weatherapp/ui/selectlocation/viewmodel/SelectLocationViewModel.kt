@@ -3,6 +3,8 @@ package com.example.weatherapp.ui.selectlocation.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
+import androidx.lifecycle.viewModelScope
+import com.example.weatherapp.data.preferences.AppUnits
 import com.example.weatherapp.data.remote.Resource
 import com.example.weatherapp.pojo.model.dbentities.FavoriteEntity
 import com.example.weatherapp.pojo.repo.RepositoryInterface
@@ -20,7 +22,7 @@ class SelectLocationViewModel(private val repository: RepositoryInterface) : Vie
     fun getMyLatLon() = repository.getLatLon()
 
     fun addFavoriteTodatabase(fav: FavoriteEntity) {
-        GlobalScope.launch {
+        viewModelScope.launch {
             repository.insertFavorite(fav)
         }
     }
@@ -29,12 +31,13 @@ class SelectLocationViewModel(private val repository: RepositoryInterface) : Vie
         latLng: LatLng = LatLng(
             30.02401127333763,
             31.564412713050846
-        )
+        ),
+        language: String = AppUnits.EN.string
     ) = liveData(Dispatchers.IO) {
         Log.d(TAG, "getDataFromRepo: called and its loading ")
         emit(Resource.Loading(isLoading = true, _data = null))
         try {
-            emit(Resource.Success(_data = repository.getWeatherByLatLon(latLng)))
+            emit(Resource.Success(_data = repository.getWeatherByLatLon(latLng, language)))
             Log.d(TAG, "getDataFromRepo: scs")
         } catch (exception: Exception) {
             Log.d(TAG, "getDataFromRepo: Exception ${exception.message}")
@@ -45,5 +48,7 @@ class SelectLocationViewModel(private val repository: RepositoryInterface) : Vie
             )
         }
     }
+
+    fun getLang() = repository.getLanguage()
 
 }

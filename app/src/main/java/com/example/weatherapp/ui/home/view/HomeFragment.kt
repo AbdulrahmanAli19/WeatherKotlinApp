@@ -79,9 +79,9 @@ class HomeFragment : Fragment() {
             binding.data = HomeModel(
                 timezone,
                 getDate(current.dt),
-                current.weather.get(0).icon,
+                current.weather[0].icon,
                 current.temp,
-                current.weather.get(0).description,
+                current.weather[0].description,
                 current.windSpeed,
                 current.humidity,
                 current.feelsLike,

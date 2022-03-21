@@ -9,6 +9,8 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.R
+import com.example.weatherapp.data.preferences.AppUnits
+import com.example.weatherapp.data.preferences.PreferenceProvider
 import com.example.weatherapp.pojo.model.FavModel
 import com.example.weatherapp.pojo.model.dbentities.AlertEntity
 import com.example.weatherapp.pojo.model.dbentities.FavoriteEntity
@@ -31,24 +33,34 @@ fun ImageView.setWeatherIcon(icon: String) {
 @SuppressLint("SetTextI18n")
 @BindingAdapter("setTempDegree")
 fun TextView.setTempDegree(degree: Double) {
-    val pref: SharedPreferences =
-        context.getSharedPreferences(context.getString(R.string.pref_name), MODE_PRIVATE)
-    val isKelvin = pref.getBoolean(context.getString(R.string.is_kelvin), true)
-    this.text = "${degree.toInt()}${context.getString(R.string.degree_symble)}"
-    if (isKelvin) this.append("K") else this.append("C")
+    val pref = PreferenceProvider(context)
+    when (pref.getTempUnit()) {
+        AppUnits.FAHRENHEIT.string -> {
+            this.text =
+                "${fromKelvinToFahrenheit(degree).toInt()}" + context.getString(R.string.degree_symble) + "F"
+        }
+        AppUnits.CELSIUS.string -> {
+            this.text =
+                "${fromKelvinToCelsius(degree).toInt()}" + context.getString(R.string.degree_symble) + "C"
+        }
+        else -> {
+            this.text = "${degree.toInt()}" + context.getString(R.string.degree_symble) + "K"
+        }
+    }
 }
 
 @SuppressLint("SetTextI18n")
 @BindingAdapter("setWindSpeed")
 fun TextView.setWindSpeed(windSpeed: Double) {
-    val pref: SharedPreferences =
-        context.getSharedPreferences(context.getString(R.string.pref_name), MODE_PRIVATE)
-    val windSpeedUnit = pref.getBoolean(context.getString(R.string.wind_speed_unit), true)
-    if (windSpeedUnit)
-        this.text = "${windSpeed.toInt()}M/S"
-    else
-        this.text = "${windSpeed.toInt()}M/H"
-
+    val pref = PreferenceProvider(context)
+    when (pref.getWindSpeedUnit()) {
+        AppUnits.METER_BY_SECOND.string -> {
+            this.text = "${windSpeed.toInt()}M/S"
+        }
+        AppUnits.MILE_BY_HOUR.string -> {
+            this.text = "${windSpeed.toInt()}M/H"
+        }
+    }
 }
 
 @BindingAdapter("setDayAdapter")
@@ -131,14 +143,14 @@ fun TextView.setEndDate(long: Long) {
 @BindingAdapter("setStartTime")
 fun TextView.setStartTime(long: Long) {
     val format = SimpleDateFormat("hh:mm aaa")
-    this.text = "From: ${format.format(long)}"
+    this.text = "At: ${format.format(long)}"
 }
 
 @SuppressLint("SimpleDateFormat", "SetTextI18n")
 @BindingAdapter("setEndTime")
 fun TextView.setEndTime(long: Long) {
     val format = SimpleDateFormat("hh:mm aaa")
-    this.text = "From: ${format.format(long)}"
+    this.text = format.format(long)
 }
 
 

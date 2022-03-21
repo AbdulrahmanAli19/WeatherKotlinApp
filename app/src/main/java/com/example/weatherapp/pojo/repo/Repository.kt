@@ -66,8 +66,8 @@ class Repository private constructor(
         return localSource.getAllCashed()
     }
 
-    override suspend fun getWeatherByLatLon(latLng: LatLng): WeatherResponse {
-        return remoteSource.getWeatherByLatAndLing(latLng)
+    override suspend fun getWeatherByLatLon(latLng: LatLng, language : String): WeatherResponse {
+        return remoteSource.getWeatherByLatAndLing(latLng, language)
     }
 
     override suspend fun insertAlert(alertEntity: AlertEntity) {

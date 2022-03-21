@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Rain Kist</string>
+    <string name="action_settings">إعدادات</string>
+    <string name="if_location_permission_dined">عفوًا! لا يمكننا الحصول على موقعك الحالي لأنك تناولت إذن GPS انقر فوق \"موافق\" إذا كنت تريد تحديد موقعك تلقائيًا ، تخطي للاختيار يدويًا</string>
+    <string name="menu_home">الصفحة الرئيسية</string>
+    <string name="menu_settings">إعدادات</string>
+    <string name="menu_fav">المفضلة</string>
+    <string name="today">اليوم</string>
+    <string name="full_report">تقرير كامل</string>
+    <string name="add_location">أضف الموقع</string>
+    <string name="week_report_lable">تقرير التنبؤ</string>
+    <string name="next_forecast">التوقعات التالية</string>
+    <string name="feels_like">أحس كأنني</string>
+    <string name="wind">رياح</string>
+    <string name="humidity">رطوبة</string>
+    <string name="click_on_the_image_to_select_your_location">اضغط على الصورة لتحديد موقعك</string>
+    <string name="save">احفظها</string>
+    <string name="update">تحديث</string>
+    <string name="language">لغة</string>
+    <string name="arabic">عربي</string>
+    <string name="english">إنجليزي</string>
+    <string name="temperature">درجة حرارة</string>
+    <string name="kelvin">كلفن</string>
+    <string name="celsius">درجة مئوية</string>
+    <string name="fahrenheit">فهرنهايت</string>
+    <string name="wind_speed">سرعة الرياح</string>
+    <string name="meter_second">متر / ثانية</string>
+    <string name="mile_hour">ميل / ساعة</string>
+    <string name="location">موقع</string>
+    <string name="gps">GPS</string>
+    <string name="map">خريطة</string>
+    <string name="enabled">ممكن</string>
+    <string name="disabled">عاجز</string>
+    <string name="add_favorite_location">أضف الموقع المفضل</string>
+    <string name="alarm">إنذار</string>
+    <string name="fav_empty_title">قائمة المفضلة فارغة اضغط على زر + لإضافة مكان مفضل</string>
+    <string name="this_button_will_delete_the_view">سيؤدي هذا الزر إلى حذف العرض</string>
+    <string name="start_date">تاريخ البدء</string>
+    <string name="end_date">تاريخ الانتهاء</string>
+    <string name="time">زمن</string>
+    <string name="cancel">يلغي</string>
+</resources>

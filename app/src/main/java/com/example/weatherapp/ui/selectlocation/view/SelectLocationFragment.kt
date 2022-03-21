@@ -86,6 +86,7 @@ class SelectLocationFragment : Fragment(), GoogleMap.OnMapClickListener {
         map.addMarker(MarkerOptions().position(latLng))
 
         if (args.itItMyLocation) {
+            binding.btnSave.visibility = View.VISIBLE
             this.latLng = latLng
             if (viewModel.getMyLatLon() != nullLatLon)
                 binding.btnSave.text = getString(R.string.update)
@@ -96,7 +97,8 @@ class SelectLocationFragment : Fragment(), GoogleMap.OnMapClickListener {
                 Snackbar.make(requireView(), "Saved :)", Snackbar.LENGTH_SHORT).show()
             }
         } else {
-            val geocoder = Geocoder(requireContext().applicationContext, Locale.getDefault())
+            val geocoder =
+                Geocoder(requireContext().applicationContext, Locale(viewModel.getLang()))
             val address: MutableList<Address>? =
                 geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)
             viewModel.getWeatherRemotlyLatlon(latLng).observe(viewLifecycleOwner) {
@@ -111,7 +113,7 @@ class SelectLocationFragment : Fragment(), GoogleMap.OnMapClickListener {
                         if (address != null)
                             viewModel.addFavoriteTodatabase(
                                 FavoriteEntity(
-                                    locationName = address[0].countryName,
+                                    locationName = address[0].countryName + address[0].adminArea,
                                     latLng = latLng,
                                     cashedData = it.data!!
                                 )
@@ -131,7 +133,6 @@ class SelectLocationFragment : Fragment(), GoogleMap.OnMapClickListener {
         }
 
     }
-
 
 
 }

@@ -5,6 +5,5 @@ import com.google.android.gms.maps.model.LatLng
 
 interface RemoteSource {
 
-    suspend fun getWeatherByLatAndLing(latLng: LatLng): WeatherResponse
-
+    suspend fun getWeatherByLatAndLing(latLng: LatLng, language: String): WeatherResponse
 }

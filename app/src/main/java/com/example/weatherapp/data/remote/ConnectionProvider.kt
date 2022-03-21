@@ -13,12 +13,12 @@ object ConnectionProvider : RemoteSource {
         .build()
 
     private val weatherApi: WeatherApi = retrofit.create(WeatherApi::class.java)
-
-
-    override suspend fun getWeatherByLatAndLing(latLng: LatLng): WeatherResponse =
+    
+    override suspend fun getWeatherByLatAndLing(latLng: LatLng, language : String): WeatherResponse =
         weatherApi.getWeatherData(
             lat = latLng.latitude.toString(),
-            lon = latLng.longitude.toString()
+            lon = latLng.longitude.toString(),
+            lang = language
         )
 
 }

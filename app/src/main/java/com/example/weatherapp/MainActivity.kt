@@ -26,9 +26,7 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.appBarMain.toolbar)
-
         navController = findNavController(R.id.nav_host_fragment_content_main)
-
         setUpNavigationWithHamburger()
     }
 
@@ -42,24 +40,14 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         arguments: Bundle?
     ) {
         when (destination.id) {
-            R.id.nav_splash -> {
-                Log.d(TAG, "onDestinationChanged: called on ${destination.label}")
-                binding.appBarMain.toolbar.visibility = View.GONE
-            }
-            R.id.nav_home -> {
-                binding.appBarMain.toolbar.visibility = View.VISIBLE
-                Log.d(TAG, "onDestinationChanged: called")
-            }
-            else -> Log.d(TAG, "onDestinationChanged: no id")
+            R.id.nav_splash -> binding.appBarMain.toolbar.visibility = View.GONE
+
+            R.id.nav_home -> binding.appBarMain.toolbar.visibility = View.VISIBLE
         }
     }
 
     fun setUpNavigationWithHamburger() {
-        appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.nav_home
-            ), binding.drawerLayout
-        )
+        appBarConfiguration = AppBarConfiguration(setOf(R.id.nav_home), binding.drawerLayout)
         setupActionBarWithNavController(navController, appBarConfiguration)
         binding.navView.setupWithNavController(navController)
         navController.addOnDestinationChangedListener(this::onDestinationChanged)
@@ -67,12 +55,16 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
 
     fun setUpNavigationWithNoHamburger() {
         appBarConfiguration = AppBarConfiguration(
-            setOf(
-
-            ), binding.drawerLayout
+            setOf(), binding.drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         binding.navView.setupWithNavController(navController)
         navController.addOnDestinationChangedListener(this::onDestinationChanged)
+    }
+
+    fun restartActivity() {
+        val intent = this.intent
+        finish()
+        startActivity(intent)
     }
 }

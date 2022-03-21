@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
+import com.example.weatherapp.data.preferences.AppUnits
 import com.example.weatherapp.data.remote.ConnectionProvider
 import com.example.weatherapp.data.remote.Resource
 import com.example.weatherapp.pojo.model.dbentities.CashedEntity
@@ -13,6 +14,7 @@ import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import org.intellij.lang.annotations.Language
 
 private const val TAG = "SplashViewModel"
 
@@ -22,12 +24,13 @@ class SplashViewModel(private val repository: RepositoryInterface) : ViewModel()
         latLng: LatLng = LatLng(
             30.02401127333763,
             31.564412713050846
-        )
+        ),
+        language: String = AppUnits.EN.string
     ) = liveData(Dispatchers.IO) {
         Log.d(TAG, "getDataFromRepo: called and its loading ")
         emit(Resource.Loading(isLoading = true, _data = null))
         try {
-            emit(Resource.Success(_data = repository.getWeatherByLatLon(latLng)))
+            emit(Resource.Success(_data = repository.getWeatherByLatLon(latLng, language)))
             Log.d(TAG, "getDataFromRepo: scs")
         } catch (exception: Exception) {
             Log.d(TAG, "getDataFromRepo: Exception ${exception.message}")
@@ -40,14 +43,17 @@ class SplashViewModel(private val repository: RepositoryInterface) : ViewModel()
     }
 
     fun saveResponse(weatherResponse: WeatherResponse) {
-        GlobalScope.launch {
+        viewModelScope.launch {
             repository.insertCashed(CashedEntity(cashedData = weatherResponse))
         }
     }
 
+    fun getLatLon() = repository.getLatLon()
 
     fun setTimeStamp(msTime: Long) = repository.setTimestamp(msTime)
 
     fun setLatLon(latLng: LatLng) = repository.setLatLon(latLng)
+
+    fun getLang () = repository.getLanguage()
 
 }
