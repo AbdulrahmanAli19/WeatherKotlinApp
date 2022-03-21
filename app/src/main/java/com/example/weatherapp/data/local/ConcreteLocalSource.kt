@@ -2,7 +2,6 @@ package com.example.weatherapp.data.local
 
 import android.annotation.SuppressLint
 import android.content.Context
-import androidx.lifecycle.LiveData
 import com.example.weatherapp.pojo.model.dbentities.AlertEntity
 import com.example.weatherapp.pojo.model.dbentities.CashedEntity
 import com.example.weatherapp.pojo.model.dbentities.FavoriteEntity

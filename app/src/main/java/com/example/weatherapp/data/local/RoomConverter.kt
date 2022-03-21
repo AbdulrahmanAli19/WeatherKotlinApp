@@ -1,9 +1,7 @@
 package com.example.weatherapp.data.local
 
 import androidx.room.TypeConverter
-import com.example.weatherapp.pojo.model.dbentities.CashedEntity
 import com.example.weatherapp.pojo.model.weather.*
-import com.google.android.gms.common.server.FavaDiagnosticsEntity
 import com.google.android.gms.maps.model.LatLng
 import com.google.gson.Gson
 

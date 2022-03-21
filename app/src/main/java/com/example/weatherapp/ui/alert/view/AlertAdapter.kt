@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.databinding.AlertLayoutBinding
 import com.example.weatherapp.pojo.model.dbentities.AlertEntity
 
+
 class AlertAdapter(
     private val list: ArrayList<AlertEntity> = arrayListOf(),
     private val listener : AlertAdapterListener

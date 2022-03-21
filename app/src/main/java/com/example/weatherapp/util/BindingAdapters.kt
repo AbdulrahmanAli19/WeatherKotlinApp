@@ -3,6 +3,9 @@ package com.example.weatherapp.util
 import android.annotation.SuppressLint
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
+import android.location.Address
+import android.location.Geocoder
+import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
@@ -21,6 +24,7 @@ import com.example.weatherapp.ui.alert.view.AlertAdapter
 import com.example.weatherapp.ui.fav.view.FavAdapter
 import com.example.weatherapp.ui.home.view.DayAdapter
 import com.example.weatherapp.ui.weekreport.view.WeekAdapter
+import com.google.android.gms.maps.model.LatLng
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -49,6 +53,15 @@ fun TextView.setTempDegree(degree: Double) {
     }
 }
 
+@BindingAdapter("setCityNamee")
+fun TextView.setCityNamee(latLng: LatLng){
+    val pref  = PreferenceProvider(context)
+    val geocoder = Geocoder(context.applicationContext, Locale(pref.getLanguage()))
+    val address: MutableList<Address>? =
+        geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)
+    this.text = address?.get(0)?.adminArea ?: ""
+}
+
 @SuppressLint("SetTextI18n")
 @BindingAdapter("setWindSpeed")
 fun TextView.setWindSpeed(windSpeed: Double) {
@@ -58,7 +71,7 @@ fun TextView.setWindSpeed(windSpeed: Double) {
             this.text = "${windSpeed.toInt()}M/S"
         }
         AppUnits.MILE_BY_HOUR.string -> {
-            this.text = "${windSpeed.toInt()}M/H"
+            this.text = "${fromMeterBySecToMileByHour(windSpeed).toInt()}M/H"
         }
     }
 }
@@ -118,12 +131,25 @@ fun TextView.setDayAndMonthDate(msDate: Long) {
 @SuppressLint("SetTextI18n")
 @BindingAdapter("setMinAndMaxDegree")
 fun TextView.setMinAndMaxDegree(temp: Temp) {
-    val pref: SharedPreferences =
-        context.getSharedPreferences(context.getString(R.string.pref_name), MODE_PRIVATE)
-    val isKelvin = pref.getBoolean(context.getString(R.string.is_kelvin), true)
-    this.text =
-        "${temp.max.toInt()}/${temp.min.toInt()}${context.getString(R.string.degree_symble)}"
-    if (isKelvin) this.append("K") else this.append("C")
+    val pref = PreferenceProvider(context)
+    when (pref.getTempUnit()) {
+        AppUnits.FAHRENHEIT.string -> {
+            this.text =
+                "${fromKelvinToFahrenheit(temp.min).toInt()}/${fromKelvinToFahrenheit(temp.max).toInt()}" + context.getString(
+                    R.string.degree_symble
+                ) + "F"
+        }
+        AppUnits.CELSIUS.string -> {
+            this.text =
+                "${fromKelvinToCelsius(temp.min).toInt()}/${fromKelvinToCelsius(temp.max).toInt()}" + context.getString(
+                    R.string.degree_symble
+                ) + "C"
+        }
+        else -> {
+            this.text =
+                "${temp.min.toInt()}/${temp.max.toInt()}" + context.getString(R.string.degree_symble) + "K"
+        }
+    }
 }
 
 

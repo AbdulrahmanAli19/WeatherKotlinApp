@@ -1,14 +1,10 @@
 package com.example.weatherapp.ui.home.viewmodel
 
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
-import com.example.weatherapp.data.remote.ConnectionProvider
 import com.example.weatherapp.data.remote.Resource
-import com.example.weatherapp.pojo.model.dbentities.CashedEntity
 import com.example.weatherapp.pojo.repo.RepositoryInterface
-import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.Dispatchers
 
 private const val TAG = "HomeViewModel"

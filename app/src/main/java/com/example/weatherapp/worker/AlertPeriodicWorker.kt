@@ -12,7 +12,8 @@ class AlertPeriodicWorker(val context: Context, val workerParams: WorkerParamete
 ) {
     override fun doWork(): Result {
         Log.d(TAG, "doWork: called")
-        AddAlertRemainder.addSingleAlert(context)
+        val delay = inputData.getLong("delay", System.currentTimeMillis())
+        AddAlertRemainder.addSingleAlert(delay, context)
         return Result.success()
     }
 }

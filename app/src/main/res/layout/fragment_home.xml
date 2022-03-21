@@ -5,7 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="latlog"
+            type="com.google.android.gms.maps.model.LatLng" />
         <variable
             name="data"
             type="com.example.weatherapp.pojo.model.HomeModel" />
@@ -22,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
-            android:text="@{data.city}"
+            setCityNamee="@{latlog}"
             android:textColor="@color/white"
             android:textSize="30sp"
             app:layout_constraintEnd_toEndOf="parent"

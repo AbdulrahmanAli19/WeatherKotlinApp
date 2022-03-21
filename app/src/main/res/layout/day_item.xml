@@ -58,7 +58,7 @@
                     android:layout_below="@id/txtTime"
                     android:layout_alignStart="@+id/txtTime"
                     android:layout_marginStart="0dp"
-                    android:text="@{day.degree+`°K`}"
+                    setTempDegree="@{day.degree}"
                     android:textColor="@color/white"
                     android:textSize="25sp"
                     app:layout_constraintBottom_toBottomOf="parent"

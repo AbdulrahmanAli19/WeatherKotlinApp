@@ -51,7 +51,7 @@
     <string name="end_date">End Date</string>
     <string name="time">Time</string>
     <string name="cancel">Cancel</string>
-    <string name="premission_dined">Permission denied, click ok to request permission</string>
+    <string name="premission_dined">Permission denied, click OK to request permission</string>
     <string name="ok">OK</string>
     <string name="alert_list_is_empty_press_on_to_add_an_alert">Alert list is empty press on + to add an alert</string>
     <string name="tap_here_to_add_start_date">Tap here to add start date</string>
@@ -60,4 +60,5 @@
     <string name="delte">Delete</string>
     <string name="fav_delete_body">Are you sure you want to delete the place ?</string>
     <string name="delete_alert_body">Are you sure you want to delete this Alert ?</string>
+    <string name="next_48hr">Next 48hr</string>
 </resources>

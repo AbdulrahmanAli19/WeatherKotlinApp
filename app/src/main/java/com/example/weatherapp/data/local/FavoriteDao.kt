@@ -1,6 +1,5 @@
 package com.example.weatherapp.data.local
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.weatherapp.pojo.model.dbentities.FavoriteEntity
 

@@ -8,16 +8,14 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.example.weatherapp.R
 
-class CreateNitification(private val context: Context) {
+class CreateNotification(private val context: Context) {
 
     @SuppressLint("ObsoleteSdkInt")
     fun createNotification(body: String?, title: String?) {
         val notificationManager = context
             .getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        val builder: NotificationCompat.Builder = NotificationCompat.Builder(
-            context,
-            "MED_REMINDER_CHANNEL"
-        )
+        val builder: NotificationCompat.Builder = NotificationCompat
+            .Builder(context, "ALERT_REMINDER_CHANNEL")
             .setSmallIcon(R.mipmap.ic_launcher_round)
             .setContentTitle(title)
             .setContentText(body)

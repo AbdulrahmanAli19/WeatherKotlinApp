@@ -36,7 +36,6 @@ import com.example.weatherapp.pojo.repo.Repository
 import com.example.weatherapp.ui.splash.viewmodel.SplashViewModel
 import com.example.weatherapp.ui.splash.viewmodel.SplashViewModelFactory
 import com.example.weatherapp.util.isNetworkConnected
-import com.example.weatherapp.worker.CreateNitification
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.snackbar.Snackbar
 import java.util.*
@@ -172,7 +171,8 @@ class SplashFragment : Fragment() {
                 viewModel.setTimeStamp(System.currentTimeMillis())
                 navController.navigate(
                     SplashFragmentDirections.actionSplashFragmentToNavHome(
-                        res.data ?: WeatherResponse()
+                        data = res.data ?: WeatherResponse(),
+                        latlog = viewModel.getLatLon()
                     )
                 )
             }

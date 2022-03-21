@@ -30,6 +30,9 @@
             android:defaultValue="@null"
             app:argType="com.example.weatherapp.pojo.model.weather.WeatherResponse"
             app:nullable="true" />
+        <argument
+            android:name="latlog"
+            app:argType="com.google.android.gms.maps.model.LatLng" />
     </fragment>
 
     <fragment

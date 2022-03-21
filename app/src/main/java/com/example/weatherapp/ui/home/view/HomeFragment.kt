@@ -87,6 +87,7 @@ class HomeFragment : Fragment() {
                 current.feelsLike,
                 hourly as ArrayList<Hourly>
             )
+            binding.latlog = args.latlog
             binding.executePendingBindings()
         }
     }

@@ -22,6 +22,7 @@ import com.example.weatherapp.pojo.model.dbentities.FavoriteEntity
 import com.example.weatherapp.pojo.repo.Repository
 import com.example.weatherapp.ui.fav.viewmodel.FavViewModel
 import com.example.weatherapp.ui.fav.viewmodel.FavViewModelFactory
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 private const val TAG = "FavFragment.dev"
@@ -112,7 +113,12 @@ class FavFragment : Fragment(), FavAdapter.FavAdapterInterface {
 
     override fun onItemClick(pos: Int) {
         val data = cashedData[pos].cashedData
-        navController.navigate(FavFragmentDirections.actionNavFavToNavHome(data))
+        navController.navigate(
+            FavFragmentDirections.actionNavFavToNavHome(
+                data = data,
+                latlog = LatLng(data.lat, data.lon)
+            )
+        )
         val act = requireActivity() as MainActivity
         act.setUpNavigationWithNoHamburger()
     }

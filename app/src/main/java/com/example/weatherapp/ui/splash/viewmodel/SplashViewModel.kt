@@ -5,16 +5,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import com.example.weatherapp.data.preferences.AppUnits
-import com.example.weatherapp.data.remote.ConnectionProvider
 import com.example.weatherapp.data.remote.Resource
 import com.example.weatherapp.pojo.model.dbentities.CashedEntity
 import com.example.weatherapp.pojo.model.weather.WeatherResponse
 import com.example.weatherapp.pojo.repo.RepositoryInterface
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import org.intellij.lang.annotations.Language
 
 private const val TAG = "SplashViewModel"
 

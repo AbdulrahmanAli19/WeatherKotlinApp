@@ -22,7 +22,6 @@ import com.example.weatherapp.data.remote.Resource
 import com.example.weatherapp.data.remote.Status
 import com.example.weatherapp.databinding.AlertFragmentBinding
 import com.example.weatherapp.pojo.model.AlertModel
-import com.example.weatherapp.pojo.model.FavModel
 import com.example.weatherapp.pojo.model.dbentities.AlertEntity
 import com.example.weatherapp.pojo.repo.Repository
 import com.example.weatherapp.ui.alert.viewmodel.AlertViewModel
@@ -72,27 +71,13 @@ class AlertFragment : Fragment(), AlertAdapter.AlertAdapterListener {
 
             cardEnd.setOnClickListener {
                 val endDate = Calendar.getInstance()
-                val timeSetListener =
-                    TimePickerDialog.OnTimeSetListener { timePicker, hour, minute ->
-                        endDate.set(Calendar.HOUR_OF_DAY, hour)
-                        endDate.set(Calendar.MINUTE, minute)
-                        txtEndTime.text = SimpleDateFormat("hh:mm aaa").format(endDate.time)
-                        this.endDate = endDate.timeInMillis
-                    }
 
                 val dateSetListener =
-                    DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+                    DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
                         endDate.set(Calendar.YEAR, year)
                         endDate.set(Calendar.MONTH, monthOfYear)
                         endDate.set(Calendar.DAY_OF_MONTH, dayOfMonth)
                         txtEndDate.text = SimpleDateFormat("dd MMM").format(endDate.time)
-                        TimePickerDialog(
-                            context,
-                            timeSetListener,
-                            endDate.get(Calendar.HOUR_OF_DAY),
-                            endDate.get(Calendar.MINUTE),
-                            false
-                        ).show()
                     }
 
                 DatePickerDialog(
@@ -105,7 +90,7 @@ class AlertFragment : Fragment(), AlertAdapter.AlertAdapterListener {
             cardStart.setOnClickListener {
                 val startDate = Calendar.getInstance()
                 val timeSetListener =
-                    TimePickerDialog.OnTimeSetListener { timePicker, hour, minute ->
+                    TimePickerDialog.OnTimeSetListener { _, hour, minute ->
                         startDate.set(Calendar.HOUR_OF_DAY, hour)
                         startDate.set(Calendar.MINUTE, minute)
                         txtStatTime.text = SimpleDateFormat("hh:mm aaa").format(startDate.time)
@@ -113,7 +98,7 @@ class AlertFragment : Fragment(), AlertAdapter.AlertAdapterListener {
                     }
 
                 val dateSetListener =
-                    DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+                    DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
                         startDate.set(Calendar.YEAR, year)
                         startDate.set(Calendar.MONTH, monthOfYear)
                         startDate.set(Calendar.DAY_OF_MONTH, dayOfMonth)
@@ -136,12 +121,17 @@ class AlertFragment : Fragment(), AlertAdapter.AlertAdapterListener {
             }
             btnCancel.setOnClickListener { dialog.dismiss() }
             btnSave.setOnClickListener {
+                val pojo = AlertEntity(startDate = startDate, endDate = endDate)
                 viewModel.insertAlert(
-                    AlertEntity(startDate = startDate, endDate = endDate)
+                    pojo
                 )
                 binding.emptyLayout.visibility = View.GONE
                 viewModel.getAllAlerts().observe(viewLifecycleOwner) { setupLayout(it) }
-                AddAlertRemainder.addPeriodicAlert(startDate, requireContext())
+                AddAlertRemainder.addPeriodicAlert(
+                    delay = startDate,
+                    context = requireContext(),
+                    workerTag = pojo.id.toString()
+                )
                 dialog.dismiss()
             }
             dialog.show()
@@ -188,6 +178,10 @@ class AlertFragment : Fragment(), AlertAdapter.AlertAdapterListener {
             .setNegativeButton(getString(R.string.cancel)) { _, _ -> }
             .setPositiveButton(getString(R.string.delte)) { dialog, which ->
                 viewModel.removeAlert(list[0])
+                AddAlertRemainder.removeWorkers(
+                    context = requireContext(),
+                    workerTag = list[pos].id.toString()
+                )
                 list.removeAt(pos)
                 binding.data = AlertModel(list, this)
                 binding.executePendingBindings()

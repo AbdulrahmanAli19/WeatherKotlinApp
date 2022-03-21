@@ -27,12 +27,12 @@ class AlertWorker(val context: Context, workerParams: WorkerParameters) :
             Log.d(TAG, "doWork: called")
             val data = repo.getWeatherByLatLon(repo.getLatLon(), repo.getLanguage())
             if (data.alerts.isNullOrEmpty()) {
-                CreateNitification(context).createNotification(
+                CreateNotification(context).createNotification(
                     "The weather is  ${data.current.weather[0].description}",
                     "Theres not alerts for today"
                 )
             } else {
-                CreateNitification(context).createNotification(
+                CreateNotification(context).createNotification(
                     "Pleas check the application",
                     "Weather Alerts!!"
                 )

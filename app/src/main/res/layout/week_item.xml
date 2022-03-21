@@ -28,10 +28,10 @@
                 <TextView
                     android:id="@+id/txtStartDate"
                     setWeekTxt="@{data.date}"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentStart="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="20dp"
                     android:textColor="@color/white"
@@ -40,11 +40,11 @@
 
                 <TextView
                     android:id="@+id/txtEndDate"
-                    android:layout_alignStart="@id/txtStartDate"
                     setDayAndMonthDate="@{data.date}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/txtStartDate"
+                    android:layout_alignStart="@id/txtStartDate"
                     android:layout_marginTop="5dp"
                     android:textColor="@color/white"
                     android:textSize="16sp"
@@ -55,21 +55,21 @@
                     setMinAndMaxDegree="@{data.temp}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="20dp"
-                    android:textColor="@color/white"
                     android:layout_centerVertical="true"
+                    android:layout_marginEnd="20dp"
                     android:layout_toStartOf="@id/image"
+                    android:textColor="@color/white"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     tools:text="-10°C" />
 
                 <ImageView
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentEnd="true"
                     android:id="@+id/image"
                     setWeatherIcon="@{data.icon}"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
                     android:layout_marginEnd="20dp"
                     tools:src="@drawable/snow" />
             </RelativeLayout>
