@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.R
 import com.example.weatherapp.data.preferences.AppUnits
 import com.example.weatherapp.data.preferences.PreferenceProvider
+import com.example.weatherapp.pojo.model.AlertModel
 import com.example.weatherapp.pojo.model.FavModel
-import com.example.weatherapp.pojo.model.dbentities.AlertEntity
 import com.example.weatherapp.pojo.model.dbentities.FavoriteEntity
 import com.example.weatherapp.pojo.model.weather.Daily
 import com.example.weatherapp.pojo.model.weather.Hourly
@@ -79,12 +79,24 @@ fun RecyclerView.setWeekAdapter(list: ArrayList<Daily>?) {
     this.adapter = weekAdapter
 }
 
+@BindingAdapter("setFavoriteAdapter")
+fun RecyclerView.setFavoriteAdapter(favModel: FavModel?) {
+    if (favModel != null) {
+        this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        val favAdapter = FavAdapter(listener = favModel.favAdapterInterface)
+        favAdapter.setCountries(favModel.countries as ArrayList<FavoriteEntity>)
+        this.adapter = favAdapter
+    }
+}
+
 @BindingAdapter("setAlertAdapter")
-fun RecyclerView.setAlertAdapter(list: ArrayList<AlertEntity>?) {
-    this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-    val alertAdapter = AlertAdapter()
-    alertAdapter.setList(list ?: arrayListOf())
-    this.adapter = alertAdapter
+fun RecyclerView.setAlertAdapter(alertModel: AlertModel?) {
+    if (alertModel != null) {
+        this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        val alertAdapter = AlertAdapter(listener = alertModel.listener)
+        alertAdapter.setList(alertModel.list ?: arrayListOf())
+        this.adapter = alertAdapter
+    }
 }
 
 @SuppressLint("SimpleDateFormat")
@@ -114,16 +126,6 @@ fun TextView.setMinAndMaxDegree(temp: Temp) {
     if (isKelvin) this.append("K") else this.append("C")
 }
 
-
-@BindingAdapter("setFavoriteAdapter")
-fun RecyclerView.setFavoriteAdapter(favModel: FavModel?) {
-    if (favModel != null) {
-        this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        val favAdapter = FavAdapter(listener = favModel.favAdapterInterface)
-        favAdapter.setCountries(favModel.countries as ArrayList<FavoriteEntity>)
-        this.adapter = favAdapter
-    }
-}
 
 @SuppressLint("SimpleDateFormat", "SetTextI18n")
 @BindingAdapter("setStartDate")

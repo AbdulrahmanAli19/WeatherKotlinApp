@@ -95,10 +95,10 @@ class FavFragment : Fragment(), FavAdapter.FavAdapterInterface {
 
     override fun onDeleteImageClick(pos: Int) {
         MaterialAlertDialogBuilder(requireContext())
-            .setTitle("Delete alert")
-            .setMessage("Are you sure you want to delete the place ?")
-            .setNegativeButton("Cancel") { _, _ -> }
-            .setPositiveButton("Delete") { dialog, which ->
+            .setTitle(getString(R.string.delete_alert))
+            .setMessage(getString(R.string.fav_delete_body))
+            .setNegativeButton(getString(R.string.cancel)) { _, _ -> }
+            .setPositiveButton(getString(R.string.delte)) { dialog, which ->
                 viewModel.deleteFromFavorite(cashedData[0])
                 cashedData.removeAt(pos)
                 binding.data = FavModel(this, cashedData)

@@ -26,4 +26,8 @@ class AlertViewModel(val repositoryInterface: RepositoryInterface) : ViewModel()
         }
     }
 
+    fun removeAlert(alertEntity: AlertEntity) {
+        viewModelScope.launch { repositoryInterface.deleteAlert(alertEntity) }
+    }
+
 }

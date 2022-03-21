@@ -6,13 +6,13 @@ import android.app.Dialog
 import android.app.TimePickerDialog
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.weatherapp.R
 import com.example.weatherapp.data.local.ConcreteLocalSource
@@ -22,18 +22,22 @@ import com.example.weatherapp.data.remote.Resource
 import com.example.weatherapp.data.remote.Status
 import com.example.weatherapp.databinding.AlertFragmentBinding
 import com.example.weatherapp.pojo.model.AlertModel
+import com.example.weatherapp.pojo.model.FavModel
 import com.example.weatherapp.pojo.model.dbentities.AlertEntity
 import com.example.weatherapp.pojo.repo.Repository
 import com.example.weatherapp.ui.alert.viewmodel.AlertViewModel
 import com.example.weatherapp.ui.alert.viewmodel.AlertViewModelFactory
+import com.example.weatherapp.worker.AddAlertRemainder
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
 private const val TAG = "AlertFragment"
 
-class AlertFragment : Fragment() {
+class AlertFragment : Fragment(), AlertAdapter.AlertAdapterListener {
 
+    private lateinit var list: ArrayList<AlertEntity>
     private lateinit var binding: AlertFragmentBinding
     private var startDate: Long = 0
     private var endDate: Long = 0
@@ -135,6 +139,9 @@ class AlertFragment : Fragment() {
                 viewModel.insertAlert(
                     AlertEntity(startDate = startDate, endDate = endDate)
                 )
+                binding.emptyLayout.visibility = View.GONE
+                viewModel.getAllAlerts().observe(viewLifecycleOwner) { setupLayout(it) }
+                AddAlertRemainder.addPeriodicAlert(startDate, requireContext())
                 dialog.dismiss()
             }
             dialog.show()
@@ -142,7 +149,9 @@ class AlertFragment : Fragment() {
     }
 
     private fun setupLayout(it: Resource<List<AlertEntity>>?) {
-        if (it != null)
+        if (it != null) {
+            if (!it.data.isNullOrEmpty())
+                list = it.data as ArrayList<AlertEntity>
             when (it.status) {
                 Status.LOADING -> {
                     Log.d(TAG, "setupLayout: called")
@@ -153,7 +162,7 @@ class AlertFragment : Fragment() {
                     if (it.data.isNullOrEmpty()) {
                         binding.emptyLayout.visibility = View.VISIBLE
                     } else {
-                        binding.data = AlertModel(it.data as ArrayList<AlertEntity>)
+                        binding.data = AlertModel(it.data as ArrayList<AlertEntity>, this)
                         binding.executePendingBindings()
                     }
                 }
@@ -161,6 +170,7 @@ class AlertFragment : Fragment() {
                     Log.d(TAG, "setupLayout: ")
                 }
             }
+        }
     }
 
     override fun onCreateView(
@@ -169,6 +179,22 @@ class AlertFragment : Fragment() {
     ): View {
         binding = AlertFragmentBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onDeleteImageClick(pos: Int) {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(getString(R.string.delete_alert))
+            .setMessage(getString(R.string.delete_alert_body))
+            .setNegativeButton(getString(R.string.cancel)) { _, _ -> }
+            .setPositiveButton(getString(R.string.delte)) { dialog, which ->
+                viewModel.removeAlert(list[0])
+                list.removeAt(pos)
+                binding.data = AlertModel(list, this)
+                binding.executePendingBindings()
+                if (list.isNullOrEmpty()) {
+                    binding.emptyLayout.visibility = View.VISIBLE
+                }
+            }.show()
     }
 
 

@@ -36,6 +36,7 @@ import com.example.weatherapp.pojo.repo.Repository
 import com.example.weatherapp.ui.splash.viewmodel.SplashViewModel
 import com.example.weatherapp.ui.splash.viewmodel.SplashViewModelFactory
 import com.example.weatherapp.util.isNetworkConnected
+import com.example.weatherapp.worker.CreateNitification
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.snackbar.Snackbar
 import java.util.*
@@ -184,7 +185,7 @@ class SplashFragment : Fragment() {
     fun getLocation() {
         location = LocationListener()
         locationManager = requireContext().getSystemService(LOCATION_SERVICE) as LocationManager
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1f, location)
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 1f, location)
     }
 
     inner class LocationListener : android.location.LocationListener {

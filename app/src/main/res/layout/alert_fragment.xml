@@ -16,7 +16,7 @@
         android:background="@color/newClr">
 
         <androidx.recyclerview.widget.RecyclerView
-            setAlertAdapter="@{data.list}"
+            setAlertAdapter="@{data}"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:listitem="@layout/alert_layout" />
@@ -51,13 +51,13 @@
                 app:lottie_rawRes="@raw/no_alert" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/anim"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:text="@string/fav_empty_title"
+                android:text="@string/alert_list_is_empty_press_on_to_add_an_alert"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
         </RelativeLayout>

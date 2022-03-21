@@ -65,6 +65,7 @@
 
                         <TextView
                             android:id="@+id/txtStartDate"
+                            android:text="@string/tap_here_to_add_start_date"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
@@ -125,9 +126,11 @@
 
                         <TextView
                             android:id="@+id/txtEndDate"
+                            android:gravity="center"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
+                            android:text="@string/tap_here_to_add_end_date"
                             android:textColor="@color/white"
                             android:textSize="16sp" />
 

@@ -7,7 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.databinding.AlertLayoutBinding
 import com.example.weatherapp.pojo.model.dbentities.AlertEntity
 
-class AlertAdapter(private val list: ArrayList<AlertEntity> = arrayListOf()) :
+class AlertAdapter(
+    private val list: ArrayList<AlertEntity> = arrayListOf(),
+    private val listener : AlertAdapterListener
+) :
     RecyclerView.Adapter<AlertAdapter.AlertViewHolder>() {
 
     @SuppressLint("NotifyDataSetChanged")
@@ -18,17 +21,25 @@ class AlertAdapter(private val list: ArrayList<AlertEntity> = arrayListOf()) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlertViewHolder =
-        AlertViewHolder(AlertLayoutBinding.inflate(LayoutInflater.from(parent.context)))
+        AlertViewHolder(AlertLayoutBinding.inflate(LayoutInflater.from(parent.context)), listener)
 
-    override fun onBindViewHolder(holder: AlertViewHolder, position: Int) = holder.bind(list[position])
+    override fun onBindViewHolder(holder: AlertViewHolder, position: Int) =
+        holder.bind(list[position])
 
     override fun getItemCount(): Int = if (list.isNullOrEmpty()) 0 else list.size
-    inner class AlertViewHolder(val binding: AlertLayoutBinding) :
+    inner class AlertViewHolder(val binding: AlertLayoutBinding, listener: AlertAdapterListener) :
         RecyclerView.ViewHolder(binding.root) {
+        init {
+            binding.image.setOnClickListener { listener.onDeleteImageClick(adapterPosition) }
+        }
         fun bind(alertEntity: AlertEntity) {
             binding.data = alertEntity
             binding.executePendingBindings()
         }
+    }
+
+    interface AlertAdapterListener {
+        fun onDeleteImageClick(pos: Int)
     }
 
 }

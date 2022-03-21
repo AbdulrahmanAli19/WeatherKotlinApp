@@ -34,10 +34,19 @@
     <string name="disabled">عاجز</string>
     <string name="add_favorite_location">أضف الموقع المفضل</string>
     <string name="alarm">إنذار</string>
-    <string name="fav_empty_title">قائمة المفضلة فارغة اضغط على زر + لإضافة مكان مفضل</string>
+    <string name="fav_empty_title">قائمة المفضلة فارغة \nاضغط على زر + لإضافة مكان مفضل</string>
     <string name="this_button_will_delete_the_view">سيؤدي هذا الزر إلى حذف العرض</string>
     <string name="start_date">تاريخ البدء</string>
     <string name="end_date">تاريخ الانتهاء</string>
     <string name="time">زمن</string>
     <string name="cancel">يلغي</string>
+    <string name="premission_dined">تم رفض الإذن ، انقر فوق \"موافق\" لطلب الإذن</string>
+    <string name="ok">حسنا</string>
+    <string name="alert_list_is_empty_press_on_to_add_an_alert">قائمة التنبيه فارغة اضغط على + لإضافة تنبيه</string>
+    <string name="tap_here_to_add_start_date">انقر هنا لإضافة تاريخ البدء</string>
+    <string name="tap_here_to_add_end_date">انقر هنا لإضافة تاريخ الانتهاء</string>
+    <string name="delete_alert">حذف التنبيه</string>
+    <string name="delte">حذف</string>
+    <string name="fav_delete_body">هل أنت متأكد أنك تريد حذف المكان؟</string>
+    <string name="delete_alert_body">هل أنت متأكد أنك تريد حذف هذا التنبيه؟</string>
 </resources>
