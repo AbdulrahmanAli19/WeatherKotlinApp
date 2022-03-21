@@ -24,15 +24,34 @@
             android:layout_height="match_parent"
             tools:listitem="@layout/favorite_layout" />
 
-        <com.airbnb.lottie.LottieAnimationView
+        <RelativeLayout
             android:id="@+id/empty_layout"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:visibility="gone"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="false"
-            app:lottie_rawRes="@raw/empty_favorite" />
+            android:visibility="gone">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/anim"
+                android:layout_width="100dp"
+                android:layout_centerHorizontal="true"
+                android:layout_height="100dp"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="false"
+                app:lottie_rawRes="@raw/empty_fav" />
+
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/anim"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:text="@string/fav_empty_title"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+        </RelativeLayout>
+
 
         <ProgressBar
             android:id="@+id/progressBar"

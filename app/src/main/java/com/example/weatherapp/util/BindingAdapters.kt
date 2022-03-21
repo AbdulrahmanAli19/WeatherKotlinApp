@@ -10,10 +10,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.R
 import com.example.weatherapp.pojo.model.FavModel
+import com.example.weatherapp.pojo.model.dbentities.AlertEntity
 import com.example.weatherapp.pojo.model.dbentities.FavoriteEntity
 import com.example.weatherapp.pojo.model.weather.Daily
 import com.example.weatherapp.pojo.model.weather.Hourly
 import com.example.weatherapp.pojo.model.weather.Temp
+import com.example.weatherapp.ui.alert.view.AlertAdapter
 import com.example.weatherapp.ui.fav.view.FavAdapter
 import com.example.weatherapp.ui.home.view.DayAdapter
 import com.example.weatherapp.ui.weekreport.view.WeekAdapter
@@ -65,6 +67,14 @@ fun RecyclerView.setWeekAdapter(list: ArrayList<Daily>?) {
     this.adapter = weekAdapter
 }
 
+@BindingAdapter("setAlertAdapter")
+fun RecyclerView.setAlertAdapter(list: ArrayList<AlertEntity>?) {
+    this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+    val alertAdapter = AlertAdapter()
+    alertAdapter.setList(list ?: arrayListOf())
+    this.adapter = alertAdapter
+}
+
 @SuppressLint("SimpleDateFormat")
 @BindingAdapter("setWeekTxt")
 fun TextView.setWeekTxt(msDate: Long) {
@@ -95,12 +105,40 @@ fun TextView.setMinAndMaxDegree(temp: Temp) {
 
 @BindingAdapter("setFavoriteAdapter")
 fun RecyclerView.setFavoriteAdapter(favModel: FavModel?) {
-    if(favModel != null){
+    if (favModel != null) {
         this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         val favAdapter = FavAdapter(listener = favModel.favAdapterInterface)
         favAdapter.setCountries(favModel.countries as ArrayList<FavoriteEntity>)
         this.adapter = favAdapter
     }
+}
+
+@SuppressLint("SimpleDateFormat", "SetTextI18n")
+@BindingAdapter("setStartDate")
+fun TextView.setStartDate(long: Long) {
+    val format = SimpleDateFormat("dd MMM")
+    this.text = "From: ${format.format(long)}"
+}
+
+@SuppressLint("SimpleDateFormat", "SetTextI18n")
+@BindingAdapter("setEndDate")
+fun TextView.setEndDate(long: Long) {
+    val format = SimpleDateFormat("dd MMM")
+    this.text = "From: ${format.format(long)}"
+}
+
+@SuppressLint("SimpleDateFormat", "SetTextI18n")
+@BindingAdapter("setStartTime")
+fun TextView.setStartTime(long: Long) {
+    val format = SimpleDateFormat("hh:mm aaa")
+    this.text = "From: ${format.format(long)}"
+}
+
+@SuppressLint("SimpleDateFormat", "SetTextI18n")
+@BindingAdapter("setEndTime")
+fun TextView.setEndTime(long: Long) {
+    val format = SimpleDateFormat("hh:mm aaa")
+    this.text = "From: ${format.format(long)}"
 }
 
 

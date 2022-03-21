@@ -45,4 +45,10 @@
     <string name="disabled">Disabled</string>
     <string name="add_favorite_location">Add favorite location</string>
     <string name="alarm">Alarm</string>
+    <string name="fav_empty_title">Favorite list is empty \npress on + button\nto add a favprite place</string>
+    <string name="this_button_will_delete_the_view">This button will delete the view</string>
+    <string name="start_date">Start Date</string>
+    <string name="end_date">End Date</string>
+    <string name="time">Time</string>
+    <string name="cancel">Cancel</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.example.weatherapp.pojo.repo
 
+import com.example.weatherapp.pojo.model.dbentities.AlertEntity
 import com.example.weatherapp.pojo.model.dbentities.CashedEntity
 import com.example.weatherapp.pojo.model.dbentities.FavoriteEntity
 import com.example.weatherapp.pojo.model.weather.WeatherResponse
@@ -24,6 +25,14 @@ interface RepositoryInterface {
     suspend fun getAllCashed(): List<CashedEntity>
 
     suspend fun getWeatherByLatLon(latLng: LatLng): WeatherResponse
+
+    suspend fun insertAlert(alertEntity: AlertEntity)
+
+    suspend fun deleteAlert(alertEntity: AlertEntity)
+
+    suspend fun updateAlert(alertEntity: AlertEntity)
+
+    suspend fun getAllAlerts() : List<AlertEntity>
 
     fun getTimestamp(): Long?
 

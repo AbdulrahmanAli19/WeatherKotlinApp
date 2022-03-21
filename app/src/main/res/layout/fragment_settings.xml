@@ -118,53 +118,7 @@
                     android:textColor="@color/white" />
             </RadioGroup>
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
-                android:backgroundTint="@color/recyclerNewClr"
-                app:cardCornerRadius="9dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="10dp"
-                    android:text="@string/location"
-                    android:textColor="@color/white"
-                    android:textSize="18sp" />
-            </androidx.cardview.widget.CardView>
-
-
-            <RadioGroup
-                android:id="@+id/radioLocation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="5dp"
-                android:orientation="vertical">
-
-                <RadioButton
-                    android:id="@+id/gps"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:buttonTint="@color/white"
-                    android:checked="true"
-                    android:text="@string/gps"
-                    android:textColor="@color/white" />
-
-                <RadioButton
-                    android:id="@+id/map"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:buttonTint="@color/white"
-                    android:text="@string/map"
-                    android:textColor="@color/white" />
-
-
-            </RadioGroup>
         </LinearLayout>
 
         <LinearLayout

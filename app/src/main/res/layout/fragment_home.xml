@@ -31,7 +31,7 @@
             tools:text="Cairo" />
 
         <TextView
-            android:id="@+id/txtDate"
+            android:id="@+id/txtEndDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -65,10 +65,10 @@
             android:src="@drawable/snow"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtDate" />
+            app:layout_constraintTop_toBottomOf="@+id/txtEndDate" />
 
         <TextView
-            android:id="@+id/txtTemp"
+            android:id="@+id/txtTime"
             setTempDegree="@{data.temp}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -87,9 +87,9 @@
             android:layout_marginTop="16dp"
             android:backgroundTint="@color/newDarkClr"
             app:cardCornerRadius="10dp"
-            app:layout_constraintEnd_toEndOf="@+id/txtTemp"
-            app:layout_constraintStart_toStartOf="@+id/txtTemp"
-            app:layout_constraintTop_toBottomOf="@+id/txtTemp">
+            app:layout_constraintEnd_toEndOf="@+id/txtTime"
+            app:layout_constraintStart_toStartOf="@+id/txtTime"
+            app:layout_constraintTop_toBottomOf="@+id/txtTime">
 
             <TextView
                 android:id="@+id/txtState"

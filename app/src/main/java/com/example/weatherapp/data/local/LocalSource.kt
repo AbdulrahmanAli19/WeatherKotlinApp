@@ -1,5 +1,6 @@
 package com.example.weatherapp.data.local
 
+import com.example.weatherapp.pojo.model.dbentities.AlertEntity
 import com.example.weatherapp.pojo.model.dbentities.CashedEntity
 import com.example.weatherapp.pojo.model.dbentities.FavoriteEntity
 
@@ -20,5 +21,13 @@ interface LocalSource {
     suspend fun updateCashed(cashed: CashedEntity)
 
     suspend fun getAllCashed(): List<CashedEntity>
+
+    suspend fun insertAlert(alertEntity: AlertEntity)
+
+    suspend fun deleteAlert(alertEntity: AlertEntity)
+
+    suspend fun updateAlert(alertEntity: AlertEntity)
+
+    suspend fun getAllAlerts() : List<AlertEntity>
 
 }

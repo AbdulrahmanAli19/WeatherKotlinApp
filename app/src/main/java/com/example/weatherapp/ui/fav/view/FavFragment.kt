@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.weatherapp.MainActivity
+import com.example.weatherapp.R
 import com.example.weatherapp.data.local.ConcreteLocalSource
 import com.example.weatherapp.data.preferences.PreferenceProvider
 import com.example.weatherapp.data.remote.ConnectionProvider
@@ -21,6 +22,7 @@ import com.example.weatherapp.pojo.model.dbentities.FavoriteEntity
 import com.example.weatherapp.pojo.repo.Repository
 import com.example.weatherapp.ui.fav.viewmodel.FavViewModel
 import com.example.weatherapp.ui.fav.viewmodel.FavViewModelFactory
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 private const val TAG = "FavFragment.dev"
 
@@ -64,7 +66,7 @@ class FavFragment : Fragment(), FavAdapter.FavAdapterInterface {
                 binding.progressBar.visibility = View.VISIBLE
             }
             Status.SUCCESS -> {
-                if (response.data != null) {
+                if (response.data != null && !response.data.isNullOrEmpty()) {
                     cashedData = response.data as ArrayList<FavoriteEntity>
                     binding.progressBar.visibility = View.GONE
                     binding.emptyLayout.visibility = View.GONE
@@ -72,6 +74,9 @@ class FavFragment : Fragment(), FavAdapter.FavAdapterInterface {
                     binding.executePendingBindings()
                 } else {
                     Log.d(TAG, "setupLayout: DATA IS NULL ")
+                    binding.emptyLayout.visibility = View.VISIBLE
+                    binding.progressBar.visibility = View.GONE
+
                 }
             }
             Status.ERROR -> {
@@ -89,11 +94,20 @@ class FavFragment : Fragment(), FavAdapter.FavAdapterInterface {
     }
 
     override fun onDeleteImageClick(pos: Int) {
-        Log.d(TAG, "onDeleteImageClick: working!!")
-        viewModel.deleteFromFavorite(cashedData[0])
-        cashedData.removeAt(pos)
-        binding.data = FavModel(this, cashedData)
-        binding.executePendingBindings()
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Delete alert")
+            .setMessage("Are you sure you want to delete the place ?")
+            .setNegativeButton("Cancel") { _, _ -> }
+            .setPositiveButton("Delete") { dialog, which ->
+                viewModel.deleteFromFavorite(cashedData[0])
+                cashedData.removeAt(pos)
+                binding.data = FavModel(this, cashedData)
+                binding.executePendingBindings()
+                if (cashedData.isNullOrEmpty()) {
+                    binding.emptyLayout.visibility = View.VISIBLE
+                }
+            }.show()
+
     }
 
     override fun onItemClick(pos: Int) {

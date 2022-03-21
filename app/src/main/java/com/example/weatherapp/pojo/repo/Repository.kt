@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import com.example.weatherapp.data.local.LocalSource
 import com.example.weatherapp.data.preferences.PreferenceInterface
 import com.example.weatherapp.data.remote.RemoteSource
+import com.example.weatherapp.pojo.model.dbentities.AlertEntity
 import com.example.weatherapp.pojo.model.dbentities.CashedEntity
 import com.example.weatherapp.pojo.model.dbentities.FavoriteEntity
 import com.example.weatherapp.pojo.model.weather.WeatherResponse
@@ -67,6 +68,22 @@ class Repository private constructor(
 
     override suspend fun getWeatherByLatLon(latLng: LatLng): WeatherResponse {
         return remoteSource.getWeatherByLatAndLing(latLng)
+    }
+
+    override suspend fun insertAlert(alertEntity: AlertEntity) {
+        localSource.insertAlert(alertEntity)
+    }
+
+    override suspend fun deleteAlert(alertEntity: AlertEntity) {
+        localSource.deleteAlert(alertEntity)
+    }
+
+    override suspend fun updateAlert(alertEntity: AlertEntity) {
+        localSource.updateAlert(alertEntity)
+    }
+
+    override suspend fun getAllAlerts(): List<AlertEntity> {
+        return localSource.getAllAlerts()
     }
 
     override fun getTimestamp(): Long? {

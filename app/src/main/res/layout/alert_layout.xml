@@ -7,7 +7,7 @@
 
         <variable
             name="data"
-            type="com.example.weatherapp.pojo.model.WeekModel" />
+            type="com.example.weatherapp.pojo.model.dbentities.AlertEntity" />
     </data>
 
     <FrameLayout
@@ -27,51 +27,51 @@
 
                 <TextView
                     android:id="@+id/txtStartDate"
-                    setWeekTxt="@{data.date}"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentStart="true"
+                    setStartDate="@{data.startDate}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="20dp"
                     android:textColor="@color/white"
                     android:textSize="18sp"
-                    tools:text="Friday" />
+                    tools:text="From 12,feb" />
 
                 <TextView
                     android:id="@+id/txtEndDate"
-                    android:layout_alignStart="@id/txtStartDate"
-                    setDayAndMonthDate="@{data.date}"
+                    setStartDate="@{data.endDate}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/txtStartDate"
+                    android:layout_alignStart="@id/txtStartDate"
                     android:layout_marginTop="5dp"
                     android:textColor="@color/white"
-                    android:textSize="16sp"
-                    tools:text="May20" />
+                    android:textSize="18sp"
+                    tools:text="To 18,feb" />
 
                 <TextView
                     android:id="@+id/txtTime"
-                    setMinAndMaxDegree="@{data.temp}"
+                    setStartTime="@{data.startDate}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="20dp"
-                    android:textColor="@color/white"
                     android:layout_centerVertical="true"
-                    android:layout_toStartOf="@id/image"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    tools:text="-10°C" />
+                    android:layout_marginStart="20dp"
+                    android:layout_toEndOf="@+id/txtStartDate"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    tools:text="12:00AM" />
 
                 <ImageView
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentEnd="true"
                     android:id="@+id/image"
-                    setWeatherIcon="@{data.icon}"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
                     android:layout_marginEnd="20dp"
-                    tools:src="@drawable/snow" />
+                    android:contentDescription="@string/this_button_will_delete_the_view"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_baseline_delete_24" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
 

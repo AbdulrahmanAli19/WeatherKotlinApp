@@ -3,6 +3,7 @@ package com.example.weatherapp.data.local
 import android.annotation.SuppressLint
 import android.content.Context
 import androidx.lifecycle.LiveData
+import com.example.weatherapp.pojo.model.dbentities.AlertEntity
 import com.example.weatherapp.pojo.model.dbentities.CashedEntity
 import com.example.weatherapp.pojo.model.dbentities.FavoriteEntity
 
@@ -12,11 +13,13 @@ class ConcreteLocalSource private constructor(
 
     private val cashedDao: CashedDao
     private val favoriteDao: FavoriteDao
+    private val alertDao: AlertDao
 
     init {
         val appDatabase: AppDatabase = AppDatabase.getDatabase(context)
         cashedDao = appDatabase.cashedDao()
         favoriteDao = appDatabase.favoriteDao()
+        alertDao = appDatabase.alertDao()
     }
 
     companion object {
@@ -59,5 +62,21 @@ class ConcreteLocalSource private constructor(
 
     override suspend fun getAllCashed(): List<CashedEntity> {
         return cashedDao.getAllCashed()
+    }
+
+    override suspend fun insertAlert(alertEntity: AlertEntity) {
+        alertDao.insertAlert(alertEntity)
+    }
+
+    override suspend fun deleteAlert(alertEntity: AlertEntity) {
+        alertDao.deleteAlert(alertEntity)
+    }
+
+    override suspend fun updateAlert(alertEntity: AlertEntity) {
+        alertDao.updateAlert(alertEntity)
+    }
+
+    override suspend fun getAllAlerts(): List<AlertEntity> {
+        return alertDao.getAllAlerts()
     }
 }
