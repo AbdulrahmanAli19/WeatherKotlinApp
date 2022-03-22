@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import androidx.work.Worker
 import androidx.work.WorkerParameters
+import com.example.weatherapp.R
 import com.example.weatherapp.data.local.ConcreteLocalSource
 import com.example.weatherapp.data.preferences.PreferenceProvider
 import com.example.weatherapp.data.remote.ConnectionProvider
@@ -28,8 +29,8 @@ class AlertWorker(val context: Context, workerParams: WorkerParameters) :
             val data = repo.getWeatherByLatLon(repo.getLatLon(), repo.getLanguage())
             if (data.alerts.isNullOrEmpty()) {
                 CreateNotification(context).createNotification(
-                    "The weather is  ${data.current.weather[0].description}",
-                    "Theres not alerts for today"
+                    context.getString(R.string.weather_is)+ data.current.weather[0].description,
+                    context.getString(R.string.thereisnoaerts)
                 )
             } else {
                 CreateNotification(context).createNotification(

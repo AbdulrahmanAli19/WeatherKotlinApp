@@ -109,6 +109,6 @@
     <fragment
         android:id="@+id/nav_alert"
         android:name="com.example.weatherapp.ui.alert.view.AlertFragment"
-        android:label="Add Alert"
+        android:label="@string/ad_al"
         tools:layout="@layout/alert_fragment" />
 </navigation>

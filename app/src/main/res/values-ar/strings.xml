@@ -50,4 +50,7 @@
     <string name="fav_delete_body">هل أنت متأكد أنك تريد حذف المكان؟</string>
     <string name="delete_alert_body">هل أنت متأكد أنك تريد حذف هذا التنبيه؟</string>
     <string name="next_48hr">48 ساعة القادمة</string>
+    <string name="ad_al">إضافة تنبيه</string>
+    <string name="thereisnoaerts">لا توجد تنبيهات لهذا اليوم</string>
+    <string name="weather_is">حالة المناخ هى</string>
 </resources>
