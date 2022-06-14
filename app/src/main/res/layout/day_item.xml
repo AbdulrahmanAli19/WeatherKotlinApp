@@ -7,7 +7,7 @@
 
         <variable
             name="day"
-            type="com.example.weatherapp.pojo.model.DayItem" />
+            type="abdulrahman.ali19.kist.pojo.model.DayItem" />
     </data>
 
     <FrameLayout

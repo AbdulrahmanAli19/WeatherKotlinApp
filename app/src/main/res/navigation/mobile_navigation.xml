@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.example.weatherapp.ui.home.view.HomeFragment"
+        android:name="abdulrahman.ali19.kist.ui.home.view.HomeFragment"
         android:label="@string/menu_home"
 
         tools:layout="@layout/fragment_home">
@@ -28,7 +28,7 @@
         <argument
             android:name="data"
             android:defaultValue="@null"
-            app:argType="com.example.weatherapp.pojo.model.weather.WeatherResponse"
+            app:argType="abdulrahman.ali19.kist.pojo.model.weather.WeatherResponse"
             app:nullable="true" />
         <argument
             android:name="latlog"
@@ -37,13 +37,13 @@
 
     <fragment
         android:id="@+id/nav_settings"
-        android:name="com.example.weatherapp.ui.settings.view.SettingsFragment"
+        android:name="abdulrahman.ali19.kist.ui.settings.view.SettingsFragment"
         android:label="@string/menu_settings"
         tools:layout="@layout/fragment_settings" />
 
     <fragment
         android:id="@+id/nav_fav"
-        android:name="com.example.weatherapp.ui.fav.view.FavFragment"
+        android:name="abdulrahman.ali19.kist.ui.fav.view.FavFragment"
         android:label="@string/menu_fav"
         tools:layout="@layout/fragment_fav">
         <action
@@ -64,7 +64,7 @@
 
     <fragment
         android:id="@+id/selectLocationFragment"
-        android:name="com.example.weatherapp.ui.selectlocation.view.SelectLocationFragment"
+        android:name="abdulrahman.ali19.kist.ui.selectlocation.view.SelectLocationFragment"
         android:label="@string/add_location"
         tools:layout="@layout/fragment_select_location">
         <argument
@@ -74,17 +74,17 @@
 
     <fragment
         android:id="@+id/weekReportFragment"
-        android:name="com.example.weatherapp.ui.weekreport.view.WeekReportFragment"
+        android:name="abdulrahman.ali19.kist.ui.weekreport.view.WeekReportFragment"
         android:label="@string/week_report_lable"
         tools:layout="@layout/week_report_fragment">
         <argument
             android:name="data"
-            app:argType="com.example.weatherapp.pojo.model.weather.WeatherResponse" />
+            app:argType="abdulrahman.ali19.kist.pojo.model.weather.WeatherResponse" />
     </fragment>
 
     <fragment
         android:id="@+id/nav_splash"
-        android:name="com.example.weatherapp.ui.splash.view.SplashFragment"
+        android:name="abdulrahman.ali19.kist.ui.splash.view.SplashFragment"
         android:label="splash_fragment"
         tools:layout="@layout/splash_fragment">
         <action
@@ -108,7 +108,7 @@
 
     <fragment
         android:id="@+id/nav_alert"
-        android:name="com.example.weatherapp.ui.alert.view.AlertFragment"
+        android:name="abdulrahman.ali19.kist.ui.alert.view.AlertFragment"
         android:label="@string/ad_al"
         tools:layout="@layout/alert_fragment" />
 </navigation>

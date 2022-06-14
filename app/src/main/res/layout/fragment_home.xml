@@ -10,7 +10,7 @@
             type="com.google.android.gms.maps.model.LatLng" />
         <variable
             name="data"
-            type="com.example.weatherapp.pojo.model.HomeModel" />
+            type="abdulrahman.ali19.kist.pojo.model.HomeModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
