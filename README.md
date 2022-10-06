@@ -18,7 +18,6 @@ https://user-images.githubusercontent.com/60023467/185558213-410117ee-07d1-40f7-
 - **Kotlin Coroutines**
 - **Navigation component with safe args**
 - **Work manager.**
-- **Firebase auth, Firestore database**
 
 # Screenshots
 
