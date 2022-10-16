@@ -1,6 +1,5 @@
-package abdulrahman.ali19.kist.ui.selectlocation.viewmodel
+package abdulrahman.ali19.kist.ui.map.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope

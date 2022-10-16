@@ -33,10 +33,9 @@ class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var cashedData: WeatherResponse
 
-    private val viewModel by viewModels<HomeViewModel> {
+    private val viewModel:HomeViewModel by viewModels {
         HomeViewModelFactory(
             Repository.getInstance(
-                remoteSource = ConnectionProvider,
                 localSource = ConcreteLocalSource.getInstance(requireContext()),
                 preferences = PreferenceProvider(requireContext())
             )

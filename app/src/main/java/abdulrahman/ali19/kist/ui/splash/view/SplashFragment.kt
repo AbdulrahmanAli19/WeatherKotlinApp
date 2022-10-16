@@ -3,7 +3,6 @@ package abdulrahman.ali19.kist.ui.splash.view
 import abdulrahman.ali19.kist.R
 import abdulrahman.ali19.kist.data.local.ConcreteLocalSource
 import abdulrahman.ali19.kist.data.preferences.PreferenceProvider
-import abdulrahman.ali19.kist.data.remote.ConnectionProvider
 import abdulrahman.ali19.kist.data.remote.Resource
 import abdulrahman.ali19.kist.data.remote.Status
 import abdulrahman.ali19.kist.databinding.SplashFragmentBinding
@@ -15,13 +14,11 @@ import abdulrahman.ali19.kist.util.isNetworkConnected
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Context.LOCATION_SERVICE
 import android.content.pm.PackageManager
-import android.content.res.Configuration
 import android.location.Location
-import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -33,55 +30,37 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.airbnb.lottie.LottieDrawable
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.snackbar.Snackbar
-import java.util.*
 
 
 private const val TAG = "SplashFragment.dev"
 
 class SplashFragment : Fragment() {
 
-    private lateinit var locationManager: LocationManager
-    lateinit var location: LocationListener
     private val permissions: MutableList<String> = arrayListOf(
         Manifest.permission.ACCESS_FINE_LOCATION,
         Manifest.permission.ACCESS_COARSE_LOCATION
     )
 
-    private lateinit var navController: NavController
     private lateinit var binding: SplashFragmentBinding
+    private val fusedLocationProviderClient by lazy {
+        FusedLocationProviderClient(requireActivity())
+    }
 
-    private val viewModel by viewModels<SplashViewModel> {
+    private val viewModel: SplashViewModel by viewModels {
         SplashViewModelFactory(
             Repository.getInstance(
-                remoteSource = ConnectionProvider,
                 localSource = ConcreteLocalSource.getInstance(requireContext()),
                 preferences = PreferenceProvider(requireContext())
             )
         )
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        val languageToLoad = viewModel.getLang()
-        val locale = Locale(languageToLoad)
-        Locale.setDefault(locale)
-        val config = Configuration()
-        config.locale = locale
-        requireContext().resources.updateConfiguration(
-            config,
-            requireContext().resources.displayMetrics
-        )
-
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        navController = findNavController()
     }
 
     override fun onCreateView(
@@ -145,7 +124,7 @@ class SplashFragment : Fragment() {
         binding.animationView.repeatCount = 1
         binding.animationView.setAnimation(R.raw.select_location)
         binding.animationView.setOnClickListener {
-            navController.navigate(
+            findNavController().navigate(
                 SplashFragmentDirections.actionNavSplashToSelectLocationFragment(
                     true
                 )
@@ -169,7 +148,7 @@ class SplashFragment : Fragment() {
             Status.SUCCESS -> {
                 viewModel.saveResponse(res.data ?: WeatherResponse())
                 viewModel.setTimeStamp(System.currentTimeMillis())
-                navController.navigate(
+                findNavController().navigate(
                     SplashFragmentDirections.actionSplashFragmentToNavHome(
                         data = res.data ?: WeatherResponse(),
                         latlog = viewModel.getLatLon()
@@ -183,25 +162,37 @@ class SplashFragment : Fragment() {
 
     @SuppressLint("MissingPermission")
     fun getLocation() {
-        location = LocationListener()
-        locationManager = requireContext().getSystemService(LOCATION_SERVICE) as LocationManager
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 1f, location)
-    }
-
-    inner class LocationListener : android.location.LocationListener {
-        override fun onLocationChanged(p0: Location) {
-            val latLng = LatLng(p0.latitude, p0.longitude)
-            Log.d(TAG, ": $latLng")
-            viewModel.setLatLon(latLng)
-            viewModel.getDataFromRepo(latLng, viewModel.getLang())
-                .observe(viewLifecycleOwner) {res ->
-                    onResponse(res)
-                }
-            p0.removeAccuracy()
-            locationManager.removeUpdates(location)
+        fusedLocationProviderClient.lastLocation.addOnSuccessListener {
+            saveLocation(it)
+        }.addOnFailureListener {
+            fusedLocationProviderClient.requestLocationUpdates(
+                LocationRequest().apply {
+                    interval = 4000
+                    fastestInterval = 5000
+                    priority = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY
+                },
+                locationCallback,
+                Looper.getMainLooper()
+            )
         }
-
-        override fun onStatusChanged(p0: String?, p1: Int, p2: Bundle?) {}
-
     }
+
+    private val locationCallback = object : LocationCallback() {
+        override fun onLocationResult(locationRequest: LocationResult?) {
+            locationRequest ?: return
+            saveLocation(locationRequest.lastLocation)
+            fusedLocationProviderClient.removeLocationUpdates(this)
+        }
+    }
+
+    private fun saveLocation(lastLocation: Location?) {
+        lastLocation ?: return
+        val latLng = LatLng(lastLocation.latitude, lastLocation.longitude)
+        viewModel.setLatLon(latLng)
+        viewModel.getDataFromRepo(latLng, viewModel.getLang())
+            .observe(viewLifecycleOwner) { res ->
+                onResponse(res)
+            }
+    }
+
 }

@@ -43,7 +43,7 @@
 
     <fragment
         android:id="@+id/nav_fav"
-        android:name="abdulrahman.ali19.kist.ui.fav.view.FavFragment"
+        android:name="abdulrahman.ali19.kist.ui.favorites.view.FavFragment"
         android:label="@string/menu_fav"
         tools:layout="@layout/fragment_fav">
         <action
@@ -64,7 +64,7 @@
 
     <fragment
         android:id="@+id/selectLocationFragment"
-        android:name="abdulrahman.ali19.kist.ui.selectlocation.view.SelectLocationFragment"
+        android:name="abdulrahman.ali19.kist.ui.map.view.SelectLocationFragment"
         android:label="@string/add_location"
         tools:layout="@layout/fragment_select_location">
         <argument

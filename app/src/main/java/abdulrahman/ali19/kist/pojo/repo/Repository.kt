@@ -2,6 +2,7 @@ package abdulrahman.ali19.kist.pojo.repo
 
 import abdulrahman.ali19.kist.data.local.LocalSource
 import abdulrahman.ali19.kist.data.preferences.PreferenceInterface
+import abdulrahman.ali19.kist.data.remote.ConnectionProvider
 import abdulrahman.ali19.kist.data.remote.RemoteSource
 import abdulrahman.ali19.kist.pojo.model.dbentities.AlertEntity
 import abdulrahman.ali19.kist.pojo.model.dbentities.CashedEntity
@@ -13,7 +14,7 @@ import com.google.android.gms.maps.model.LatLng
 private const val TAG = "Repository.dev"
 
 class Repository private constructor(
-    private val remoteSource: RemoteSource,
+    private val remoteSource: RemoteSource = ConnectionProvider,
     private val localSource: LocalSource,
     private val preferences: PreferenceInterface
 ) : RepositoryInterface {
@@ -23,12 +24,11 @@ class Repository private constructor(
         @Volatile
         private var INSTANCE: Repository? = null
         fun getInstance(
-            remoteSource: RemoteSource,
             localSource: LocalSource,
             preferences: PreferenceInterface
         ): Repository =
             INSTANCE ?: synchronized(this) {
-                INSTANCE ?: Repository(remoteSource, localSource, preferences).also {
+                INSTANCE ?: Repository(localSource = localSource, preferences = preferences).also {
                     INSTANCE = it
                 }
             }
@@ -66,7 +66,7 @@ class Repository private constructor(
         return localSource.getAllCashed()
     }
 
-    override suspend fun getWeatherByLatLon(latLng: LatLng, language : String): WeatherResponse {
+    override suspend fun getWeatherByLatLon(latLng: LatLng, language: String): WeatherResponse {
         return remoteSource.getWeatherByLatAndLing(latLng, language)
     }
 

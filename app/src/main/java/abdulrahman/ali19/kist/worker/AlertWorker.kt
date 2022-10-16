@@ -19,7 +19,6 @@ class AlertWorker(val context: Context, workerParams: WorkerParameters) :
     override fun doWork(): Result {
 
         val repo = Repository.getInstance(
-            remoteSource = ConnectionProvider,
             localSource = ConcreteLocalSource.getInstance(context),
             preferences = PreferenceProvider(context)
         )

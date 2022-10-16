@@ -1,4 +1,4 @@
-package abdulrahman.ali19.kist.ui.fav.view
+package abdulrahman.ali19.kist.ui.favorites.view
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -7,11 +7,11 @@ import androidx.recyclerview.widget.RecyclerView
 import abdulrahman.ali19.kist.databinding.FavoriteLayoutBinding
 import abdulrahman.ali19.kist.pojo.model.dbentities.FavoriteEntity
 
-class FavAdapter(
+class FavoritesAdapter(
     private val countries: ArrayList<FavoriteEntity> = arrayListOf(),
     private val listener: FavAdapterInterface
 ) :
-    RecyclerView.Adapter<FavAdapter.FavViewHolder>() {
+    RecyclerView.Adapter<FavoritesAdapter.FavViewHolder>() {
 
     @SuppressLint("NotifyDataSetChanged")
     fun setCountries(newList: ArrayList<FavoriteEntity>) {

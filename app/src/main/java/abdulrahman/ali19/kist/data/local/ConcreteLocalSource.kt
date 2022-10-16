@@ -27,7 +27,7 @@ class ConcreteLocalSource private constructor(
         private var INSTANCE: ConcreteLocalSource? = null
         fun getInstance(context: Context): ConcreteLocalSource =
             INSTANCE ?: synchronized(this) {
-                INSTANCE ?: ConcreteLocalSource(context).also { INSTANCE = it }
+                INSTANCE ?: ConcreteLocalSource(context.applicationContext).also { INSTANCE = it }
             }
     }
 

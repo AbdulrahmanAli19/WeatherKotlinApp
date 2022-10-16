@@ -41,10 +41,9 @@ class AlertFragment : Fragment(), AlertAdapter.AlertAdapterListener {
     private var startDate: Long = 0
     private var endDate: Long = 0
 
-    private val viewModel by viewModels<AlertViewModel> {
+    private val viewModel:AlertViewModel by viewModels {
         AlertViewModelFactory(
             Repository.getInstance(
-                remoteSource = ConnectionProvider,
                 localSource = ConcreteLocalSource.getInstance(requireContext()),
                 preferences = PreferenceProvider(requireContext())
             )

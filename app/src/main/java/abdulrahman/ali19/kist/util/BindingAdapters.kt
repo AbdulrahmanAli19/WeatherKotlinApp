@@ -8,7 +8,7 @@ import abdulrahman.ali19.kist.pojo.model.dbentities.FavoriteEntity
 import abdulrahman.ali19.kist.pojo.model.weather.Daily
 import abdulrahman.ali19.kist.pojo.model.weather.Hourly
 import abdulrahman.ali19.kist.ui.alert.view.AlertAdapter
-import abdulrahman.ali19.kist.ui.fav.view.FavAdapter
+import abdulrahman.ali19.kist.ui.favorites.view.FavoritesAdapter
 import abdulrahman.ali19.kist.ui.home.view.DayAdapter
 import abdulrahman.ali19.kist.ui.weekreport.view.WeekAdapter
 import android.annotation.SuppressLint
@@ -92,7 +92,7 @@ fun RecyclerView.setWeekAdapter(list: ArrayList<Daily>?) {
 fun RecyclerView.setFavoriteAdapter(favModel: FavModel?) {
     if (favModel != null) {
         this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        val favAdapter = FavAdapter(listener = favModel.favAdapterInterface)
+        val favAdapter = FavoritesAdapter(listener = favModel.favAdapterInterface)
         favAdapter.setCountries(favModel.countries as ArrayList<FavoriteEntity>)
         this.adapter = favAdapter
     }

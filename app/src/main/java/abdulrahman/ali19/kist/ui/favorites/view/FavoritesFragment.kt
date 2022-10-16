@@ -1,4 +1,4 @@
-package abdulrahman.ali19.kist.ui.fav.view
+package abdulrahman.ali19.kist.ui.favorites.view
 
 import android.os.Bundle
 import android.util.Log
@@ -19,22 +19,21 @@ import abdulrahman.ali19.kist.databinding.FragmentFavBinding
 import abdulrahman.ali19.kist.pojo.model.FavModel
 import abdulrahman.ali19.kist.pojo.model.dbentities.FavoriteEntity
 import abdulrahman.ali19.kist.pojo.repo.Repository
-import abdulrahman.ali19.kist.ui.fav.viewmodel.FavViewModel
-import abdulrahman.ali19.kist.ui.fav.viewmodel.FavViewModelFactory
+import abdulrahman.ali19.kist.ui.favorites.viewmodel.FavViewModel
+import abdulrahman.ali19.kist.ui.favorites.viewmodel.FavoritesViewModelFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 private const val TAG = "FavFragment.dev"
 
-class FavFragment : Fragment(), FavAdapter.FavAdapterInterface {
+class FavFragment : Fragment(), FavoritesAdapter.FavAdapterInterface {
 
     private lateinit var binding: FragmentFavBinding
     private lateinit var navController: NavController
     private lateinit var cashedData: ArrayList<FavoriteEntity>
     private val viewModel by viewModels<FavViewModel> {
-        FavViewModelFactory(
+        FavoritesViewModelFactory(
             Repository.getInstance(
-                remoteSource = ConnectionProvider,
                 localSource = ConcreteLocalSource.getInstance(requireContext()),
                 preferences = PreferenceProvider(requireContext())
             )

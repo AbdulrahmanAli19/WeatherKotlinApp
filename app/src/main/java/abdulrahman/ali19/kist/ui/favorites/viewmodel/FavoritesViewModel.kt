@@ -1,4 +1,4 @@
-package abdulrahman.ali19.kist.ui.fav.viewmodel
+package abdulrahman.ali19.kist.ui.favorites.viewmodel
 
 
 import abdulrahman.ali19.kist.data.remote.Resource

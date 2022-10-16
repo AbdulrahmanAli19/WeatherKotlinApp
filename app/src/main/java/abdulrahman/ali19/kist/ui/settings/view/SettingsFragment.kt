@@ -24,10 +24,9 @@ class SettingsFragment : Fragment() {
 
     private lateinit var binding: FragmentSettingsBinding
 
-    private val viewModel by viewModels<SettingsViewModel> {
+    private val viewModel:SettingsViewModel by viewModels {
         SettingsViewModelFactory(
             Repository.getInstance(
-                remoteSource = ConnectionProvider,
                 localSource = ConcreteLocalSource.getInstance(requireContext()),
                 preferences = PreferenceProvider(requireContext())
             )

@@ -1,4 +1,4 @@
-package abdulrahman.ali19.kist.ui.selectlocation.view
+package abdulrahman.ali19.kist.ui.map.view
 
 import android.location.Address
 import android.location.Geocoder
@@ -22,8 +22,8 @@ import abdulrahman.ali19.kist.data.remote.Status
 import abdulrahman.ali19.kist.databinding.FragmentSelectLocationBinding
 import abdulrahman.ali19.kist.pojo.model.dbentities.FavoriteEntity
 import abdulrahman.ali19.kist.pojo.repo.Repository
-import abdulrahman.ali19.kist.ui.selectlocation.viewmodel.SelectLocationViewModel
-import abdulrahman.ali19.kist.ui.selectlocation.viewmodel.SelectLocationViewModelFactory
+import abdulrahman.ali19.kist.ui.map.viewmodel.SelectLocationViewModel
+import abdulrahman.ali19.kist.ui.map.viewmodel.MapViewModelFactory
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -44,10 +44,9 @@ class SelectLocationFragment : Fragment(), GoogleMap.OnMapClickListener {
     private val args: SelectLocationFragmentArgs by navArgs()
     private lateinit var navController: NavController
 
-    private val viewModel by viewModels<SelectLocationViewModel> {
-        SelectLocationViewModelFactory(
+    private val viewModel: SelectLocationViewModel by viewModels {
+        MapViewModelFactory(
             Repository.getInstance(
-                remoteSource = ConnectionProvider,
                 localSource = ConcreteLocalSource.getInstance(requireContext()),
                 preferences = PreferenceProvider(requireContext())
             )
@@ -55,6 +54,8 @@ class SelectLocationFragment : Fragment(), GoogleMap.OnMapClickListener {
     }
 
     private val callback = OnMapReadyCallback { googleMap ->
+        googleMap.uiSettings.isZoomControlsEnabled = true
+        googleMap.uiSettings.isTiltGesturesEnabled = true
         map = googleMap
         with(map) {
             setOnMapClickListener(this@SelectLocationFragment)
