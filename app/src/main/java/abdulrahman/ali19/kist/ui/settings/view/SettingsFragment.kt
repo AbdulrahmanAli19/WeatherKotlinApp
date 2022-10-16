@@ -11,11 +11,11 @@ import androidx.fragment.app.viewModels
 import abdulrahman.ali19.kist.data.local.ConcreteLocalSource
 import abdulrahman.ali19.kist.data.preferences.AppUnits
 import abdulrahman.ali19.kist.data.preferences.PreferenceProvider
-import abdulrahman.ali19.kist.data.remote.ConnectionProvider
 import abdulrahman.ali19.kist.databinding.FragmentSettingsBinding
 import abdulrahman.ali19.kist.pojo.repo.Repository
 import abdulrahman.ali19.kist.ui.settings.viewmodel.SettingsViewModel
 import abdulrahman.ali19.kist.ui.settings.viewmodel.SettingsViewModelFactory
+import abdulrahman.ali19.kist.util.changeLang
 import java.util.*
 
 private const val TAG = "SettingsFragment.dev"
@@ -24,7 +24,7 @@ class SettingsFragment : Fragment() {
 
     private lateinit var binding: FragmentSettingsBinding
 
-    private val viewModel:SettingsViewModel by viewModels {
+    private val viewModel: SettingsViewModel by viewModels {
         SettingsViewModelFactory(
             Repository.getInstance(
                 localSource = ConcreteLocalSource.getInstance(requireContext()),
@@ -60,13 +60,21 @@ class SettingsFragment : Fragment() {
             when (_id) {
                 binding.langEnd.id -> {
                     viewModel.setLanguage(AppUnits.EN.toString())
-                    changeLang(viewModel.getLanguage())
+                    changeLang(
+                        lang = viewModel.getLanguage(),
+                        requireContext(), requireActivity(),
+                        true
+                    )
                     Toast.makeText(requireContext(), binding.langEnd.text, Toast.LENGTH_SHORT)
                         .show()
                 }
                 binding.langArabic.id -> {
                     viewModel.setLanguage(AppUnits.AR.string)
-                    changeLang(viewModel.getLanguage())
+                    changeLang(
+                        lang = viewModel.getLanguage(),
+                        requireContext(), requireActivity(),
+                        true
+                    )
                     Toast.makeText(requireContext(), binding.langArabic.text, Toast.LENGTH_SHORT)
                         .show()
                 }
@@ -116,19 +124,6 @@ class SettingsFragment : Fragment() {
 
     }
 
-    fun changeLang(string: String) {
-        val languageToLoad = string
-        val locale = Locale(languageToLoad)
-        Locale.setDefault(locale)
-        val config = Configuration()
-        config.locale = locale
-        requireContext().getResources().updateConfiguration(
-            config,
-            requireContext().getResources().getDisplayMetrics()
-        )
-        val activity = requireActivity() as abdulrahman.ali19.kist.MainActivity
-        activity.restartActivity()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

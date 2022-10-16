@@ -3,9 +3,9 @@ package abdulrahman.ali19.kist.util
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.drawable.Drawable
-import android.net.ConnectivityManager
-import android.net.NetworkInfo
 import abdulrahman.ali19.kist.R
+import android.app.Activity
+import android.content.res.Configuration
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -83,5 +83,18 @@ fun fromKelvinToFahrenheit(degree: Double): Double {
 
 fun fromMeterBySecToMileByHour(speed: Double): Double {
     return speed * 2.236936;
+}
+
+fun changeLang(lang: String, context: Context, activity: Activity, restartApp: Boolean) {
+    val locale = Locale(lang)
+    Locale.setDefault(locale)
+    val config = Configuration()
+    config.locale = locale
+    context.resources.updateConfiguration(
+        config,
+        context.resources.displayMetrics
+    )
+    if (restartApp)
+        (activity as abdulrahman.ali19.kist.MainActivity).restartActivity()
 }
 

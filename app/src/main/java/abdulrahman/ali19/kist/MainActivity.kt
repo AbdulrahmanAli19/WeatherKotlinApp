@@ -1,6 +1,8 @@
 package abdulrahman.ali19.kist
 
+import abdulrahman.ali19.kist.data.preferences.PreferenceProvider
 import abdulrahman.ali19.kist.databinding.ActivityMainBinding
+import abdulrahman.ali19.kist.util.changeLang
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -22,6 +24,11 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        changeLang(
+            lang = PreferenceProvider(this).getLanguage(),
+            this,this,
+            false
+        )
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.appBarMain.toolbar)
