@@ -1,6 +1,5 @@
 package abdulrahman.ali19.kist.ui.settings.view
 
-import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +15,6 @@ import abdulrahman.ali19.kist.pojo.repo.Repository
 import abdulrahman.ali19.kist.ui.settings.viewmodel.SettingsViewModel
 import abdulrahman.ali19.kist.ui.settings.viewmodel.SettingsViewModelFactory
 import abdulrahman.ali19.kist.util.changeLang
-import java.util.*
 
 private const val TAG = "SettingsFragment.dev"
 

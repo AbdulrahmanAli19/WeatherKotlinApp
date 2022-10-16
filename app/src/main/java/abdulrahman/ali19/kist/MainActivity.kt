@@ -26,7 +26,8 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         changeLang(
             lang = PreferenceProvider(this).getLanguage(),
-            this,this,
+            this,
+            this,
             false
         )
         binding = ActivityMainBinding.inflate(layoutInflater)

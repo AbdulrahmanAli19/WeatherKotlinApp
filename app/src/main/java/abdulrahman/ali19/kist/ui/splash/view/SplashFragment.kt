@@ -11,15 +11,12 @@ import abdulrahman.ali19.kist.pojo.repo.Repository
 import abdulrahman.ali19.kist.ui.splash.viewmodel.SplashViewModel
 import abdulrahman.ali19.kist.ui.splash.viewmodel.SplashViewModelFactory
 import android.Manifest
-import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
-import android.location.Location
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,7 +26,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.airbnb.lottie.LottieDrawable
@@ -39,7 +36,6 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.snackbar.Snackbar
-
 
 private const val TAG = "SplashFragment.dev"
 
@@ -55,14 +51,7 @@ class SplashFragment : Fragment() {
         FusedLocationProviderClient(requireActivity())
     }
 
-    private val viewModel: SplashViewModel by viewModels {
-        SplashViewModelFactory(
-            Repository.getInstance(
-                localSource = ConcreteLocalSource.getInstance(requireContext()),
-                preferences = PreferenceProvider(requireContext())
-            )
-        )
-    }
+    private lateinit var viewModel: SplashViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -71,44 +60,46 @@ class SplashFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel = ViewModelProvider(
+            this, SplashViewModelFactory(
+                Repository.getInstance(
+                    localSource = ConcreteLocalSource.getInstance(requireContext()),
+                    preferences = PreferenceProvider(requireContext())
+                )
+            )
+        )[SplashViewModel::class.java]
+        requireActivity().lifecycleScope.launchWhenCreated {
+            checkPermission()
+        }
+    }
+
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        activity?.lifecycleScope?.launchWhenCreated {
-            requestPermission()
-        }
     }
 
     private val requestPermissionLauncher =
         registerForActivityResult(
             ActivityResultContracts.RequestMultiplePermissions()
-        ) {
-            if (it[permissions[0]] == true && it[permissions[1]] == true)
+        ) { result ->
+            if (result[permissions[0]] == true && result[permissions[1]] == true)
                 getLocation()
             else
                 dinedPermission()
         }
 
-    private fun requestPermission() {
-        when {
-            ContextCompat.checkSelfPermission(
+    private fun checkPermission() {
+        if (ContextCompat.checkSelfPermission(
                 requireContext(), permissions[0]
-            ) == PackageManager.PERMISSION_GRANTED -> {
-                if (ContextCompat.checkSelfPermission(
-                        requireContext(), permissions[1]
-                    ) == PackageManager.PERMISSION_GRANTED
-                ) {
-                    getLocation()
-                } else requestPermissionLauncher.launch(permissions.toTypedArray())
-            }
-
-            ActivityCompat.shouldShowRequestPermissionRationale(
-                requireActivity(),
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) -> dinedPermission()
-
-            else -> requestPermissionLauncher.launch(permissions.toTypedArray())
-        }
+            ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
+                requireContext(), permissions[1]
+            ) == PackageManager.PERMISSION_GRANTED
+        )
+            getLocation()
+        else
+            dinedPermission()
     }
 
     private fun dinedPermission() {
@@ -122,16 +113,7 @@ class SplashFragment : Fragment() {
                 )
             )
         }
-        Snackbar.make(
-            binding.parent,
-            getString(R.string.premission_dined),
-            Snackbar.LENGTH_INDEFINITE
-        ).setAction(getString(R.string.ok)) {
-            binding.txtHint.visibility = View.GONE
-            binding.animationView.setAnimation(R.raw.newspl)
-            binding.animationView.repeatCount = LottieDrawable.INFINITE
-            requestPermissionLauncher.launch(permissions.toTypedArray())
-        }.show()
+        showSnackbar()
     }
 
     @SuppressLint("MissingPermission")
@@ -183,7 +165,7 @@ class SplashFragment : Fragment() {
     private fun requestLocation() {
         fusedLocationProviderClient.requestLocationUpdates(
             LocationRequest().apply {
-                interval = 4000
+                interval = 1000
                 fastestInterval = 5000
                 priority = LocationRequest.PRIORITY_LOW_POWER
             },
@@ -206,11 +188,25 @@ class SplashFragment : Fragment() {
 
     private fun saveLocation(latLng: LatLng) {
         viewModel.setLatLon(latLng)
-        viewModel.getDataFromRepo(latLng, viewModel.getLang())
-            .observe(viewLifecycleOwner) { res ->
-                onResponse(res)
-            }
-        fusedLocationProviderClient.removeLocationUpdates(locationCallback)
+        if (view != null)
+            viewModel.getDataFromRepo(latLng, viewModel.getLang())
+                .observe(viewLifecycleOwner) { res ->
+                    onResponse(res)
+                    fusedLocationProviderClient.removeLocationUpdates(locationCallback)
+                }
+    }
+
+    private fun showSnackbar(){
+        Snackbar.make(
+            binding.parent,
+            getString(R.string.premission_dined),
+            Snackbar.LENGTH_INDEFINITE
+        ).setAction(getString(R.string.ok)) {
+            binding.txtHint.visibility = View.GONE
+            binding.animationView.setAnimation(R.raw.newspl)
+            binding.animationView.repeatCount = LottieDrawable.INFINITE
+            requestPermissionLauncher.launch(permissions.toTypedArray())
+        }.show()
     }
 
 }
