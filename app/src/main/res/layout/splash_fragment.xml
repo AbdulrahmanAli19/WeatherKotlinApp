@@ -3,10 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-    </data>
-
     <RelativeLayout
         android:id="@+id/parent"
         android:layout_width="match_parent"
@@ -17,6 +13,7 @@
         <TextView
             android:visibility="gone"
             android:id="@+id/txtHint"
+            android:gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@id/animationView"
@@ -32,8 +29,19 @@
             android:layout_height="300dp"
             android:layout_centerInParent="true"
             app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            app:lottie_rawRes="@raw/newspl" />
+            app:lottie_loop="true" />
+
+        <Button
+            android:visibility="gone"
+            android:id="@+id/retry_btn"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/newYellow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/animationView"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="@string/retry" />
 
     </RelativeLayout>
 </layout>

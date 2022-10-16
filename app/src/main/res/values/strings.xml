@@ -64,4 +64,5 @@
     <string name="ad_al">Add Alert</string>
     <string name="thereisnoaerts">Theres not alerts for today</string>
     <string name="weather_is">"The weather is "</string>
+    <string name="retry">Retry</string>
 </resources>

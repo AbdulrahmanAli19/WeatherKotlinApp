@@ -1,5 +1,17 @@
 package abdulrahman.ali19.kist.ui.alert.view
 
+import abdulrahman.ali19.kist.R
+import abdulrahman.ali19.kist.data.local.ConcreteLocalSource
+import abdulrahman.ali19.kist.data.preferences.PreferenceProvider
+import abdulrahman.ali19.kist.data.remote.Resource
+import abdulrahman.ali19.kist.data.remote.Status
+import abdulrahman.ali19.kist.databinding.AlertFragmentBinding
+import abdulrahman.ali19.kist.pojo.model.AlertModel
+import abdulrahman.ali19.kist.pojo.model.dbentities.AlertEntity
+import abdulrahman.ali19.kist.pojo.repo.Repository
+import abdulrahman.ali19.kist.ui.alert.viewmodel.AlertViewModel
+import abdulrahman.ali19.kist.ui.alert.viewmodel.AlertViewModelFactory
+import abdulrahman.ali19.kist.worker.AddAlertRemainder
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.Dialog
@@ -14,23 +26,9 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import abdulrahman.ali19.kist.R
-import abdulrahman.ali19.kist.data.local.ConcreteLocalSource
-import abdulrahman.ali19.kist.data.preferences.PreferenceProvider
-import abdulrahman.ali19.kist.data.remote.ConnectionProvider
-import abdulrahman.ali19.kist.data.remote.Resource
-import abdulrahman.ali19.kist.data.remote.Status
-import abdulrahman.ali19.kist.databinding.AlertFragmentBinding
-import abdulrahman.ali19.kist.pojo.model.AlertModel
-import abdulrahman.ali19.kist.pojo.model.dbentities.AlertEntity
-import abdulrahman.ali19.kist.pojo.repo.Repository
-import abdulrahman.ali19.kist.ui.alert.viewmodel.AlertViewModel
-import abdulrahman.ali19.kist.ui.alert.viewmodel.AlertViewModelFactory
-import abdulrahman.ali19.kist.worker.AddAlertRemainder
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 private const val TAG = "AlertFragment"
 
@@ -41,7 +39,7 @@ class AlertFragment : Fragment(), AlertAdapter.AlertAdapterListener {
     private var startDate: Long = 0
     private var endDate: Long = 0
 
-    private val viewModel:AlertViewModel by viewModels {
+    private val viewModel: AlertViewModel by viewModels {
         AlertViewModelFactory(
             Repository.getInstance(
                 localSource = ConcreteLocalSource.getInstance(requireContext()),
@@ -175,8 +173,8 @@ class AlertFragment : Fragment(), AlertAdapter.AlertAdapterListener {
             .setTitle(getString(R.string.delete_alert))
             .setMessage(getString(R.string.delete_alert_body))
             .setNegativeButton(getString(R.string.cancel)) { _, _ -> }
-            .setPositiveButton(getString(R.string.delte)) { dialog, which ->
-                viewModel.removeAlert(list[0])
+            .setPositiveButton(getString(R.string.delte)) { _, _ ->
+                viewModel.removeAlert(list[pos])
                 AddAlertRemainder.removeWorkers(
                     context = requireContext(),
                     workerTag = list[pos].id.toString()
@@ -184,7 +182,7 @@ class AlertFragment : Fragment(), AlertAdapter.AlertAdapterListener {
                 list.removeAt(pos)
                 binding.data = AlertModel(list, this)
                 binding.executePendingBindings()
-                if (list.isNullOrEmpty()) {
+                if (list.isEmpty()) {
                     binding.emptyLayout.visibility = View.VISIBLE
                 }
             }.show()

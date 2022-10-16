@@ -91,7 +91,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+    /*override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.home, menu)
     }
@@ -104,7 +104,7 @@ class HomeFragment : Fragment() {
             )
         }
         return false
-    }
+    }*/
 
     override fun onCreateView(
         inflater: LayoutInflater,

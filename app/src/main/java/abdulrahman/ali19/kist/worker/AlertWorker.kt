@@ -9,12 +9,13 @@ import abdulrahman.ali19.kist.data.local.ConcreteLocalSource
 import abdulrahman.ali19.kist.data.preferences.PreferenceProvider
 import abdulrahman.ali19.kist.data.remote.ConnectionProvider
 import abdulrahman.ali19.kist.pojo.repo.Repository
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 private const val TAG = "AlertWorker"
 class AlertWorker(val context: Context, workerParams: WorkerParameters) :
     Worker(context, workerParams) {
+
+    private val alertScope = CoroutineScope(Dispatchers.IO + Job())
 
     override fun doWork(): Result {
 
@@ -23,10 +24,10 @@ class AlertWorker(val context: Context, workerParams: WorkerParameters) :
             preferences = PreferenceProvider(context)
         )
 
-        GlobalScope.launch {
+        alertScope.launch {
             Log.d(TAG, "doWork: called")
             val data = repo.getWeatherByLatLon(repo.getLatLon(), repo.getLanguage())
-            if (data.alerts.isNullOrEmpty()) {
+            if (data.alerts.isEmpty()) {
                 CreateNotification(context).createNotification(
                     context.getString(R.string.weather_is)+ data.current.weather[0].description,
                     context.getString(R.string.thereisnoaerts)
@@ -39,7 +40,11 @@ class AlertWorker(val context: Context, workerParams: WorkerParameters) :
             }
         }
 
-
         return Result.success()
+    }
+
+    override fun onStopped() {
+        super.onStopped()
+        alertScope.cancel()
     }
 }

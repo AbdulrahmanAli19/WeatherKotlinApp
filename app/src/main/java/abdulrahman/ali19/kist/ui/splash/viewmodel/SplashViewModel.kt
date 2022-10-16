@@ -12,6 +12,8 @@ import androidx.lifecycle.viewModelScope
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
+import java.io.IOException
 
 private const val TAG = "SplashViewModel"
 
@@ -29,11 +31,16 @@ class SplashViewModel(private val repository: RepositoryInterface) : ViewModel()
         try {
             emit(Resource.Success(_data = repository.getWeatherByLatLon(latLng, language)))
             Log.d(TAG, "getDataFromRepo: scs")
-        } catch (exception: Exception) {
-            Log.d(TAG, "getDataFromRepo: Exception ${exception.message}")
+        } catch (exception: HttpException) {
             emit(
                 Resource.Error(
                     exception.message ?: "SomethingWong happened",
+                )
+            )
+        } catch (exception: IOException) {
+            emit(
+                Resource.Error(
+                    exception.message ?: "Are you connected !",
                 )
             )
         }

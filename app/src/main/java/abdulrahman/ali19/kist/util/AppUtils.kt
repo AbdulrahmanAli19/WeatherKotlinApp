@@ -72,13 +72,6 @@ fun getDate(msDate: Long): String {
     return format.format(date)
 }
 
-fun isNetworkConnected(context: Context): Boolean {
-    val connection: ConnectivityManager =
-        context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager;
-    val networkInfo: NetworkInfo? = connection.activeNetworkInfo
-    return networkInfo != null && networkInfo.isConnected
-}
-
 fun fromKelvinToCelsius(degree: Double): Double {
     return degree - 273.15
 }

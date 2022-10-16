@@ -27,7 +27,7 @@ class AlertAdapter(
     override fun onBindViewHolder(holder: AlertViewHolder, position: Int) =
         holder.bind(list[position])
 
-    override fun getItemCount(): Int = if (list.isNullOrEmpty()) 0 else list.size
+    override fun getItemCount(): Int = if (list.isEmpty()) 0 else list.size
     inner class AlertViewHolder(val binding: AlertLayoutBinding, listener: AlertAdapterListener) :
         RecyclerView.ViewHolder(binding.root) {
         init {

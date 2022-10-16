@@ -7,6 +7,7 @@ import android.content.Context
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import abdulrahman.ali19.kist.R
+import android.graphics.Bitmap
 
 class CreateNotification(private val context: Context) {
 
@@ -16,7 +17,7 @@ class CreateNotification(private val context: Context) {
             .getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val builder: NotificationCompat.Builder = NotificationCompat
             .Builder(context, "ALERT_REMINDER_CHANNEL")
-            .setSmallIcon(R.mipmap.ic_launcher_round)
+            .setSmallIcon(R.mipmap.ic_launcher)
             .setContentTitle(title)
             .setContentText(body)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
@@ -25,7 +26,7 @@ class CreateNotification(private val context: Context) {
             val name: CharSequence = "gfhfg"
             val description = "awds"
             val importance = NotificationManager.IMPORTANCE_HIGH
-            val channel = NotificationChannel("MED_REMINDER_CHANNEL1", name, importance)
+            val channel = NotificationChannel("WEATHER_REMINDER_CHANNEL1", name, importance)
             channel.description = description
             builder.setChannelId("MED_REMINDER_CHANNEL1")
             notificationManager.createNotificationChannel(channel)

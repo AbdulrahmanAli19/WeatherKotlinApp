@@ -10,8 +10,8 @@ import abdulrahman.ali19.kist.pojo.model.weather.WeatherResponse
 import abdulrahman.ali19.kist.pojo.repo.Repository
 import abdulrahman.ali19.kist.ui.splash.viewmodel.SplashViewModel
 import abdulrahman.ali19.kist.ui.splash.viewmodel.SplashViewModelFactory
-import abdulrahman.ali19.kist.util.isNetworkConnected
 import android.Manifest
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
@@ -27,6 +27,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -83,11 +84,7 @@ class SplashFragment : Fragment() {
             ActivityResultContracts.RequestMultiplePermissions()
         ) {
             if (it[permissions[0]] == true && it[permissions[1]] == true)
-                if (isNetworkConnected(requireContext())) {
-                    getLocation()
-                    Log.d(TAG, "connected: ")
-                } else
-                    Log.d(TAG, ": notConnected!")
+                getLocation()
             else
                 dinedPermission()
         }
@@ -101,12 +98,7 @@ class SplashFragment : Fragment() {
                         requireContext(), permissions[1]
                     ) == PackageManager.PERMISSION_GRANTED
                 ) {
-                    if (isNetworkConnected(requireContext())) {
-                        getLocation()
-                        Log.d(TAG, "connected: ")
-                    } else
-                        Log.d(TAG, ": notConnected!")
-
+                    getLocation()
                 } else requestPermissionLauncher.launch(permissions.toTypedArray())
             }
 
@@ -155,44 +147,70 @@ class SplashFragment : Fragment() {
                     )
                 )
             }
-            Status.ERROR -> Log.d(TAG, "onViewCreated: ${res.message}")
-            Status.LOADING -> Log.d(TAG, "onViewCreated: loading")
+            Status.ERROR -> {
+                binding.retryBtn.isVisible = true
+                binding.txtHint.isVisible = true
+                binding.animationView.isVisible = true
+                binding.animationView.setAnimation(R.raw.connection_error)
+                binding.txtHint.text = res.message
+                binding.animationView.pauseAnimation()
+                binding.animationView.setPadding(40, 0, 40, 0)
+                binding.retryBtn.setOnClickListener {
+                    getLocation()
+                }
+            }
+            Status.LOADING -> {
+                binding.retryBtn.isVisible = false
+                binding.txtHint.isVisible = false
+                binding.animationView.setPadding(0, 0, 0, 0)
+                binding.animationView.setAnimation(R.raw.newspl)
+                binding.animationView.resumeAnimation()
+            }
         }
     }
 
     @SuppressLint("MissingPermission")
     fun getLocation() {
         fusedLocationProviderClient.lastLocation.addOnSuccessListener {
-            saveLocation(it)
-        }.addOnFailureListener {
-            fusedLocationProviderClient.requestLocationUpdates(
-                LocationRequest().apply {
-                    interval = 4000
-                    fastestInterval = 5000
-                    priority = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY
-                },
-                locationCallback,
-                Looper.getMainLooper()
-            )
+            if (it != null)
+                saveLocation(LatLng(it.latitude, it.longitude))
+            else
+                requestLocation()
         }
+
+    }
+
+    private fun requestLocation() {
+        fusedLocationProviderClient.requestLocationUpdates(
+            LocationRequest().apply {
+                interval = 4000
+                fastestInterval = 5000
+                priority = LocationRequest.PRIORITY_LOW_POWER
+            },
+            locationCallback,
+            Looper.getMainLooper()
+        )
     }
 
     private val locationCallback = object : LocationCallback() {
         override fun onLocationResult(locationRequest: LocationResult?) {
             locationRequest ?: return
-            saveLocation(locationRequest.lastLocation)
+            val latLng = LatLng(
+                locationRequest.lastLocation.latitude,
+                locationRequest.lastLocation.longitude
+            )
+            saveLocation(latLng)
             fusedLocationProviderClient.removeLocationUpdates(this)
         }
     }
 
-    private fun saveLocation(lastLocation: Location?) {
-        lastLocation ?: return
-        val latLng = LatLng(lastLocation.latitude, lastLocation.longitude)
+    private fun saveLocation(latLng: LatLng) {
         viewModel.setLatLon(latLng)
         viewModel.getDataFromRepo(latLng, viewModel.getLang())
             .observe(viewLifecycleOwner) { res ->
                 onResponse(res)
             }
+        fusedLocationProviderClient.removeLocationUpdates(locationCallback)
     }
 
 }
