@@ -7,7 +7,7 @@
 
         <variable
             name="data"
-            type="abdulrahman.ali19.kist.pojo.model.WeekModel" />
+            type="abdulrahman.ali19.kist.data.pojo.model.WeekModel" />
     </data>
 
     <FrameLayout

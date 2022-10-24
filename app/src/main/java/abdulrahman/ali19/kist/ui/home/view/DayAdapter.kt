@@ -1,14 +1,14 @@
 package abdulrahman.ali19.kist.ui.home.view
 
+import abdulrahman.ali19.kist.data.pojo.model.DayItem
+import abdulrahman.ali19.kist.data.pojo.model.weather.Hourly
+import abdulrahman.ali19.kist.databinding.DayItemBinding
+import abdulrahman.ali19.kist.util.getTime
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import abdulrahman.ali19.kist.databinding.DayItemBinding
-import abdulrahman.ali19.kist.pojo.model.DayItem
-import abdulrahman.ali19.kist.pojo.model.weather.Hourly
-import abdulrahman.ali19.kist.util.getTime
 
 class DayAdapter(private val context: Context) : RecyclerView.Adapter<DayAdapter.DayViewHolder>() {
 
@@ -27,13 +27,17 @@ class DayAdapter(private val context: Context) : RecyclerView.Adapter<DayAdapter
     override fun onBindViewHolder(holder: DayViewHolder, position: Int) =
         holder.bind(data[position])
 
-    override fun getItemCount(): Int = if (!data.isEmpty()) data.size else data.size
+    override fun getItemCount(): Int = if (data.isNotEmpty()) data.size else data.size
 
     inner class DayViewHolder(private var _binding: DayItemBinding) :
         RecyclerView.ViewHolder(_binding.root) {
         fun bind(weather: Hourly) {
             _binding.day =
-                DayItem(weather.weather[0].icon, weather.temp.toInt(), getTime(weather.dt))
+                DayItem(
+                    weather.weather[0].icon,
+                    weather.temp.toInt(),
+                    getTime(weather.dt)
+                )
             _binding.executePendingBindings()
         }
     }

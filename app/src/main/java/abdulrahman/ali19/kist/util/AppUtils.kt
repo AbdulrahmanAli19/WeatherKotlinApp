@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.drawable.Drawable
 import abdulrahman.ali19.kist.R
+import abdulrahman.ali19.kist.ui.MainActivity
 import android.app.Activity
 import android.content.res.Configuration
 import java.text.SimpleDateFormat
@@ -95,6 +96,6 @@ fun changeLang(lang: String, context: Context, activity: Activity, restartApp: B
         context.resources.displayMetrics
     )
     if (restartApp)
-        (activity as abdulrahman.ali19.kist.MainActivity).restartActivity()
+        (activity as MainActivity).restartActivity()
 }
 

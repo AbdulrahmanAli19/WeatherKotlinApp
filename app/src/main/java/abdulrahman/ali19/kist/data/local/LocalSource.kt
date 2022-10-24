@@ -1,8 +1,8 @@
 package abdulrahman.ali19.kist.data.local
 
-import abdulrahman.ali19.kist.pojo.model.dbentities.AlertEntity
-import abdulrahman.ali19.kist.pojo.model.dbentities.CashedEntity
-import abdulrahman.ali19.kist.pojo.model.dbentities.FavoriteEntity
+import abdulrahman.ali19.kist.data.pojo.model.dbentities.AlertEntity
+import abdulrahman.ali19.kist.data.pojo.model.dbentities.CashedEntity
+import abdulrahman.ali19.kist.data.pojo.model.dbentities.FavoriteEntity
 
 interface LocalSource {
 

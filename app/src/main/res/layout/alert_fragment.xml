@@ -8,7 +8,7 @@
 
         <variable
             name="data"
-            type="abdulrahman.ali19.kist.pojo.model.AlertModel" />
+            type="abdulrahman.ali19.kist.data.pojo.model.AlertModel" />
     </data>
 
     <RelativeLayout

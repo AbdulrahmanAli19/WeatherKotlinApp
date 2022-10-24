@@ -2,11 +2,11 @@ package abdulrahman.ali19.kist.util
 
 import abdulrahman.ali19.kist.data.preferences.AppUnits
 import abdulrahman.ali19.kist.data.preferences.PreferenceProvider
-import abdulrahman.ali19.kist.pojo.model.AlertModel
-import abdulrahman.ali19.kist.pojo.model.FavModel
-import abdulrahman.ali19.kist.pojo.model.dbentities.FavoriteEntity
-import abdulrahman.ali19.kist.pojo.model.weather.Daily
-import abdulrahman.ali19.kist.pojo.model.weather.Hourly
+import abdulrahman.ali19.kist.data.pojo.model.AlertModel
+import abdulrahman.ali19.kist.data.pojo.model.FavModel
+import abdulrahman.ali19.kist.data.pojo.model.dbentities.FavoriteEntity
+import abdulrahman.ali19.kist.data.pojo.model.weather.Daily
+import abdulrahman.ali19.kist.data.pojo.model.weather.Hourly
 import abdulrahman.ali19.kist.ui.alert.view.AlertAdapter
 import abdulrahman.ali19.kist.ui.favorites.view.FavoritesAdapter
 import abdulrahman.ali19.kist.ui.home.view.DayAdapter
@@ -20,7 +20,7 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import abdulrahman.ali19.kist.R
-import abdulrahman.ali19.kist.pojo.model.weather.Temp
+import abdulrahman.ali19.kist.data.pojo.model.weather.Temp
 import com.google.android.gms.maps.model.LatLng
 import java.text.SimpleDateFormat
 import java.util.*

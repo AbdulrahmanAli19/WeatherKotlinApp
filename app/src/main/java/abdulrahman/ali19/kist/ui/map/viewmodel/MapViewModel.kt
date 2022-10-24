@@ -1,20 +1,20 @@
 package abdulrahman.ali19.kist.ui.map.viewmodel
 
+import abdulrahman.ali19.kist.data.pojo.model.dbentities.CashedEntity
+import abdulrahman.ali19.kist.data.pojo.model.dbentities.FavoriteEntity
+import abdulrahman.ali19.kist.data.pojo.repo.RepositoryInterface
+import abdulrahman.ali19.kist.data.preferences.AppUnits
+import abdulrahman.ali19.kist.data.remote.Resource
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
-import abdulrahman.ali19.kist.data.preferences.AppUnits
-import abdulrahman.ali19.kist.data.remote.Resource
-import abdulrahman.ali19.kist.pojo.model.dbentities.CashedEntity
-import abdulrahman.ali19.kist.pojo.model.dbentities.FavoriteEntity
-import abdulrahman.ali19.kist.pojo.repo.RepositoryInterface
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 private const val TAG = "SelectLocationViewModel"
 
-class SelectLocationViewModel(private val repository: RepositoryInterface) : ViewModel() {
+class MapViewModel(private val repository: RepositoryInterface) : ViewModel() {
 
     fun saveMyLatLon(latlon: LatLng) = repository.setLatLon(latlon)
 

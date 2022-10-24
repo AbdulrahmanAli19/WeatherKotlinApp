@@ -1,50 +1,37 @@
 package abdulrahman.ali19.kist.worker
 
-import android.content.Context
-import android.util.Log
-import androidx.work.Worker
-import androidx.work.WorkerParameters
 import abdulrahman.ali19.kist.R
-import abdulrahman.ali19.kist.data.local.ConcreteLocalSource
-import abdulrahman.ali19.kist.data.preferences.PreferenceProvider
-import abdulrahman.ali19.kist.data.remote.ConnectionProvider
-import abdulrahman.ali19.kist.pojo.repo.Repository
-import kotlinx.coroutines.*
+import abdulrahman.ali19.kist.data.pojo.repo.RepositoryInterface
+import android.content.Context
+import androidx.work.CoroutineWorker
+import androidx.work.WorkerParameters
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import org.koin.java.KoinJavaComponent.inject
 
-private const val TAG = "AlertWorker"
 class AlertWorker(val context: Context, workerParams: WorkerParameters) :
-    Worker(context, workerParams) {
+    CoroutineWorker(context, workerParams) {
 
-    private val alertScope = CoroutineScope(Dispatchers.IO + Job())
+    private val repo by inject<RepositoryInterface>(RepositoryInterface::class.java)
+    private val notificationHelper by inject<CreateNotification>(CreateNotification::class.java)
+    private lateinit var body: String
+    private lateinit var title: String
 
-    override fun doWork(): Result {
+    override suspend fun doWork(): Result {
 
-        val repo = Repository.getInstance(
-            localSource = ConcreteLocalSource.getInstance(context),
-            preferences = PreferenceProvider(context)
-        )
-
-        alertScope.launch {
-            Log.d(TAG, "doWork: called")
-            val data = repo.getWeatherByLatLon(repo.getLatLon(), repo.getLanguage())
-            if (data.alerts.isEmpty()) {
-                CreateNotification(context).createNotification(
-                    context.getString(R.string.weather_is)+ data.current.weather[0].description,
-                    context.getString(R.string.thereisnoaerts)
-                )
-            } else {
-                CreateNotification(context).createNotification(
-                    "Pleas check the application",
-                    "Weather Alerts!!"
-                )
-            }
+        val data = repo.getWeatherByLatLon(repo.getLatLon(), repo.getLanguage())
+        if (data.alerts.isEmpty()) {
+            body = context.getString(R.string.weather_is) + data.current.weather[0].description
+            title = context.getString(R.string.thereisnoaerts)
+        } else {
+            body = "Pleas check the application"
+            title = "Weather Alerts!!"
         }
-
+        withContext(Dispatchers.Main) {
+            CreateNotification(context).createNotification(body, title)
+            notificationHelper.createNotification(body, title)
+        }
         return Result.success()
     }
 
-    override fun onStopped() {
-        super.onStopped()
-        alertScope.cancel()
-    }
 }

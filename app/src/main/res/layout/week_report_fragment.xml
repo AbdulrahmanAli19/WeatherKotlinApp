@@ -6,7 +6,7 @@
     <data>
         <variable
             name="data"
-            type="abdulrahman.ali19.kist.pojo.model.ReportModel" />
+            type="abdulrahman.ali19.kist.data.pojo.model.ReportModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

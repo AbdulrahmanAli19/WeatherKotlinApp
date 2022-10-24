@@ -7,7 +7,7 @@
 
         <variable
             name="data"
-            type="abdulrahman.ali19.kist.pojo.model.FavModel" />
+            type="abdulrahman.ali19.kist.data.pojo.model.FavModel" />
     </data>
 
 

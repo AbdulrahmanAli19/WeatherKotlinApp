@@ -1,10 +1,10 @@
 package abdulrahman.ali19.kist.ui.home.viewmodel
 
+import abdulrahman.ali19.kist.data.pojo.repo.RepositoryInterface
 import abdulrahman.ali19.kist.data.remote.Resource
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
-import abdulrahman.ali19.kist.pojo.repo.RepositoryInterface
 import kotlinx.coroutines.Dispatchers
 
 private const val TAG = "HomeViewModel"

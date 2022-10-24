@@ -1,5 +1,11 @@
 package abdulrahman.ali19.kist.ui.map.view
 
+import abdulrahman.ali19.kist.R
+import abdulrahman.ali19.kist.data.preferences.NULL_LAT
+import abdulrahman.ali19.kist.data.preferences.NULL_LON
+import abdulrahman.ali19.kist.data.remote.Status
+import abdulrahman.ali19.kist.databinding.FragmentSelectLocationBinding
+import abdulrahman.ali19.kist.ui.map.viewmodel.MapViewModel
 import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
@@ -9,21 +15,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import abdulrahman.ali19.kist.R
-import abdulrahman.ali19.kist.data.local.ConcreteLocalSource
-import abdulrahman.ali19.kist.data.preferences.NULL_LAT
-import abdulrahman.ali19.kist.data.preferences.NULL_LON
-import abdulrahman.ali19.kist.data.preferences.PreferenceProvider
-import abdulrahman.ali19.kist.data.remote.ConnectionProvider
-import abdulrahman.ali19.kist.data.remote.Status
-import abdulrahman.ali19.kist.databinding.FragmentSelectLocationBinding
-import abdulrahman.ali19.kist.pojo.model.dbentities.FavoriteEntity
-import abdulrahman.ali19.kist.pojo.repo.Repository
-import abdulrahman.ali19.kist.ui.map.viewmodel.SelectLocationViewModel
-import abdulrahman.ali19.kist.ui.map.viewmodel.MapViewModelFactory
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -42,16 +35,8 @@ class SelectLocationFragment : Fragment(), GoogleMap.OnMapClickListener {
     private lateinit var latLng: LatLng
     private lateinit var binding: FragmentSelectLocationBinding
     private val args: SelectLocationFragmentArgs by navArgs()
-    private lateinit var navController: NavController
 
-    private val viewModel: SelectLocationViewModel by viewModels {
-        MapViewModelFactory(
-            Repository.getInstance(
-                localSource = ConcreteLocalSource.getInstance(requireContext()),
-                preferences = PreferenceProvider(requireContext())
-            )
-        )
-    }
+    private val viewModel by viewModels<MapViewModel>()
 
     private val callback = OnMapReadyCallback { googleMap ->
         googleMap.uiSettings.isZoomControlsEnabled = true
@@ -76,7 +61,6 @@ class SelectLocationFragment : Fragment(), GoogleMap.OnMapClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        navController = findNavController()
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(callback)
 
@@ -94,7 +78,7 @@ class SelectLocationFragment : Fragment(), GoogleMap.OnMapClickListener {
 
             binding.btnSave.setOnClickListener {
                 viewModel.saveMyLatLon(latLng)
-                navController.popBackStack()
+                findNavController().popBackStack()
                 Snackbar.make(requireView(), "Saved :)", Snackbar.LENGTH_SHORT).show()
             }
         } else {
@@ -113,7 +97,7 @@ class SelectLocationFragment : Fragment(), GoogleMap.OnMapClickListener {
                         map.setOnMapClickListener(this)
                         if (address != null)
                             viewModel.addFavoriteTodatabase(
-                                FavoriteEntity(
+                                abdulrahman.ali19.kist.data.pojo.model.dbentities.FavoriteEntity(
                                     locationName = address[0].countryName + address[0].adminArea,
                                     latLng = latLng,
                                     cashedData = it.data!!
@@ -122,7 +106,7 @@ class SelectLocationFragment : Fragment(), GoogleMap.OnMapClickListener {
                         binding.progressBar.visibility = View.GONE
                         binding.btnSave.visibility = View.VISIBLE
                         binding.btnSave.setOnClickListener {
-                            navController.popBackStack()
+                            findNavController().popBackStack()
                             Snackbar.make(requireView(), "Saved :)", Snackbar.LENGTH_SHORT).show()
                         }
                     }

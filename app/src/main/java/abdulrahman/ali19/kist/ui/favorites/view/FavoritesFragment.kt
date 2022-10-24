@@ -1,28 +1,24 @@
 package abdulrahman.ali19.kist.ui.favorites.view
 
+import abdulrahman.ali19.kist.R
+import abdulrahman.ali19.kist.data.pojo.model.FavModel
+import abdulrahman.ali19.kist.data.pojo.model.dbentities.FavoriteEntity
+import abdulrahman.ali19.kist.data.remote.Resource
+import abdulrahman.ali19.kist.data.remote.Status
+import abdulrahman.ali19.kist.databinding.FragmentFavBinding
+import abdulrahman.ali19.kist.ui.MainActivity
+import abdulrahman.ali19.kist.ui.favorites.viewmodel.FavoritesViewModel
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import abdulrahman.ali19.kist.R
-import abdulrahman.ali19.kist.data.local.ConcreteLocalSource
-import abdulrahman.ali19.kist.data.preferences.PreferenceProvider
-import abdulrahman.ali19.kist.data.remote.ConnectionProvider
-import abdulrahman.ali19.kist.data.remote.Resource
-import abdulrahman.ali19.kist.data.remote.Status
-import abdulrahman.ali19.kist.databinding.FragmentFavBinding
-import abdulrahman.ali19.kist.pojo.model.FavModel
-import abdulrahman.ali19.kist.pojo.model.dbentities.FavoriteEntity
-import abdulrahman.ali19.kist.pojo.repo.Repository
-import abdulrahman.ali19.kist.ui.favorites.viewmodel.FavViewModel
-import abdulrahman.ali19.kist.ui.favorites.viewmodel.FavoritesViewModelFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 private const val TAG = "FavFragment.dev"
 
@@ -31,14 +27,7 @@ class FavFragment : Fragment(), FavoritesAdapter.FavAdapterInterface {
     private lateinit var binding: FragmentFavBinding
     private lateinit var navController: NavController
     private lateinit var cashedData: ArrayList<FavoriteEntity>
-    private val viewModel by viewModels<FavViewModel> {
-        FavoritesViewModelFactory(
-            Repository.getInstance(
-                localSource = ConcreteLocalSource.getInstance(requireContext()),
-                preferences = PreferenceProvider(requireContext())
-            )
-        )
-    }
+    private val viewModel by viewModel<FavoritesViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -58,18 +47,19 @@ class FavFragment : Fragment(), FavoritesAdapter.FavAdapterInterface {
         return binding.root
     }
 
-    fun setupLayout(response: Resource<List<FavoriteEntity>>) {
+    private fun setupLayout(response: Resource<List<FavoriteEntity>>) {
         when (response.status) {
             Status.LOADING -> {
                 Log.d(TAG, "setupLayout: LOADING .....")
                 binding.progressBar.visibility = View.VISIBLE
             }
             Status.SUCCESS -> {
-                if (response.data != null && !response.data.isNullOrEmpty()) {
+                if (response.data != null && !response.data.isEmpty()) {
                     cashedData = response.data as ArrayList<FavoriteEntity>
                     binding.progressBar.visibility = View.GONE
                     binding.emptyLayout.visibility = View.GONE
-                    binding.data = FavModel(this, response.data)
+                    binding.data =
+                        FavModel(this, response.data)
                     binding.executePendingBindings()
                 } else {
                     Log.d(TAG, "setupLayout: DATA IS NULL ")
@@ -88,7 +78,7 @@ class FavFragment : Fragment(), FavoritesAdapter.FavAdapterInterface {
 
     override fun onResume() {
         super.onResume()
-        val act = requireActivity() as abdulrahman.ali19.kist.MainActivity
+        val act = requireActivity() as MainActivity
         act.setUpNavigationWithHamburger()
     }
 
@@ -102,7 +92,7 @@ class FavFragment : Fragment(), FavoritesAdapter.FavAdapterInterface {
                 cashedData.removeAt(pos)
                 binding.data = FavModel(this, cashedData)
                 binding.executePendingBindings()
-                if (cashedData.isNullOrEmpty()) {
+                if (cashedData.isEmpty()) {
                     binding.emptyLayout.visibility = View.VISIBLE
                 }
             }.show()
@@ -117,7 +107,7 @@ class FavFragment : Fragment(), FavoritesAdapter.FavAdapterInterface {
                 latlog = LatLng(data.lat, data.lon)
             )
         )
-        val act = requireActivity() as abdulrahman.ali19.kist.MainActivity
+        val act = requireActivity() as MainActivity
         act.setUpNavigationWithNoHamburger()
     }
 

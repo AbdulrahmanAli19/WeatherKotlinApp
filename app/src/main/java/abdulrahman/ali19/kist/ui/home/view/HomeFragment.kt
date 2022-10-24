@@ -1,28 +1,23 @@
 package abdulrahman.ali19.kist.ui.home.view
 
-import android.os.Bundle
-import android.util.Log
-import android.view.*
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.navigation.NavController
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
-import abdulrahman.ali19.kist.R
-import abdulrahman.ali19.kist.data.local.ConcreteLocalSource
-import abdulrahman.ali19.kist.data.preferences.PreferenceProvider
-import abdulrahman.ali19.kist.data.remote.ConnectionProvider
+import abdulrahman.ali19.kist.data.pojo.model.dbentities.CashedEntity
+import abdulrahman.ali19.kist.data.pojo.model.weather.Hourly
+import abdulrahman.ali19.kist.data.pojo.model.weather.WeatherResponse
 import abdulrahman.ali19.kist.data.remote.Resource
 import abdulrahman.ali19.kist.data.remote.Status
 import abdulrahman.ali19.kist.databinding.FragmentHomeBinding
-import abdulrahman.ali19.kist.pojo.model.HomeModel
-import abdulrahman.ali19.kist.pojo.model.dbentities.CashedEntity
-import abdulrahman.ali19.kist.pojo.model.weather.Hourly
-import abdulrahman.ali19.kist.pojo.model.weather.WeatherResponse
-import abdulrahman.ali19.kist.pojo.repo.Repository
 import abdulrahman.ali19.kist.ui.home.viewmodel.HomeViewModel
-import abdulrahman.ali19.kist.ui.home.viewmodel.HomeViewModelFactory
 import abdulrahman.ali19.kist.util.getDate
+import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 private const val TAG = "HomeFragment"
 
@@ -32,15 +27,7 @@ class HomeFragment : Fragment() {
     private val args: HomeFragmentArgs by navArgs()
     private lateinit var binding: FragmentHomeBinding
     private lateinit var cashedData: WeatherResponse
-
-    private val viewModel:HomeViewModel by viewModels {
-        HomeViewModelFactory(
-            Repository.getInstance(
-                localSource = ConcreteLocalSource.getInstance(requireContext()),
-                preferences = PreferenceProvider(requireContext())
-            )
-        )
-    }
+    private val viewModel by viewModel<HomeViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -75,7 +62,7 @@ class HomeFragment : Fragment() {
     private fun setupLayout(weatherResponse: WeatherResponse) {
         weatherResponse.apply {
             cashedData = this
-            binding.data = HomeModel(
+            binding.data = abdulrahman.ali19.kist.data.pojo.model.HomeModel(
                 timezone,
                 getDate(current.dt),
                 current.weather[0].icon,
@@ -112,7 +99,6 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
-        setHasOptionsMenu(true)
         return binding.root
     }
 

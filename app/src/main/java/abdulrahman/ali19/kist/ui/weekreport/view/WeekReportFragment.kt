@@ -9,9 +9,9 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import abdulrahman.ali19.kist.databinding.WeekReportFragmentBinding
-import abdulrahman.ali19.kist.pojo.model.ReportModel
-import abdulrahman.ali19.kist.pojo.model.weather.Daily
-import abdulrahman.ali19.kist.pojo.model.weather.Hourly
+import abdulrahman.ali19.kist.data.pojo.model.ReportModel
+import abdulrahman.ali19.kist.data.pojo.model.weather.Daily
+import abdulrahman.ali19.kist.data.pojo.model.weather.Hourly
 
 class WeekReportFragment : Fragment() {
 

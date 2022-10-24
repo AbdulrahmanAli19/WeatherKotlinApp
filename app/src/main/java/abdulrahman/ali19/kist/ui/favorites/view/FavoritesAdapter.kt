@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import abdulrahman.ali19.kist.databinding.FavoriteLayoutBinding
-import abdulrahman.ali19.kist.pojo.model.dbentities.FavoriteEntity
+import abdulrahman.ali19.kist.data.pojo.model.dbentities.FavoriteEntity
 
 class FavoritesAdapter(
     private val countries: ArrayList<FavoriteEntity> = arrayListOf(),
@@ -29,7 +29,7 @@ class FavoritesAdapter(
     override fun onBindViewHolder(holder: FavViewHolder, position: Int) =
         holder.bind(countries[position].locationName)
 
-    override fun getItemCount(): Int = if (countries.isNullOrEmpty()) 0 else countries.size
+    override fun getItemCount(): Int = if (countries.isEmpty()) 0 else countries.size
 
     inner class FavViewHolder(val binding: FavoriteLayoutBinding, listener: FavAdapterInterface) :
         RecyclerView.ViewHolder(binding.root) {

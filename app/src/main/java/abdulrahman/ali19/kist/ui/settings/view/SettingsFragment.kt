@@ -1,20 +1,16 @@
 package abdulrahman.ali19.kist.ui.settings.view
 
+import abdulrahman.ali19.kist.data.preferences.AppUnits
+import abdulrahman.ali19.kist.databinding.FragmentSettingsBinding
+import abdulrahman.ali19.kist.ui.settings.viewmodel.SettingsViewModel
+import abdulrahman.ali19.kist.util.changeLang
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import abdulrahman.ali19.kist.data.local.ConcreteLocalSource
-import abdulrahman.ali19.kist.data.preferences.AppUnits
-import abdulrahman.ali19.kist.data.preferences.PreferenceProvider
-import abdulrahman.ali19.kist.databinding.FragmentSettingsBinding
-import abdulrahman.ali19.kist.pojo.repo.Repository
-import abdulrahman.ali19.kist.ui.settings.viewmodel.SettingsViewModel
-import abdulrahman.ali19.kist.ui.settings.viewmodel.SettingsViewModelFactory
-import abdulrahman.ali19.kist.util.changeLang
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 private const val TAG = "SettingsFragment.dev"
 
@@ -22,14 +18,7 @@ class SettingsFragment : Fragment() {
 
     private lateinit var binding: FragmentSettingsBinding
 
-    private val viewModel: SettingsViewModel by viewModels {
-        SettingsViewModelFactory(
-            Repository.getInstance(
-                localSource = ConcreteLocalSource.getInstance(requireContext()),
-                preferences = PreferenceProvider(requireContext())
-            )
-        )
-    }
+    private val viewModel by viewModel<SettingsViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

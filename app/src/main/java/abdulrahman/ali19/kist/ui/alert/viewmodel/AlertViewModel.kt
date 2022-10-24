@@ -1,11 +1,11 @@
 package abdulrahman.ali19.kist.ui.alert.viewmodel
 
+import abdulrahman.ali19.kist.data.pojo.model.dbentities.AlertEntity
+import abdulrahman.ali19.kist.data.pojo.repo.RepositoryInterface
 import abdulrahman.ali19.kist.data.remote.Resource
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
-import abdulrahman.ali19.kist.pojo.model.dbentities.AlertEntity
-import abdulrahman.ali19.kist.pojo.repo.RepositoryInterface
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

@@ -28,7 +28,7 @@
         <argument
             android:name="data"
             android:defaultValue="@null"
-            app:argType="abdulrahman.ali19.kist.pojo.model.weather.WeatherResponse"
+            app:argType="abdulrahman.ali19.kist.data.pojo.model.weather.WeatherResponse"
             app:nullable="true" />
         <argument
             android:name="latlog"
@@ -79,7 +79,7 @@
         tools:layout="@layout/week_report_fragment">
         <argument
             android:name="data"
-            app:argType="abdulrahman.ali19.kist.pojo.model.weather.WeatherResponse" />
+            app:argType="abdulrahman.ali19.kist.data.pojo.model.weather.WeatherResponse" />
     </fragment>
 
     <fragment

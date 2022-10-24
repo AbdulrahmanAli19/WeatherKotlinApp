@@ -1,16 +1,16 @@
 package abdulrahman.ali19.kist.ui.alert.view
 
+import abdulrahman.ali19.kist.data.pojo.model.dbentities.AlertEntity
+import abdulrahman.ali19.kist.databinding.AlertLayoutBinding
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import abdulrahman.ali19.kist.databinding.AlertLayoutBinding
-import abdulrahman.ali19.kist.pojo.model.dbentities.AlertEntity
 
 
 class AlertAdapter(
     private val list: ArrayList<AlertEntity> = arrayListOf(),
-    private val listener : AlertAdapterListener
+    private val listener: AlertAdapterListener
 ) :
     RecyclerView.Adapter<AlertAdapter.AlertViewHolder>() {
 
@@ -33,6 +33,7 @@ class AlertAdapter(
         init {
             binding.image.setOnClickListener { listener.onDeleteImageClick(adapterPosition) }
         }
+
         fun bind(alertEntity: AlertEntity) {
             binding.data = alertEntity
             binding.executePendingBindings()

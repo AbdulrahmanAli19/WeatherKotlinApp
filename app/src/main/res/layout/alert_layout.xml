@@ -7,7 +7,7 @@
 
         <variable
             name="data"
-            type="abdulrahman.ali19.kist.pojo.model.dbentities.AlertEntity" />
+            type="abdulrahman.ali19.kist.data.pojo.model.dbentities.AlertEntity" />
     </data>
 
     <FrameLayout

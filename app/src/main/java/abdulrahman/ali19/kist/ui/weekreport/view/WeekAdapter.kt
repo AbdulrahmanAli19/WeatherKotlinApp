@@ -5,8 +5,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import abdulrahman.ali19.kist.databinding.WeekItemBinding
-import abdulrahman.ali19.kist.pojo.model.WeekModel
-import abdulrahman.ali19.kist.pojo.model.weather.Daily
+import abdulrahman.ali19.kist.data.pojo.model.WeekModel
+import abdulrahman.ali19.kist.data.pojo.model.weather.Daily
 
 class WeekAdapter() : RecyclerView.Adapter<WeekAdapter.WeekViewHolder>() {
 

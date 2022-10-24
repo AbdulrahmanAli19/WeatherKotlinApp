@@ -1,7 +1,7 @@
 package abdulrahman.ali19.kist.ui.settings.viewmodel
 
+import abdulrahman.ali19.kist.data.pojo.repo.RepositoryInterface
 import androidx.lifecycle.ViewModel
-import abdulrahman.ali19.kist.pojo.repo.RepositoryInterface
 
 class SettingsViewModel(private val repositoryInterface: RepositoryInterface) : ViewModel() {
 

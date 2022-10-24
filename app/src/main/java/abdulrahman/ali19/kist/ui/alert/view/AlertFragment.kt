@@ -1,16 +1,12 @@
 package abdulrahman.ali19.kist.ui.alert.view
 
 import abdulrahman.ali19.kist.R
-import abdulrahman.ali19.kist.data.local.ConcreteLocalSource
-import abdulrahman.ali19.kist.data.preferences.PreferenceProvider
+import abdulrahman.ali19.kist.data.pojo.model.AlertModel
+import abdulrahman.ali19.kist.data.pojo.model.dbentities.AlertEntity
 import abdulrahman.ali19.kist.data.remote.Resource
 import abdulrahman.ali19.kist.data.remote.Status
 import abdulrahman.ali19.kist.databinding.AlertFragmentBinding
-import abdulrahman.ali19.kist.pojo.model.AlertModel
-import abdulrahman.ali19.kist.pojo.model.dbentities.AlertEntity
-import abdulrahman.ali19.kist.pojo.repo.Repository
 import abdulrahman.ali19.kist.ui.alert.viewmodel.AlertViewModel
-import abdulrahman.ali19.kist.ui.alert.viewmodel.AlertViewModelFactory
 import abdulrahman.ali19.kist.worker.AddAlertRemainder
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
@@ -25,8 +21,8 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -39,14 +35,7 @@ class AlertFragment : Fragment(), AlertAdapter.AlertAdapterListener {
     private var startDate: Long = 0
     private var endDate: Long = 0
 
-    private val viewModel: AlertViewModel by viewModels {
-        AlertViewModelFactory(
-            Repository.getInstance(
-                localSource = ConcreteLocalSource.getInstance(requireContext()),
-                preferences = PreferenceProvider(requireContext())
-            )
-        )
-    }
+    private val viewModel by viewModel<AlertViewModel>()
 
     @SuppressLint("SimpleDateFormat")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -118,7 +107,10 @@ class AlertFragment : Fragment(), AlertAdapter.AlertAdapterListener {
             }
             btnCancel.setOnClickListener { dialog.dismiss() }
             btnSave.setOnClickListener {
-                val pojo = AlertEntity(startDate = startDate, endDate = endDate)
+                val pojo = AlertEntity(
+                    startDate = startDate,
+                    endDate = endDate
+                )
                 viewModel.insertAlert(
                     pojo
                 )
@@ -138,7 +130,8 @@ class AlertFragment : Fragment(), AlertAdapter.AlertAdapterListener {
     private fun setupLayout(it: Resource<List<AlertEntity>>?) {
         if (it != null) {
             if (!it.data.isNullOrEmpty())
-                list = it.data as ArrayList<AlertEntity>
+                list =
+                    it.data as ArrayList<AlertEntity>
             when (it.status) {
                 Status.LOADING -> {
                     Log.d(TAG, "setupLayout: called")
@@ -149,7 +142,10 @@ class AlertFragment : Fragment(), AlertAdapter.AlertAdapterListener {
                     if (it.data.isNullOrEmpty()) {
                         binding.emptyLayout.visibility = View.VISIBLE
                     } else {
-                        binding.data = AlertModel(it.data as ArrayList<AlertEntity>, this)
+                        binding.data = AlertModel(
+                            it.data as ArrayList<AlertEntity>,
+                            this
+                        )
                         binding.executePendingBindings()
                     }
                 }

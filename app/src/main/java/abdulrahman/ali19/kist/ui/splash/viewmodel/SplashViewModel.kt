@@ -1,10 +1,10 @@
 package abdulrahman.ali19.kist.ui.splash.viewmodel
 
+import abdulrahman.ali19.kist.data.pojo.model.dbentities.CashedEntity
+import abdulrahman.ali19.kist.data.pojo.model.weather.WeatherResponse
+import abdulrahman.ali19.kist.data.pojo.repo.RepositoryInterface
 import abdulrahman.ali19.kist.data.preferences.AppUnits
 import abdulrahman.ali19.kist.data.remote.Resource
-import abdulrahman.ali19.kist.pojo.model.dbentities.CashedEntity
-import abdulrahman.ali19.kist.pojo.model.weather.WeatherResponse
-import abdulrahman.ali19.kist.pojo.repo.RepositoryInterface
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
@@ -48,7 +48,11 @@ class SplashViewModel(private val repository: RepositoryInterface) : ViewModel()
 
     fun saveResponse(weatherResponse: WeatherResponse) {
         viewModelScope.launch {
-            repository.insertCashed(CashedEntity(cashedData = weatherResponse))
+            repository.insertCashed(
+                CashedEntity(
+                    cashedData = weatherResponse
+                )
+            )
         }
     }
 

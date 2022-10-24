@@ -1,15 +1,12 @@
 package abdulrahman.ali19.kist.ui.splash.view
 
 import abdulrahman.ali19.kist.R
-import abdulrahman.ali19.kist.data.local.ConcreteLocalSource
-import abdulrahman.ali19.kist.data.preferences.PreferenceProvider
+import abdulrahman.ali19.kist.data.pojo.model.weather.WeatherResponse
 import abdulrahman.ali19.kist.data.remote.Resource
 import abdulrahman.ali19.kist.data.remote.Status
 import abdulrahman.ali19.kist.databinding.SplashFragmentBinding
-import abdulrahman.ali19.kist.pojo.model.weather.WeatherResponse
-import abdulrahman.ali19.kist.pojo.repo.Repository
 import abdulrahman.ali19.kist.ui.splash.viewmodel.SplashViewModel
-import abdulrahman.ali19.kist.ui.splash.viewmodel.SplashViewModelFactory
+import abdulrahman.ali19.kist.worker.CreateNotification
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
@@ -17,16 +14,15 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.airbnb.lottie.LottieDrawable
@@ -36,6 +32,7 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.snackbar.Snackbar
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 private const val TAG = "SplashFragment.dev"
 
@@ -51,7 +48,7 @@ class SplashFragment : Fragment() {
         FusedLocationProviderClient(requireActivity())
     }
 
-    private lateinit var viewModel: SplashViewModel
+    private val viewModel by viewModel<SplashViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -62,14 +59,6 @@ class SplashFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(
-            this, SplashViewModelFactory(
-                Repository.getInstance(
-                    localSource = ConcreteLocalSource.getInstance(requireContext()),
-                    preferences = PreferenceProvider(requireContext())
-                )
-            )
-        )[SplashViewModel::class.java]
         requireActivity().lifecycleScope.launchWhenCreated {
             checkPermission()
         }
@@ -120,16 +109,21 @@ class SplashFragment : Fragment() {
     private fun onResponse(res: Resource<WeatherResponse>) {
         when (res.status) {
             Status.SUCCESS -> {
-                viewModel.saveResponse(res.data ?: WeatherResponse())
+                Log.d(TAG, "onResponse: SUCCESS")
+                viewModel.saveResponse(
+                    res.data ?: WeatherResponse()
+                )
                 viewModel.setTimeStamp(System.currentTimeMillis())
                 findNavController().navigate(
                     SplashFragmentDirections.actionSplashFragmentToNavHome(
-                        data = res.data ?: WeatherResponse(),
+                        data = res.data
+                            ?: WeatherResponse(),
                         latlog = viewModel.getLatLon()
                     )
                 )
             }
             Status.ERROR -> {
+                Log.d(TAG, "onResponse: ERROR")
                 binding.retryBtn.isVisible = true
                 binding.txtHint.isVisible = true
                 binding.animationView.isVisible = true
@@ -142,6 +136,7 @@ class SplashFragment : Fragment() {
                 }
             }
             Status.LOADING -> {
+                Log.d(TAG, "onResponse: loading")
                 binding.retryBtn.isVisible = false
                 binding.txtHint.isVisible = false
                 binding.animationView.setPadding(0, 0, 0, 0)
@@ -154,14 +149,19 @@ class SplashFragment : Fragment() {
     @SuppressLint("MissingPermission")
     fun getLocation() {
         fusedLocationProviderClient.lastLocation.addOnSuccessListener {
-            if (it != null)
+            if (it != null) {
+                Log.d(TAG, "getLocation: notNull")
                 saveLocation(LatLng(it.latitude, it.longitude))
-            else
+            }
+            else {
+                Log.d(TAG, "getLocation: is null")
                 requestLocation()
+            }
         }
 
     }
 
+    @SuppressLint("MissingPermission")
     private fun requestLocation() {
         fusedLocationProviderClient.requestLocationUpdates(
             LocationRequest().apply {
@@ -176,18 +176,22 @@ class SplashFragment : Fragment() {
 
     private val locationCallback = object : LocationCallback() {
         override fun onLocationResult(locationRequest: LocationResult?) {
-            locationRequest ?: return
-            val latLng = LatLng(
-                locationRequest.lastLocation.latitude,
-                locationRequest.lastLocation.longitude
-            )
-            saveLocation(latLng)
-            fusedLocationProviderClient.removeLocationUpdates(this)
+            if(locationRequest != null){
+                val latLng = LatLng(
+                    locationRequest.lastLocation.latitude,
+                    locationRequest.lastLocation.longitude
+                )
+                saveLocation(latLng)
+                fusedLocationProviderClient.removeLocationUpdates(this)
+            }else{
+                Log.d(TAG, "onLocationResult: request is null")
+            }
         }
     }
 
     private fun saveLocation(latLng: LatLng) {
         viewModel.setLatLon(latLng)
+        Log.d(TAG, "saveLocation: ")
         if (view != null)
             viewModel.getDataFromRepo(latLng, viewModel.getLang())
                 .observe(viewLifecycleOwner) { res ->
@@ -196,7 +200,7 @@ class SplashFragment : Fragment() {
                 }
     }
 
-    private fun showSnackbar(){
+    private fun showSnackbar() {
         Snackbar.make(
             binding.parent,
             getString(R.string.premission_dined),
