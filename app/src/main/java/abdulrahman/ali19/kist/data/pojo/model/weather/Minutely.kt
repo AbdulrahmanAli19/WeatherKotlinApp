@@ -8,5 +8,5 @@ data class Minutely(
     @SerializedName("dt")
     val dt: Long,
     @SerializedName("precipitation")
-    val precipitation: Int
+    val precipitation: Double
 ) : Serializable

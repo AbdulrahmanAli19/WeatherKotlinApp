@@ -34,7 +34,7 @@ val weatherModules = module {
         PreferenceProvider(androidContext())
     }
 
-    single<RemoteSource>{
+    single<RemoteSource> {
         ConnectionProvider
     }
 

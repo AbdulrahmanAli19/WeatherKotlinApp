@@ -32,7 +32,9 @@
             app:nullable="true" />
         <argument
             android:name="latlog"
-            app:argType="com.google.android.gms.maps.model.LatLng" />
+            android:defaultValue="@null"
+            app:argType="com.google.android.gms.maps.model.LatLng"
+            app:nullable="true" />
     </fragment>
 
     <fragment

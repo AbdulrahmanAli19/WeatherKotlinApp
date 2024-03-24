@@ -1,5 +1,6 @@
 package abdulrahman.ali19.kist.ui.home.view
 
+import abdulrahman.ali19.kist.R
 import abdulrahman.ali19.kist.data.pojo.model.dbentities.CashedEntity
 import abdulrahman.ali19.kist.data.pojo.model.weather.Hourly
 import abdulrahman.ali19.kist.data.pojo.model.weather.WeatherResponse
@@ -10,9 +11,7 @@ import abdulrahman.ali19.kist.ui.home.viewmodel.HomeViewModel
 import abdulrahman.ali19.kist.util.getDate
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -24,7 +23,7 @@ private const val TAG = "HomeFragment"
 class HomeFragment : Fragment() {
 
     private lateinit var navController: NavController
-    private val args: HomeFragmentArgs by navArgs()
+    private val args: HomeFragmentArgs? by navArgs()
     private lateinit var binding: FragmentHomeBinding
     private lateinit var cashedData: WeatherResponse
     private val viewModel by viewModel<HomeViewModel>()
@@ -32,7 +31,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = findNavController()
-        val data = args.data
+        val data: WeatherResponse? = args?.data
 
         if (data != null) {
             setupLayout(data)
@@ -44,7 +43,7 @@ class HomeFragment : Fragment() {
             navController
                 .navigate(
                     HomeFragmentDirections.actionNavHomeToWeekReportFragment(
-                        args.data ?: cashedData
+                        args?.data ?: cashedData
                     )
                 )
         }
@@ -73,25 +72,10 @@ class HomeFragment : Fragment() {
                 current.feelsLike,
                 hourly as ArrayList<Hourly>
             )
-            binding.latlog = args.latlog
+            binding.latlog = args?.latlog
             binding.executePendingBindings()
         }
     }
-
-    /*override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.home, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.add_location -> navController.navigate(
-                HomeFragmentDirections
-                    .actionNavHomeToSelectLocationFragment(true)
-            )
-        }
-        return false
-    }*/
 
     override fun onCreateView(
         inflater: LayoutInflater,

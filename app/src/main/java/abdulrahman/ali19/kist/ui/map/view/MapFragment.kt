@@ -14,7 +14,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -24,6 +23,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.snackbar.Snackbar
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 
 private const val TAG = "SelectLocationFragment"
@@ -36,7 +36,7 @@ class SelectLocationFragment : Fragment(), GoogleMap.OnMapClickListener {
     private lateinit var binding: FragmentSelectLocationBinding
     private val args: SelectLocationFragmentArgs by navArgs()
 
-    private val viewModel by viewModels<MapViewModel>()
+    private val viewModel by viewModel<MapViewModel>()
 
     private val callback = OnMapReadyCallback { googleMap ->
         googleMap.uiSettings.isZoomControlsEnabled = true

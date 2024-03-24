@@ -13,18 +13,15 @@ class HomeViewModel(private val repositoryInterface: RepositoryInterface) : View
 
     fun getCashedData() = liveData(Dispatchers.IO) {
         emit(Resource.Loading(isLoading = true, _data = null))
+
         try {
             emit(Resource.Success(_data = repositoryInterface.getAllCashed()))
-            Log.d(TAG, "getDataFromRepo: scs")
+            Log.d(TAG, "getDataFromRepo: Success")
+
         } catch (exception: Exception) {
-            Log.d(
-                TAG, "getDataFromRepo: Exception ${exception.message}"
-            )
-            emit(
-                Resource.Error(
-                    exception.message ?: "SomethingWong happened",
-                )
-            )
+
+            Log.d(TAG, "getDataFromRepo: Exception ${exception.message}")
+            emit(Resource.Error(exception.message ?: "Something went wrong"))
         }
     }
 }

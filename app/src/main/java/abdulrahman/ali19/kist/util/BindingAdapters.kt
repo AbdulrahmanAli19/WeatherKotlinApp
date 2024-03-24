@@ -50,12 +50,14 @@ fun TextView.setTempDegree(degree: Double) {
 }
 
 @BindingAdapter("setCityNamee")
-fun TextView.setCityNamee(latLng: LatLng){
+fun TextView.setCityNamee(latLng: LatLng?){
     val pref  = PreferenceProvider(context)
     val geocoder = Geocoder(context.applicationContext, Locale(pref.getLanguage()))
-    val address: MutableList<Address>? =
-        geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)
-    this.text = address?.get(0)?.adminArea ?: ""
+    latLng?.let {
+        val address: MutableList<Address>? =
+            geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)
+        this.text = address?.get(0)?.adminArea ?: ""
+    }
 }
 
 @SuppressLint("SetTextI18n")
